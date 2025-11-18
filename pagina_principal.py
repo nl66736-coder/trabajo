@@ -1,5 +1,6 @@
 import json
 import os
+from catalogo import CatalogoProductos
 from menu import MenuNavegacion
 class SeccionInformacion:
     def __init__(self):
