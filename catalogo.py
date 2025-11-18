@@ -41,4 +41,4 @@ class CatalogoProductos:
             html += f"<p>Empaquetado: {p['empaquetado']}</p></div>"
         html += "</section>"
         return html
-print("probando")
+
