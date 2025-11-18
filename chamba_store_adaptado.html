@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='UTF-8'>
+  <title>Chamba_Store</title>
+</head>
+<body>
+
+<nav>
+  <ul>
+    <li><a href="#inicio">Inicio</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+    <li><a href="#comentarios">Comentarios</a></li>
+
+    <!-- Cambia según sesión -->
+    {% if user %}
+      <li><a href="#cuenta">Mi cuenta ({{ user }})</a></li>
+      <li><a href="{{ url_for('logout') }}">Cerrar sesión</a></li>
+    {% else %}
+      <li><a href="{{ url_for('login') }}">Iniciar sesión</a></li>
+    {% endif %}
+  </ul>
+</nav>
+
+<section id="informacion">
+  <h2>Información</h2>
+  <p>Contenido visible para todos.</p>
+</section>
+
+<section id="contacto">
+  <h2>Contacto</h2>
+</section>
+
+<section id="comentarios">
+  <h2>Comentarios</h2>
+  <p>No hay comentarios aún.</p>
+
+  {% if not user %}
+    <p><strong>Debes <a href="{{ url_for('login') }}">iniciar sesión</a> para comentar.</strong></p>
+  {% else %}
+    <form>
+       <textarea placeholder="Escribe tu comentario aquí..."></textarea><br><br>
+       <button type="submit">Enviar</button>
+    </form>
+  {% endif %}
+</section>
+
+</body>
+</html>
