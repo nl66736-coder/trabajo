@@ -168,3 +168,4 @@ if __name__ == "__main__":
     pagina.construir()
     archivo_generado = pagina.guardar_html("chamba_store.html")
     print(f"✅ Archivo generado: {archivo_generado}")
+#prueba
