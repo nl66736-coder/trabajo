@@ -20,7 +20,5 @@ class MenuNavegacion:
         menu.agregar_item("Comentarios", "#comentarios")
         return menu
     
-    #prueba
-    #Lucas se lio con Maria Juiz
 
 
