@@ -58,8 +58,6 @@ class SeccionInformacion:
     def __init__(self):
         self.nombre = None
         self.descripcion = None
-        self.historia = None
-        self.evolucion = None
         self.imagen = None
     
     def establecer_nombre(self, nombre):
@@ -67,12 +65,6 @@ class SeccionInformacion:
     
     def establecer_descripcion(self, descripcion):
         self.descripcion = descripcion
-    
-    def establecer_historia(self, texto):
-        self.historia = texto
-
-    def establecer_evolucion(self, texto):
-        self.evolucion = texto
     
     def establecer_imagen(self, url):
         self.imagen = url
@@ -88,14 +80,6 @@ class SeccionInformacion:
 
         if self.descripcion:
             html += f"<p>{self.descripcion}</p>\n"
-
-        if self.historia:
-            html += "<h2>Historia</h2>\n"
-            html += f"<p>{self.historia}</p>\n"
-
-        if self.evolucion:
-            html += "<h2>Evolución</h2>\n"
-            html += f"<p>{self.evolucion}</p>\n"
        
         html += "</section>\n"
         return html
@@ -164,6 +148,32 @@ class SeccionComentarios:
         html += "</section>\n"
         return html
 
+class SeccionHistoriaEvolucion:
+    def __init__(self):
+        self.titulo = "Historia y Evolución"
+        self.historia = None
+        self.evolucion = None
+
+    def establecer_historia(self, texto):
+        self.historia = texto
+
+    def establecer_evolucion(self, texto):
+        self.evolucion = texto
+
+    def render(self):
+        html = '<section id="historia-evolucion">\n'
+        html += f"  <h1>{self.titulo}</h1>\n"
+
+        if self.historia:
+            html += "  <h2>Historia</h2>\n"
+            html += f"  <p>{self.historia}</p>\n"
+
+        if self.evolucion:
+            html += "  <h2>Evolución</h2>\n"
+            html += f"  <p>{self.evolucion}</p>\n"
+
+        html += "</section>\n"
+        return html
 
 # ============================================================
 # PAGINA PRINCIPAL
@@ -172,6 +182,7 @@ class PaginaPrincipal:
     def __init__(self):
         self.menu = MenuNavegacion.crear_menu_estandar()
         self.seccion_info = SeccionInformacion()
+        self.seccion_hist_evo = SeccionHistoriaEvolucion()
         self.seccion_comentarios = SeccionComentarios()
         self.seccion_contacto = SeccionContacto()
     
@@ -186,14 +197,14 @@ class PaginaPrincipal:
         experiencia de compra fácil, segura y con garantía total.
         """)
 
-        self.seccion_info.establecer_historia("""
+        #HISTORIA
+        self.seccion_hist_evo.establecer_historia("""
         Chamba Store nació en 2010 como una pequeña tienda local dedicada a la 
         venta de componentes informáticos. Con el tiempo, el trato al cliente 
         y la calidad del servicio la convirtieron en un referente tecnológico 
         en Galicia.
         """)
-
-        self.seccion_info.establecer_evolucion("""
+        self.seccion_hist_evo.establecer_evolucion("""
         En 2015 dimos el salto al comercio online, ampliando el catálogo con 
         productos electrónicos de última generación. Hoy combinamos innovación 
         con un trato cercano para ofrecer soluciones tecnológicas a todo tipo 
@@ -225,6 +236,7 @@ class PaginaPrincipal:
         html += "</head>\n<body>\n"
         html += self.menu.render()
         html += self.seccion_info.render()
+        html += self.seccion_hist_evo.render()   
         html += self.seccion_contacto.render()
         html += self.seccion_comentarios.render()
         html += "</body>\n</html>"
