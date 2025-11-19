@@ -22,6 +22,24 @@ class SeccionInformacion:
     def render(self):
         return RenderHTML.render_seccion_informacion(self.nombre, self.imagen, self.descripcion)
 
+class SeccionHistoriaEvolucion:
+    def __init__(self):
+        self.titulo = "Historia y Evolución"
+        self.historia = None
+        self.evolucion = None
+
+    def establecer_historia(self, texto):
+        self.historia = texto
+
+    def establecer_evolucion(self, texto):
+        self.evolucion = texto
+
+    def render(self):
+        return RenderHTML.render_seccion_historia_evolucion(
+            self.titulo,
+            self.historia,
+            self.evolucion
+        )
 
 class SeccionContacto:
     """Sección de información de contacto"""
@@ -115,6 +133,7 @@ class PaginaPrincipal:
         self.seccion_info = SeccionInformacion()
         self.seccion_comentarios = SeccionComentarios()
         self.seccion_contacto = SeccionContacto()
+        self.seccion_hist_evo = SeccionHistoriaEvolucion()
     
     def construir(self):
         # Información
@@ -124,6 +143,11 @@ class PaginaPrincipal:
                                                    Seleccionamos cuidadosamente los mejores productos electrónicos del mercado -desde smartphones y ordenadores hasta accesorios inteligentes- para ofrecerte una experiencia de compra fácil, segura y con garantía total.
                                                    Porque creemos que la tecnología debe mejorar tu vida, no complicarla.""")
         
+        #Historia y evolución
+        self.seccion_hist_evo.establecer_historia("""Chamba Store nació en 2010 como una pequeña tienda local dedicada a la venta de componentes informáticos.
+                                                    Con los años, fue creciendo hasta convertirse en un referente tecnológico en Galicia.""")
+        self.seccion_hist_evo.establecer_evolucion("""En 2015 dio el salto al comercio online, ampliando su catálogo e incorporando productos electrónicos de última generación.
+                                                    Hoy combina innovación, experiencia y un trato cercano al cliente.""")
         # Contacto
         self.seccion_contacto.establecer_titulo("Contacto")
         self.seccion_contacto.establecer_telefono("988 87 54 20")
@@ -149,12 +173,11 @@ class PaginaPrincipal:
     def render_html(self):
         menu_html = self.menu.render()
         info_html = self.seccion_info.render()
+        historia_html = self.seccion_hist_evo.render() 
         contacto_html = self.seccion_contacto.render()
         comentarios_html = self.seccion_comentarios.render()
         
-        return RenderHTML.render_pagina_completa(
-            menu_html, info_html, contacto_html, comentarios_html
-        )
+        return RenderHTML.render_pagina_completa(menu_html, info_html, historia_html, contacto_html, comentarios_html)
     
     def guardar_html(self, nombre_archivo="tienda.html"):
         html_contenido = self.render_html()

@@ -22,6 +22,22 @@ class RenderHTML:
         return html
     
     @staticmethod
+    def render_seccion_historia_evolucion(titulo, historia, evolucion):
+        html = f'<section id="historiaevolucion">\n'
+        html += f'  <h1>{titulo}</h1>\n'
+
+        if historia:
+            html += f'  <h2>Historia</h2>\n'
+            html += f'  <p>{historia}</p>\n'
+
+        if evolucion:
+            html += f'  <h2>Evolución</h2>\n'
+            html += f'  <p>{evolucion}</p>\n'
+
+        html += "</section>\n"
+        return html
+
+    @staticmethod
     def render_seccion_contacto(titulo, telefono, email, direccion, horario):
         html = '<section id="contacto">\n'
         if titulo:
@@ -86,13 +102,14 @@ class RenderHTML:
         """
     
     @staticmethod
-    def render_pagina_completa(menu_html, info_html, contacto_html, comentarios_html):
+    def render_pagina_completa(menu_html, info_html, historia_evolucion, contacto_html, comentarios_html):
         html = "<!DOCTYPE html>\n<html>\n<head>\n"
         html += "  <meta charset='UTF-8'>\n"
         html += "  <title>Chamba_Store</title>\n"
         html += "</head>\n<body>\n"
         html += menu_html
         html += info_html
+        html += historia_evolucion 
         html += contacto_html
         html += comentarios_html
         html += "</body>\n</html>"

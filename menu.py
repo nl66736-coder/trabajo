@@ -17,7 +17,7 @@ class MenuNavegacion:
         menu = MenuNavegacion()
         menu.agregar_item("Inicio", "#inicio")
         menu.agregar_item("Contacto", "#contacto")
-        menu.agregar_item("Historia y Evolución", "#historia-evolucion")
+        menu.agregar_item("Historia y Evolución", "#historiaevolucion")
         menu.agregar_item("Comentarios", "#comentarios")
         return menu
     
