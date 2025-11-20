@@ -88,21 +88,7 @@ class SeccionComentarios:
         fecha = datetime.now().strftime("%d/%m/%Y %H:%M")
         self.comentarios.append((autor, texto, valoracion, fecha))
         self.guardar_comentarios()
-
-    def eliminar_comentario(self, comentario_id):
-        """Elimina un comentario por su índice y guarda los cambios."""
-        if 0 <= comentario_id < len(self.comentarios):
-            self.comentarios.pop(comentario_id)
-            self.guardar_comentarios()
-
-    def editar_comentario(self, comentario_id, nuevo_texto, nueva_valoracion):
-        """Edita un comentario por su índice y guarda cambios"""
-        if 0 <= comentario_id < len(self.comentarios):
-            autor, _, _, fecha_original = self.comentarios[comentario_id]
-            fecha = datetime.now().strftime("%d/%m/%Y %H:%M")
-            self.comentarios[comentario_id] = (autor, nuevo_texto, max(1, min(5, nueva_valoracion)), fecha)
-            self.guardar_comentarios()
-
+        
     def guardar_comentarios(self):
         data = [
             {"autor": a, "texto": t, "valoracion": v, "fecha": f}

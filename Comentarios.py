@@ -75,22 +75,14 @@ def catalogo():
 
 @app.route('/comentar', methods=['POST'])
 def comentar():
-    autor = request.form['autor']
+    if 'usuario' not in session:
+        return redirect('/login') + "<p style='color:gray;'>Inicia sesión para añadir comentarios.</p>"
+
+    autor = session['usuario']
     texto = request.form['texto']
     valoracion = int(request.form['valoracion'])
+
     pagina.seccion_comentarios.agregar_comentario(autor, texto, valoracion)
-    return redirect('/')
-
-@app.route('/eliminar/<int:comentario_id>', methods=['POST'])
-def eliminar(comentario_id):
-    pagina.seccion_comentarios.eliminar_comentario(comentario_id)
-    return redirect('/')
-
-@app.route('/editar/<int:comentario_id>', methods=['POST'])
-def editar(comentario_id):
-    nuevo_texto = request.form['texto']
-    nueva_valoracion = int(request.form['valoracion'])
-    pagina.seccion_comentarios.editar_comentario(comentario_id, nuevo_texto, nueva_valoracion)
     return redirect('/')
 
 @app.route('/info-social')
@@ -136,8 +128,10 @@ def registro():
     else:
         return RenderHTML.render_registro()
 
-if __name__ == '__main__':
-    app.run(debug=True, use_reloader=False)
+@app.route('/logout')
+def logout():
+    session.pop('usuario', None)  # elimina la clave de sesión si existe
+    return redirect('/')
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False)

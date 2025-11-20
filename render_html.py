@@ -67,18 +67,6 @@ class RenderHTML:
                 html += f"    <small style='color:gray;'>Publicado el {fecha}</small><br>\n"
                 html += f"    <p>{texto}</p>\n"
                 html += f"    <p>Valoración: {estrellas}</p>\n"
-
-                html += f"    <form action='/eliminar/{i}' method='post' style='display:inline;'>\n"
-                html += f"        <button type='submit' style='background-color:#d9534f; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;'>Eliminar</button>\n"
-                html += f"    </form>\n"
-
-                html += f"""
-                <form action='/editar/{i}' method='post' style='margin-top:5px;'>
-                    <input type='text' name='texto' value="{texto}" required style='width:70%; padding:3px;'>
-                    <input type='number' name='valoracion' min='1' max='5' value="{valoracion}" required style='width:50px;'>
-                    <button type='submit' style='background-color:#0275d8; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;'>Editar</button>
-                </form>
-                """
                 html += f"  </div>\n"
         else:
             html += "<p>No hay comentarios aún. ¡Sé el primero en dejar uno!</p>\n"
@@ -92,7 +80,6 @@ class RenderHTML:
         <section id="nuevo-comentario" style="margin:20px;">
             <h2>Deja tu comentario</h2>
             <form action="/comentar" method="post">
-                <input type="text" name="autor" placeholder="Tu nombre" required><br><br>
                 <textarea name="texto" placeholder="Escribe tu comentario..." required></textarea><br><br>
                 <label>Valoración (1-5):</label>
                 <input type="number" name="valoracion" min="1" max="5" required><br><br>
