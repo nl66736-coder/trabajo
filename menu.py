@@ -20,6 +20,7 @@ class MenuNavegacion:
         menu.agregar_item("Historia y Evolución", "/historia")
         menu.agregar_item("Comentarios", "/comentarios")
         menu.agregar_item("Tendencias", "/tendencias")
+        menu.agregar_item("Inicio de sesion", "/login")
         return menu
     
     #prueba
