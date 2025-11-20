@@ -89,6 +89,12 @@ def editar(comentario_id):
     pagina.seccion_comentarios.editar_comentario(comentario_id, nuevo_texto, nueva_valoracion)
     return redirect('/')
 
+@app.route('/info-social')
+def info_social():
+    contenido = pagina.seccion_info_social.render()
+    html = pagina.render_layout(contenido)
+    return render_template_string(html)
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
