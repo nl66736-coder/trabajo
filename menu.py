@@ -23,6 +23,7 @@ class MenuNavegacion:
         menu.agregar_item("Inicio de sesion", "/login")
         menu.agregar_item("Catalogo", "/catalogo")
         menu.agregar_item("Info Social", "/info-social")
+        menu.agregar_item("Crear Cuenta", "/registro")
         return menu
     
 

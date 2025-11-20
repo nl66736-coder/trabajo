@@ -7,6 +7,10 @@ def cargar_usuarios():
     with open("usuarios.json", "r") as f:
         return json.load(f)
 
+def guardar_usuarios(usuarios):
+    with open('usuarios.json', 'w') as archivo:
+        json.dump(usuarios, archivo)
+
 app = Flask(__name__)
 app.secret_key = 'ab23252894yrhugioghskjdhg0uewri'
 pagina = PaginaPrincipal(api_key_news="5a7f6908927b43c3fd3f2d9f4a03d271")
@@ -95,6 +99,7 @@ def info_social():
     html = pagina.render_layout(contenido)
     return render_template_string(html)
 
+# ---------- Login ----------
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -105,10 +110,32 @@ def login():
         if usuario in usuarios and usuarios[usuario] == contrasenha:
             session['usuario'] = usuario
             return redirect('/')
+        
+        elif usuario not in usuarios:
+            return RenderHTML.render_login() + "<p style='color:red;'>El usuario no existe.</p>" + RenderHTML.render_boton_registro()
         else:
-            return "Credenciales incorrectas"
+            return RenderHTML.render_login() + "<p style='color:red;'>Credenciales incorrectas. Intenta de nuevo.</p>"
     else:
         return RenderHTML.render_login()
+
+# ---------- registro ----------
+@app.route('/registro', methods=['GET', 'POST'])
+def registro():
+    if request.method == 'POST':
+        usuario = request.form['usuario']
+        contrasena = request.form['contrasena']
+        usuarios = cargar_usuarios()
+
+        if usuario in usuarios:
+            return RenderHTML.render_registro() + "<p style='color:red;'>El usuario ya existe. Intenta con otro nombre o inicie sesión.</p>" + RenderHTML.render_boton_login()
+        
+        else:
+            usuarios[usuario] = contrasena
+            guardar_usuarios(usuarios)
+            return RenderHTML.render_registro() + "<p style='color:red;'>El usuario se ha registrado corectamente. Puede iniciar sesión</p>" +  RenderHTML.render_boton_login()
+    else:
+        return RenderHTML.render_registro()
+
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False)
 

@@ -161,3 +161,28 @@ class RenderHTML:
             <button type="submit">Iniciar sesión</button>
         </form>
         """
+       
+    @staticmethod
+    def render_registro():
+        return """
+        <form method="POST" action="/registro">
+            Nuevo usuario: <input type="text" name="usuario"><br>
+            Nueva contraseña: <input type="password" name="contrasena"><br>
+            <button type="submit">Registrarse</button>
+        </form>
+        """
+    @staticmethod
+    def render_boton_registro():
+        return """
+        <form action="/registro" method="GET">
+             <button type="submit">Registrarse</button>
+        </form>
+        """
+    
+    @staticmethod
+    def render_boton_login():
+        return """
+        <form action="/login" method="GET">
+             <button type="submit">Iniciar Sesion</button>
+        </form>
+        """
