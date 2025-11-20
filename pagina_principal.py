@@ -1,6 +1,7 @@
 from menu import MenuNavegacion
 from render_html import RenderHTML
 from datetime import datetime
+from catalogo import CatalogoProductos
 import requests
 import json
 import os
