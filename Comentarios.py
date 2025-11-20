@@ -60,6 +60,13 @@ def tendencias():
     html = pagina.render_layout(contenido)
     return render_template_string(html)
 
+# ---------- CATALOGO ----------
+@app.route('/catalogo')
+def catalogo():
+    contenido = pagina.seccion_catalogo.render()
+    html = pagina.render_layout(contenido)
+    return render_template_string(html)
+
 # ---------- ACCIONES SOBRE COMENTARIOS ----------
 
 @app.route('/comentar', methods=['POST'])

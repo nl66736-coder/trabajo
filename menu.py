@@ -21,6 +21,7 @@ class MenuNavegacion:
         menu.agregar_item("Comentarios", "/comentarios")
         menu.agregar_item("Tendencias", "/tendencias")
         menu.agregar_item("Inicio de sesion", "/login")
+        menu.agregar_item("Catalogo", "/catalogo")
         return menu
     
     #prueba
