@@ -6,12 +6,55 @@ app = Flask(__name__)
 pagina = PaginaPrincipal(api_key_news="5a7f6908927b43c3fd3f2d9f4a03d271")
 pagina.construir()
 
+# ---------- RUTA RAÍZ: REDIRIGE A /inicio ----------
 @app.route('/')
-def index():
-    html = pagina.render_html()
-    formulario = RenderHTML.render_formulario_nuevo_comentario()
-    html = html.replace("</body>", formulario + "</body>")
+def raiz():
+    return redirect('/inicio')
+
+
+# ---------- INICIO ----------
+@app.route('/inicio')
+def inicio():
+    # Mostramos la sección de información (Chamba Store, imagen, texto...)
+    contenido = pagina.seccion_info.render()
+    html = pagina.render_layout(contenido)
     return render_template_string(html)
+
+
+# ---------- CONTACTO ----------
+@app.route('/contacto')
+def contacto():
+    contenido = pagina.seccion_contacto.render()
+    html = pagina.render_layout(contenido)
+    return render_template_string(html)
+
+
+# ---------- COMENTARIOS ----------
+@app.route('/comentarios')
+def comentarios():
+    # Comentarios + formulario de nuevo comentario
+    contenido = pagina.seccion_comentarios.render()
+    contenido += RenderHTML.render_formulario_nuevo_comentario()
+    html = pagina.render_layout(contenido)
+    return render_template_string(html)
+
+
+# ---------- HISTORIA ----------
+@app.route('/historia')
+def historia():
+    # Usamos directamente la sección de historia y evolución que has construido
+    contenido = pagina.seccion_hist_evo.render()
+    html = pagina.render_layout(contenido)
+    return render_template_string(html)
+
+# ---------- TENDENCIAS ----------
+@app.route('/tendencias')
+def tendencias():
+    contenido = pagina.seccion_tendencias.render()
+    html = pagina.render_layout(contenido)
+    return render_template_string(html)
+
+# ---------- ACCIONES SOBRE COMENTARIOS ----------
 
 @app.route('/comentar', methods=['POST'])
 def comentar():

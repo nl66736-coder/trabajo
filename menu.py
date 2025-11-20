@@ -15,11 +15,11 @@ class MenuNavegacion:
     @staticmethod
     def crear_menu_estandar():
         menu = MenuNavegacion()
-        menu.agregar_item("Inicio", "#inicio")
-        menu.agregar_item("Contacto", "#contacto")
-        menu.agregar_item("Historia y Evolución", "#historiaevolucion")
-        menu.agregar_item("Comentarios", "#comentarios")
-        menu.agregar_item("Tendencias", "#tendencias")
+        menu.agregar_item("Inicio", "/inicio")
+        menu.agregar_item("Contacto", "/contacto")
+        menu.agregar_item("Historia y Evolución", "/historia")
+        menu.agregar_item("Comentarios", "/comentarios")
+        menu.agregar_item("Tendencias", "/tendencias")
         return menu
     
     #prueba

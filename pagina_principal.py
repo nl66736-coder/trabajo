@@ -240,6 +240,20 @@ class PaginaPrincipal:
         
         return RenderHTML.render_pagina_completa(menu_html, info_html, historia_html, contacto_html, comentarios_html, tendencias_html)
     
+    def render_layout(self, contenido_central: str) -> str:
+        """
+        Envuelve el contenido que le pases en un HTML completo
+        con <html>, <head>, <body> y el menú arriba.
+        """
+        html = "<!DOCTYPE html>\n<html>\n<head>\n"
+        html += "<meta charset='UTF-8'>\n"
+        html += "<title>Chamba Store</title>\n"
+        html += "</head>\n<body>\n"
+        html += self.menu.render()      # menú arriba
+        html += contenido_central       # contenido de /inicio, /contacto, etc.
+        html += "</body>\n</html>"
+        return html
+    
     def guardar_html(self, nombre_archivo="tienda.html"):
         html_contenido = self.render_html()
         with open(nombre_archivo, 'w', encoding='utf-8') as archivo:
