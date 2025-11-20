@@ -132,6 +132,12 @@ class SeccionTendencias:
     def __init__(self, api_key=None):
         self.api_key = api_key
         self.tendencias = []
+
+        # Palabras clave relevantes para productos tecnológicos de la tienda
+        self.palabras_clave = [
+            "smartphone", "laptop", "ordenador", "portátil", "tablet",
+            "auriculares", "gadgets", "smartwatch", "televisión", "cámara"
+        ]
     
     def actualizar_tendencias(self):
         import requests
@@ -140,8 +146,14 @@ class SeccionTendencias:
             self.tendencias = []
             return
         
-        url = f"https://gnews.io/api/v4/top-headlines?topic=technology&lang=es&token={self.api_key}"
-
+        # Construimos la query para que la API devuelva solo noticias relevantes
+        query = " OR ".join(self.palabras_clave)
+        url = url = (f"https://gnews.io/api/v4/search?"
+        f"q=technology OR smartphone OR laptop OR gadget OR IA"
+        f"&lang=es"
+        f"&max=5"
+        f"&token={self.api_key}"
+            )       
         try:
             resp = requests.get(url)
             data = resp.json()
@@ -150,11 +162,12 @@ class SeccionTendencias:
                 self.tendencias = []
                 return
             
+            # Guardamos solo los 5 primeros resultados, asegurando que título y descripción existan
             self.tendencias = [
                 {
-                    "titulo": art["title"],
+                    "titulo": art.get("title", "Sin título"),
                     "descripcion": art.get("description", "Sin descripción."),
-                    "url": art["url"]
+                    "url": art.get("url", "#")
                 }
                 for art in data["articles"][:5]
             ]
@@ -168,7 +181,7 @@ class SeccionTendencias:
         html += "<h1>Tendencias actuales del mercado tecnológico</h1>\n"
 
         if not self.tendencias:
-            html += "<p>No hay tendencias disponibles por ahora.</p>\n</section>"
+            html += "<p>No hay tendencias relevantes disponibles por ahora.</p>\n</section>"
             return html
         
         for t in self.tendencias:
