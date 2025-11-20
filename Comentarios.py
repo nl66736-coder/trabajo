@@ -1,4 +1,4 @@
-from flask import Flask, render_template_string, request, redirect
+from flask import Flask, render_template_string, request, redirect, session
 from pagina_principal import PaginaPrincipal
 from render_html import RenderHTML
 import json 
