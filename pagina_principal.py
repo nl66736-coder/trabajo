@@ -297,8 +297,8 @@ class PaginaPrincipal:
         if not self.seccion_catalogo.catalogo.productos:
             ejemplos_productos = [
                 ("ChambaPhone X", "El smartphone más avanzado de Chamba Store con cámara de 108MP y batería de larga duración.", 999.99, "Caja ecológica", "/static/ChambaPhone.png"),
-                ("ChambaLaptop Pro", "Portátil ultraligero con procesador de última generación y pantalla Retina.", 1299.99, "Estuche protector", "/static/chambalaptop_pro.png"),
-                ("ChambaWatch Series 5", "Smartwatch con monitorización de salud y conectividad total.", 399.99, "Caja premium", "/static/chambawatch_series5.png"),
+                ("ChambaLaptop Pro", "Portátil ultraligero con procesador de última generación y pantalla Retina.", 1299.99, "Estuche protector", "/static/ChambaLaptopPro.png"),
+                ("ChambaWatch Series 5", "Smartwatch con monitorización de salud y conectividad total.", 399.99, "Caja premium", "/static/ChambaWatch.png"),
                 ("ChambaBuds Wireless", "Auriculares inalámbricos con cancelación activa de ruido y sonido envolvente.", 149.99, "Estuche de carga", "/static/chambabuds_wireless.png"),
                 ("ChambaTablet S10", "Tablet versátil para trabajo y entretenimiento con pantalla de alta resolución.", 499.99, "Funda protectora", "/static/chambatablet_s10.png")
             ]

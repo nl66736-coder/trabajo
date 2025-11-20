@@ -12,7 +12,7 @@
         "descripcion": "Portátil ultraligero con procesador de última generación y pantalla Retina.",
         "precio": 1299.99,
         "empaquetado": "Estuche protector",
-        "imagen": "/static/chambalaptop_pro.png",
+        "imagen": "/static/ChambaLaptopPro.png",
         "fecha_agregado": "20/11/2025 18:09"
     },
     {
@@ -20,7 +20,7 @@
         "descripcion": "Smartwatch con monitorización de salud y conectividad total.",
         "precio": 399.99,
         "empaquetado": "Caja premium",
-        "imagen": "/static/chambawatch_series5.png",
+        "imagen": "/static/ChambaWatch.png",
         "fecha_agregado": "20/11/2025 18:09"
     },
     {
