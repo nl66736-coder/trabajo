@@ -19,6 +19,7 @@ class MenuNavegacion:
         menu.agregar_item("Contacto", "#contacto")
         menu.agregar_item("Historia y Evolución", "#historiaevolucion")
         menu.agregar_item("Comentarios", "#comentarios")
+        menu.agregar_item("Tendencias", "#tendencias")
         return menu
     
     #prueba

@@ -3,7 +3,7 @@ from pagina_principal import PaginaPrincipal
 from render_html import RenderHTML
 
 app = Flask(__name__)
-pagina = PaginaPrincipal()
+pagina = PaginaPrincipal(api_key_news="5a7f6908927b43c3fd3f2d9f4a03d271")
 pagina.construir()
 
 @app.route('/')

@@ -8,206 +8,130 @@
 <nav><ul>
   <li><a href="#inicio">Inicio</a></li>
   <li><a href="#contacto">Contacto</a></li>
+  <li><a href="#historiaevolucion">Historia y Evolución</a></li>
   <li><a href="#comentarios">Comentarios</a></li>
+  <li><a href="#tendencias">Tendencias</a></li>
 </ul></nav>
 <section id="informacion">
+<h1>Chamba Store</h1>
+<img src="/static/dragon (1).png" alt="Imagen de la tienda">
+<p>En nuestra tienda online encontrarás mucho más que tecnología, encontrarás innovación, calidad y confianza.
+                                                   Seleccionamos cuidadosamente los mejores productos electrónicos del mercado -desde smartphones y ordenadores hasta accesorios inteligentes- para ofrecerte una experiencia de compra fácil, segura y con garantía total.
+                                                   Porque creemos que la tecnología debe mejorar tu vida, no complicarla.</p>
 
 </section>
+<section id="historiaevolucion">
+  <h1>Historia y Evolución</h1>
+  <h2>Historia</h2>
+  <p>Chamba Store nació en 2010 como una pequeña tienda local dedicada a la venta de componentes informáticos.
+                                                    Con los años, fue creciendo hasta convertirse en un referente tecnológico en Galicia.</p>
+  <h2>Evolución</h2>
+  <p>En 2015 dio el salto al comercio online, ampliando su catálogo e incorporando productos electrónicos de última generación.
+                                                    Hoy combina innovación, experiencia y un trato cercano al cliente.</p>
+</section>
 <section id="contacto">
+  <h1>Contacto</h1>
+  <p><strong>Teléfono:</strong> 988 87 54 20</p>
+  <p><strong>Email:</strong> atencionalcliente@chambastore.com</p>
+  <p><strong>Dirección:</strong> Rúa de La Habana, 88, Ourense, Galicia</p>
+  <p><strong>Horario:</strong> Lunes a Viernes: 8:30 - 21:00</p>
 </section>
 <section id="comentarios">
-  <div>
+  <h1>Comentarios de clientes</h1>
+  <div style='border:1px solid #ccc; margin:10px; padding:10px; border-radius:8px;'>
     <h3>Leonardo Dicaprio</h3>
-    <p>Sublime !! Tanto la rapidez de entrega como el servicio post-venta son inmejorables, ya soy cliente desde 2011 que hice mi primer pedido y llevare ya alrededor de 100 y la verdad que para mi siempre es la 1º opcion para comprar.</p>
+    <small style='color:gray;'>Publicado el 19/11/2025 20:13</small><br>
+    <p>Sublime !! Tanto la rapidez de entrega como el servicio post-venta son inmejorables.</p>
     <p>Valoración: ★★★★★</p>
-    <form action="/eliminar/0" method="post" style="margin-top:10px;">
-                                <button type="submit">Eliminar</button>
-                              </form>
-  </div>
-  <div>
+    <form action='/eliminar/0' method='post' style='display:inline;'>
+        <button type='submit' style='background-color:#d9534f; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;'>Eliminar</button>
+    </form>
+
+                <form action='/editar/0' method='post' style='margin-top:5px;'>
+                    <input type='text' name='texto' value="Sublime !! Tanto la rapidez de entrega como el servicio post-venta son inmejorables." required style='width:70%; padding:3px;'>
+                    <input type='number' name='valoracion' min='1' max='5' value="5" required style='width:50px;'>
+                    <button type='submit' style='background-color:#0275d8; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;'>Editar</button>
+                </form>
+                  </div>
+  <div style='border:1px solid #ccc; margin:10px; padding:10px; border-radius:8px;'>
     <h3>Antonio Recio</h3>
-    <p>Desde que compré este portátil(Chambatron), mis FPS son más estables que mi vida amorosa.</p>
+    <small style='color:gray;'>Publicado el 19/11/2025 20:13</small><br>
+    <p>Desde que compré este portátil (Chambatron), mis FPS son más estables que mi vida amorosa.</p>
     <p>Valoración: ★★★★☆</p>
-    <form action="/eliminar/1" method="post" style="margin-top:10px;">
-                                <button type="submit">Eliminar</button>
-                              </form>
-  </div>
-  <div>
+    <form action='/eliminar/1' method='post' style='display:inline;'>
+        <button type='submit' style='background-color:#d9534f; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;'>Eliminar</button>
+    </form>
+
+                <form action='/editar/1' method='post' style='margin-top:5px;'>
+                    <input type='text' name='texto' value="Desde que compré este portátil (Chambatron), mis FPS son más estables que mi vida amorosa." required style='width:70%; padding:3px;'>
+                    <input type='number' name='valoracion' min='1' max='5' value="4" required style='width:50px;'>
+                    <button type='submit' style='background-color:#0275d8; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;'>Editar</button>
+                </form>
+                  </div>
+  <div style='border:1px solid #ccc; margin:10px; padding:10px; border-radius:8px;'>
     <h3>Miky Olveira</h3>
-    <p>Los auriculares FullChamba Audio, eran justo lo que estaba buscando, cancelan tanto el ruido que no escuché a mi madre llamarme para cenar. Pasé 8 horas sin comer, pero feliz.</p>
+    <small style='color:gray;'>Publicado el 19/11/2025 20:13</small><br>
+    <p>Los auriculares FullChamba Audio cancelan tanto el ruido que no escuché a mi madre llamarme para cenar.</p>
     <p>Valoración: ★★★★★</p>
-    <form action="/eliminar/2" method="post" style="margin-top:10px;">
-                                <button type="submit">Eliminar</button>
-                              </form>
-  </div>
-  <div>
+    <form action='/eliminar/2' method='post' style='display:inline;'>
+        <button type='submit' style='background-color:#d9534f; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;'>Eliminar</button>
+    </form>
+
+                <form action='/editar/2' method='post' style='margin-top:5px;'>
+                    <input type='text' name='texto' value="Los auriculares FullChamba Audio cancelan tanto el ruido que no escuché a mi madre llamarme para cenar." required style='width:70%; padding:3px;'>
+                    <input type='number' name='valoracion' min='1' max='5' value="5" required style='width:50px;'>
+                    <button type='submit' style='background-color:#0275d8; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;'>Editar</button>
+                </form>
+                  </div>
+  <div style='border:1px solid #ccc; margin:10px; padding:10px; border-radius:8px;'>
     <h3>Bad Bunny</h3>
+    <small style='color:gray;'>Publicado el 19/11/2025 20:13</small><br>
     <p>Desde que uso el ratón ChambaMouse, mi puntería mejoró tanto que mis enemigos me reportan por hacks.</p>
     <p>Valoración: ★★★★★</p>
-    <form action="/eliminar/3" method="post" style="margin-top:10px;">
-                                <button type="submit">Eliminar</button>
-                              </form>
-  </div>
-  <div>
+    <form action='/eliminar/3' method='post' style='display:inline;'>
+        <button type='submit' style='background-color:#d9534f; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;'>Eliminar</button>
+    </form>
+
+                <form action='/editar/3' method='post' style='margin-top:5px;'>
+                    <input type='text' name='texto' value="Desde que uso el ratón ChambaMouse, mi puntería mejoró tanto que mis enemigos me reportan por hacks." required style='width:70%; padding:3px;'>
+                    <input type='number' name='valoracion' min='1' max='5' value="5" required style='width:50px;'>
+                    <button type='submit' style='background-color:#0275d8; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;'>Editar</button>
+                </form>
+                  </div>
+  <div style='border:1px solid #ccc; margin:10px; padding:10px; border-radius:8px;'>
     <h3>Miky Olveira</h3>
-    <p>En la televisión ChambaVision™ 4K SmartTV, es tal como el anuncio, los colores son tan vivos que mi gato intenta cazar a los peces del documental. Le doy 5 estrellas, a mi gato solo 2.</p>
+    <small style='color:gray;'>Publicado el 19/11/2025 20:13</small><br>
+    <p>La televisión ChambaVision™ 4K SmartTV tiene colores tan vivos que mi gato intenta cazar los peces.</p>
     <p>Valoración: ★★★★★</p>
-    <form action="/eliminar/4" method="post" style="margin-top:10px;">
-                                <button type="submit">Eliminar</button>
-                              </form>
-  </div>
-  <div>
+    <form action='/eliminar/4' method='post' style='display:inline;'>
+        <button type='submit' style='background-color:#d9534f; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;'>Eliminar</button>
+    </form>
+
+                <form action='/editar/4' method='post' style='margin-top:5px;'>
+                    <input type='text' name='texto' value="La televisión ChambaVision™ 4K SmartTV tiene colores tan vivos que mi gato intenta cazar los peces." required style='width:70%; padding:3px;'>
+                    <input type='number' name='valoracion' min='1' max='5' value="5" required style='width:50px;'>
+                    <button type='submit' style='background-color:#0275d8; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;'>Editar</button>
+                </form>
+                  </div>
+  <div style='border:1px solid #ccc; margin:10px; padding:10px; border-radius:8px;'>
     <h3>Lucas Garrido</h3>
-    <p>Le pedí a Mael uno de los trabajadores, que me orientara para comprar un ordenador, ya que no entiendo mucho del tema, pero la verdad es que su ayuda fue bastante pobre. Me recomendó un modelo diciendo que era ‘de lo mejor’, y resultó ser justo lo contrario: lento, con poca memoria y encima más caro que otras opciones que encontré después. Cuando le comenté el problema, solo me dijo que ‘seguro yo lo estaba usando mal’. Me pareció poco profesional y nada empático. No volvería a pedirle consejo.</p>
+    <small style='color:gray;'>Publicado el 19/11/2025 20:13</small><br>
+    <p>Le pedí a Mael ayuda para comprar un ordenador, pero la experiencia fue muy pobre. No volvería a pedirle consejo.</p>
     <p>Valoración: ★★☆☆☆</p>
-    <form action="/eliminar/5" method="post" style="margin-top:10px;">
-                                <button type="submit">Eliminar</button>
-                              </form>
-  </div>
-  <div>
-    <h3>Leonardo Dicaprio</h3>
-    <p>Sublime !! Tanto la rapidez de entrega como el servicio post-venta son inmejorables, ya soy cliente desde 2011 que hice mi primer pedido y llevare ya alrededor de 100 y la verdad que para mi siempre es la 1º opcion para comprar.</p>
-    <p>Valoración: ★★★★★</p>
-    <form action="/eliminar/6" method="post" style="margin-top:10px;">
-                                <button type="submit">Eliminar</button>
-                              </form>
-  </div>
-  <div>
-    <h3>Antonio Recio</h3>
-    <p>Desde que compré este portátil(Chambatron), mis FPS son más estables que mi vida amorosa.</p>
-    <p>Valoración: ★★★★☆</p>
-    <form action="/eliminar/7" method="post" style="margin-top:10px;">
-                                <button type="submit">Eliminar</button>
-                              </form>
-  </div>
-  <div>
-    <h3>Miky Olveira</h3>
-    <p>Los auriculares FullChamba Audio, eran justo lo que estaba buscando, cancelan tanto el ruido que no escuché a mi madre llamarme para cenar. Pasé 8 horas sin comer, pero feliz.</p>
-    <p>Valoración: ★★★★★</p>
-    <form action="/eliminar/8" method="post" style="margin-top:10px;">
-                                <button type="submit">Eliminar</button>
-                              </form>
-  </div>
-  <div>
-    <h3>Bad Bunny</h3>
-    <p>Desde que uso el ratón ChambaMouse, mi puntería mejoró tanto que mis enemigos me reportan por hacks.</p>
-    <p>Valoración: ★★★★★</p>
-    <form action="/eliminar/9" method="post" style="margin-top:10px;">
-                                <button type="submit">Eliminar</button>
-                              </form>
-  </div>
-  <div>
-    <h3>Miky Olveira</h3>
-    <p>En la televisión ChambaVision™ 4K SmartTV, es tal como el anuncio, los colores son tan vivos que mi gato intenta cazar a los peces del documental. Le doy 5 estrellas, a mi gato solo 2.</p>
-    <p>Valoración: ★★★★★</p>
-    <form action="/eliminar/10" method="post" style="margin-top:10px;">
-                                <button type="submit">Eliminar</button>
-                              </form>
-  </div>
-  <div>
-    <h3>Lucas Garrido</h3>
-    <p>Le pedí a Mael uno de los trabajadores, que me orientara para comprar un ordenador, ya que no entiendo mucho del tema, pero la verdad es que su ayuda fue bastante pobre. Me recomendó un modelo diciendo que era ‘de lo mejor’, y resultó ser justo lo contrario: lento, con poca memoria y encima más caro que otras opciones que encontré después. Cuando le comenté el problema, solo me dijo que ‘seguro yo lo estaba usando mal’. Me pareció poco profesional y nada empático. No volvería a pedirle consejo.</p>
-    <p>Valoración: ★★☆☆☆</p>
-    <form action="/eliminar/11" method="post" style="margin-top:10px;">
-                                <button type="submit">Eliminar</button>
-                              </form>
-  </div>
-  <div>
-    <h3>Leonardo Dicaprio</h3>
-    <p>Sublime !! Tanto la rapidez de entrega como el servicio post-venta son inmejorables, ya soy cliente desde 2011 que hice mi primer pedido y llevare ya alrededor de 100 y la verdad que para mi siempre es la 1º opcion para comprar.</p>
-    <p>Valoración: ★★★★★</p>
-    <form action="/eliminar/12" method="post" style="margin-top:10px;">
-                                <button type="submit">Eliminar</button>
-                              </form>
-  </div>
-  <div>
-    <h3>Antonio Recio</h3>
-    <p>Desde que compré este portátil(Chambatron), mis FPS son más estables que mi vida amorosa.</p>
-    <p>Valoración: ★★★★☆</p>
-    <form action="/eliminar/13" method="post" style="margin-top:10px;">
-                                <button type="submit">Eliminar</button>
-                              </form>
-  </div>
-  <div>
-    <h3>Miky Olveira</h3>
-    <p>Los auriculares FullChamba Audio, eran justo lo que estaba buscando, cancelan tanto el ruido que no escuché a mi madre llamarme para cenar. Pasé 8 horas sin comer, pero feliz.</p>
-    <p>Valoración: ★★★★★</p>
-    <form action="/eliminar/14" method="post" style="margin-top:10px;">
-                                <button type="submit">Eliminar</button>
-                              </form>
-  </div>
-  <div>
-    <h3>Bad Bunny</h3>
-    <p>Desde que uso el ratón ChambaMouse, mi puntería mejoró tanto que mis enemigos me reportan por hacks.</p>
-    <p>Valoración: ★★★★★</p>
-    <form action="/eliminar/15" method="post" style="margin-top:10px;">
-                                <button type="submit">Eliminar</button>
-                              </form>
-  </div>
-  <div>
-    <h3>Miky Olveira</h3>
-    <p>En la televisión ChambaVision™ 4K SmartTV, es tal como el anuncio, los colores son tan vivos que mi gato intenta cazar a los peces del documental. Le doy 5 estrellas, a mi gato solo 2.</p>
-    <p>Valoración: ★★★★★</p>
-    <form action="/eliminar/16" method="post" style="margin-top:10px;">
-                                <button type="submit">Eliminar</button>
-                              </form>
-  </div>
-  <div>
-    <h3>Lucas Garrido</h3>
-    <p>Le pedí a Mael uno de los trabajadores, que me orientara para comprar un ordenador, ya que no entiendo mucho del tema, pero la verdad es que su ayuda fue bastante pobre. Me recomendó un modelo diciendo que era ‘de lo mejor’, y resultó ser justo lo contrario: lento, con poca memoria y encima más caro que otras opciones que encontré después. Cuando le comenté el problema, solo me dijo que ‘seguro yo lo estaba usando mal’. Me pareció poco profesional y nada empático. No volvería a pedirle consejo.</p>
-    <p>Valoración: ★★☆☆☆</p>
-    <form action="/eliminar/17" method="post" style="margin-top:10px;">
-                                <button type="submit">Eliminar</button>
-                              </form>
-  </div>
-  <div>
-    <h3>Leonardo Dicaprio</h3>
-    <p>Sublime !! Tanto la rapidez de entrega como el servicio post-venta son inmejorables, ya soy cliente desde 2011 que hice mi primer pedido y llevare ya alrededor de 100 y la verdad que para mi siempre es la 1º opcion para comprar.</p>
-    <p>Valoración: ★★★★★</p>
-    <form action="/eliminar/18" method="post" style="margin-top:10px;">
-                                <button type="submit">Eliminar</button>
-                              </form>
-  </div>
-  <div>
-    <h3>Antonio Recio</h3>
-    <p>Desde que compré este portátil(Chambatron), mis FPS son más estables que mi vida amorosa.</p>
-    <p>Valoración: ★★★★☆</p>
-    <form action="/eliminar/19" method="post" style="margin-top:10px;">
-                                <button type="submit">Eliminar</button>
-                              </form>
-  </div>
-  <div>
-    <h3>Miky Olveira</h3>
-    <p>Los auriculares FullChamba Audio, eran justo lo que estaba buscando, cancelan tanto el ruido que no escuché a mi madre llamarme para cenar. Pasé 8 horas sin comer, pero feliz.</p>
-    <p>Valoración: ★★★★★</p>
-    <form action="/eliminar/20" method="post" style="margin-top:10px;">
-                                <button type="submit">Eliminar</button>
-                              </form>
-  </div>
-  <div>
-    <h3>Bad Bunny</h3>
-    <p>Desde que uso el ratón ChambaMouse, mi puntería mejoró tanto que mis enemigos me reportan por hacks.</p>
-    <p>Valoración: ★★★★★</p>
-    <form action="/eliminar/21" method="post" style="margin-top:10px;">
-                                <button type="submit">Eliminar</button>
-                              </form>
-  </div>
-  <div>
-    <h3>Miky Olveira</h3>
-    <p>En la televisión ChambaVision™ 4K SmartTV, es tal como el anuncio, los colores son tan vivos que mi gato intenta cazar a los peces del documental. Le doy 5 estrellas, a mi gato solo 2.</p>
-    <p>Valoración: ★★★★★</p>
-    <form action="/eliminar/22" method="post" style="margin-top:10px;">
-                                <button type="submit">Eliminar</button>
-                              </form>
-  </div>
-  <div>
-    <h3>Lucas Garrido</h3>
-    <p>Le pedí a Mael uno de los trabajadores, que me orientara para comprar un ordenador, ya que no entiendo mucho del tema, pero la verdad es que su ayuda fue bastante pobre. Me recomendó un modelo diciendo que era ‘de lo mejor’, y resultó ser justo lo contrario: lento, con poca memoria y encima más caro que otras opciones que encontré después. Cuando le comenté el problema, solo me dijo que ‘seguro yo lo estaba usando mal’. Me pareció poco profesional y nada empático. No volvería a pedirle consejo.</p>
-    <p>Valoración: ★★☆☆☆</p>
-    <form action="/eliminar/23" method="post" style="margin-top:10px;">
-                                <button type="submit">Eliminar</button>
-                              </form>
-  </div>
+    <form action='/eliminar/5' method='post' style='display:inline;'>
+        <button type='submit' style='background-color:#d9534f; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;'>Eliminar</button>
+    </form>
+
+                <form action='/editar/5' method='post' style='margin-top:5px;'>
+                    <input type='text' name='texto' value="Le pedí a Mael ayuda para comprar un ordenador, pero la experiencia fue muy pobre. No volvería a pedirle consejo." required style='width:70%; padding:3px;'>
+                    <input type='number' name='valoracion' min='1' max='5' value="2" required style='width:50px;'>
+                    <button type='submit' style='background-color:#0275d8; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;'>Editar</button>
+                </form>
+                  </div>
+</section>
+<section id="tendencias">
+  <h1>Tendencias Tecnológicas</h1>
+  <p>No hay tendencias disponibles por ahora.</p>
 </section>
 </body>
 </html>

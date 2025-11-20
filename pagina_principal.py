@@ -1,6 +1,7 @@
 from menu import MenuNavegacion
 from render_html import RenderHTML
 from datetime import datetime
+import requests
 import json
 import os
 
@@ -126,14 +127,70 @@ class SeccionComentarios:
     def render(self):
         return RenderHTML.render_seccion_comentarios(self.titulo, self.comentarios)
 
+class SeccionTendencias:
+    def __init__(self, api_key=None):
+        self.api_key = api_key
+        self.tendencias = []
+    
+    def actualizar_tendencias(self):
+        import requests
+
+        if not self.api_key:
+            self.tendencias = []
+            return
+        
+        url = f"https://gnews.io/api/v4/top-headlines?topic=technology&lang=es&token={self.api_key}"
+
+        try:
+            resp = requests.get(url)
+            data = resp.json()
+
+            if "articles" not in data:
+                self.tendencias = []
+                return
+            
+            self.tendencias = [
+                {
+                    "titulo": art["title"],
+                    "descripcion": art.get("description", "Sin descripción."),
+                    "url": art["url"]
+                }
+                for art in data["articles"][:5]
+            ]
+        
+        except Exception as e:
+            print("Error obteniendo tendencias:", e)
+            self.tendencias = []
+    
+    def render(self):
+        html = '<section id="tendencias">\n'
+        html += "<h1>Tendencias actuales del mercado tecnológico</h1>\n"
+
+        if not self.tendencias:
+            html += "<p>No hay tendencias disponibles por ahora.</p>\n</section>"
+            return html
+        
+        for t in self.tendencias:
+            html += f"""
+            <div class="tendencia">
+                <h3>{t['titulo']}</h3>
+                <p>{t['descripcion']}</p>
+                <a href="{t['url']}" target="_blank">Leer más</a>
+            </div>
+            """
+
+        html += "</section>"
+        return html
+
 
 class PaginaPrincipal:
-    def __init__(self):
+    def __init__(self, api_key_news=None):
         self.menu = MenuNavegacion.crear_menu_estandar()
         self.seccion_info = SeccionInformacion()
         self.seccion_comentarios = SeccionComentarios()
         self.seccion_contacto = SeccionContacto()
         self.seccion_hist_evo = SeccionHistoriaEvolucion()
+        self.seccion_tendencias = SeccionTendencias(api_key=api_key_news)
     
     def construir(self):
         # Información
@@ -170,14 +227,18 @@ class PaginaPrincipal:
             for autor, texto, valoracion in ejemplos:
                 self.seccion_comentarios.agregar_comentario(autor, texto, valoracion)
 
+        # Tendencias
+        self.seccion_tendencias.actualizar_tendencias()
+
     def render_html(self):
         menu_html = self.menu.render()
         info_html = self.seccion_info.render()
         historia_html = self.seccion_hist_evo.render() 
         contacto_html = self.seccion_contacto.render()
         comentarios_html = self.seccion_comentarios.render()
+        tendencias_html = self.seccion_tendencias.render()
         
-        return RenderHTML.render_pagina_completa(menu_html, info_html, historia_html, contacto_html, comentarios_html)
+        return RenderHTML.render_pagina_completa(menu_html, info_html, historia_html, contacto_html, comentarios_html, tendencias_html)
     
     def guardar_html(self, nombre_archivo="tienda.html"):
         html_contenido = self.render_html()
