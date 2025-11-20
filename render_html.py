@@ -102,7 +102,7 @@ class RenderHTML:
         """
     
     @staticmethod
-    def render_pagina_completa(menu_html, info_html, historia_evolucion, contacto_html, comentarios_html, tendencias):
+    def render_pagina_completa(menu_html, info_html, historia_evolucion, contacto_html, comentarios_html, tendencias , info_social_html):
         html = "<!DOCTYPE html>\n<html>\n<head>\n"
         html += "  <meta charset='UTF-8'>\n"
         html += "  <title>Chamba_Store</title>\n"
@@ -113,6 +113,7 @@ class RenderHTML:
         html += contacto_html
         html += comentarios_html
         html += tendencias
+        html += info_social_html
 
         html += "</body>\n</html>"
         return html
