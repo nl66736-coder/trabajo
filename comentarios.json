@@ -34,5 +34,11 @@
         "texto": "Le pedí a Mael ayuda para comprar un ordenador, pero la experiencia fue muy pobre. No volvería a pedirle consejo.",
         "valoracion": 2,
         "fecha": "19/11/2025 20:13"
+    },
+    {
+        "autor": "Test User",
+        "texto": "Comentario de prueba",
+        "valoracion": 4,
+        "fecha": "20/11/2025 16:19"
     }
 ]
