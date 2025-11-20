@@ -116,3 +116,38 @@ class RenderHTML:
 
         html += "</body>\n</html>"
         return html
+    
+    @staticmethod
+    def render_seccion_catalogo(productos):
+        html = '<section id="catalogo">\n'
+        html += "<h1>Catálogo de productos</h1>\n"
+
+        # Formulario para añadir productos
+        html += """
+        <form action="/agregar_producto" method="post" style="margin-bottom:20px;">
+            <input type="text" name="nombre" placeholder="Nombre" required>
+            <input type="text" name="descripcion" placeholder="Descripción" required>
+            <input type="number" step="0.01" name="precio" placeholder="Precio" required>
+            <input type="text" name="empaquetado" placeholder="Empaquetado">
+            <input type="text" name="imagen" placeholder="URL de la imagen">
+            <button type="submit">Añadir producto</button>
+        </form>
+        """
+
+        # Mostrar productos existentes
+        if productos:
+            for p in productos:
+                html += f"""
+                <div style='border:1px solid #ccc; margin:10px; padding:10px; border-radius:8px;'>
+                    <h3>{p['nombre']}</h3>
+                    <p>{p['descripcion']}</p>
+                    <p><strong>Precio:</strong> {p['precio']} €</p>
+                    <p><strong>Empaquetado:</strong> {p['empaquetado']}</p>
+                    <img src="{p['imagen']}" alt="{p['nombre']}" style="max-width:200px;">
+                </div>
+                """
+        else:
+            html += "<p>No hay productos en el catálogo aún.</p>\n"
+
+        html += "</section>\n"
+        return html
