@@ -152,7 +152,7 @@ class SeccionTendencias:
         
         url = (f"https://gnews.io/api/v4/search?"
         f"q=technology OR smartphone OR laptop OR gadget OR IA"
-        f"&lang=es"
+        f"&lang=en"
         f"&max=5"
         f"&token={self.api_key}"
             )       
