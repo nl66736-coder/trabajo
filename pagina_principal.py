@@ -128,6 +128,17 @@ class SeccionComentarios:
     def render(self):
         return RenderHTML.render_seccion_comentarios(self.titulo, self.comentarios)
 
+
+class SeccionCatalogo:
+    def __init__(self, archivo="catalogo.json"):
+        self.catalogo = CatalogoProductos(archivo)
+
+    def agregar_producto(self, nombre, descripcion, precio, empaquetado, imagen):
+        self.catalogo.agregar_producto(nombre, descripcion, precio, empaquetado, imagen)
+
+    def render(self):
+        return RenderHTML.render_seccion_catalogo(self.catalogo.productos)
+
 class SeccionTendencias:
     def __init__(self, api_key=None):
         self.api_key = api_key
@@ -205,6 +216,8 @@ class PaginaPrincipal:
         self.seccion_contacto = SeccionContacto()
         self.seccion_hist_evo = SeccionHistoriaEvolucion()
         self.seccion_tendencias = SeccionTendencias(api_key=api_key_news)
+        self.seccion_catalogo = SeccionCatalogo()
+        
     
     def construir(self):
         # Información
