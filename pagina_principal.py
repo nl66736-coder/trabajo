@@ -143,23 +143,14 @@ class SeccionTendencias:
     def __init__(self, api_key=None):
         self.api_key = api_key
         self.tendencias = []
-
-        # Palabras clave relevantes para productos tecnológicos de la tienda
-        self.palabras_clave = [
-            "smartphone", "laptop", "ordenador", "portátil", "tablet",
-            "auriculares", "gadgets", "smartwatch", "televisión", "cámara"
-        ]
     
     def actualizar_tendencias(self):
-        import requests
 
         if not self.api_key:
             self.tendencias = []
             return
         
-        # Construimos la query para que la API devuelva solo noticias relevantes
-        query = " OR ".join(self.palabras_clave)
-        url = url = (f"https://gnews.io/api/v4/search?"
+        url = (f"https://gnews.io/api/v4/search?"
         f"q=technology OR smartphone OR laptop OR gadget OR IA"
         f"&lang=es"
         f"&max=5"
