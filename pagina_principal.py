@@ -137,7 +137,7 @@ class SeccionCatalogo:
         self.catalogo.agregar_producto(nombre, descripcion, precio, empaquetado, imagen)
 
     def render(self):
-        return self.catalogo.render()
+        return RenderHTML.render_seccion_catalogo(self.catalogo.productos)
 
 class SeccionTendencias:
     def __init__(self, api_key=None):
@@ -164,7 +164,6 @@ class SeccionTendencias:
                 self.tendencias = []
                 return
             
-            # Guardamos solo los 5 primeros resultados, asegurando que título y descripción existan
             self.tendencias = [
                 {
                     "titulo": art.get("title", "Sin título"),
@@ -198,6 +197,51 @@ class SeccionTendencias:
         html += "</section>"
         return html
 
+class SeccionInfoSocial:
+    """
+    Sección que muestra la información legal y administrativa de la empresa.
+    """
+    def __init__(self):
+        self.razon_social = None       # Nombre oficial de la empresa
+        self.forma_juridica = None     # S.L., S.A., S.A.U., etc.
+        self.cif_nif = None            # Código fiscal
+        self.domicilio_social = None   # Dirección legal
+        self.capital_social = None     # Capital registrado
+        self.numero_registro = None    # Registro mercantil o equivalente
+
+    # Métodos para establecer cada dato
+    def establecer_razon_social(self, valor):
+        self.razon_social = valor
+
+    def establecer_forma_juridica(self, valor):
+        self.forma_juridica = valor
+
+    def establecer_cif_nif(self, valor):
+        self.cif_nif = valor
+
+    def establecer_domicilio_social(self, valor):
+        self.domicilio_social = valor
+
+    def establecer_capital_social(self, valor):
+        self.capital_social = valor
+
+    def establecer_numero_registro(self, valor):
+        self.numero_registro = valor
+
+    # Render HTML
+    def render(self):
+        html = "<section id='info-social'>\n"
+        html += "<h2>Información social de la empresa</h2>\n"
+        html += "<ul>\n"
+        if self.razon_social: html += f"<li><strong>Razón social:</strong> {self.razon_social}</li>\n"
+        if self.forma_juridica: html += f"<li><strong>Forma jurídica:</strong> {self.forma_juridica}</li>\n"
+        if self.cif_nif: html += f"<li><strong>CIF/NIF:</strong> {self.cif_nif}</li>\n"
+        if self.domicilio_social: html += f"<li><strong>Domicilio social:</strong> {self.domicilio_social}</li>\n"
+        if self.capital_social: html += f"<li><strong>Capital social:</strong> {self.capital_social}</li>\n"
+        if self.numero_registro: html += f"<li><strong>Número de registro:</strong> {self.numero_registro}</li>\n"
+        html += "</ul>\n</section>"
+        return html
+
 
 class PaginaPrincipal:
     def __init__(self, api_key_news=None):
@@ -208,6 +252,7 @@ class PaginaPrincipal:
         self.seccion_hist_evo = SeccionHistoriaEvolucion()
         self.seccion_tendencias = SeccionTendencias(api_key=api_key_news)
         self.seccion_catalogo = SeccionCatalogo()
+        self.seccion_info_social = SeccionInfoSocial()
         
     
     def construir(self):
@@ -248,18 +293,13 @@ class PaginaPrincipal:
         # Tendencias
         self.seccion_tendencias.actualizar_tendencias()
 
-        # Catálogo
-        if not self.seccion_catalogo.catalogo.productos:
-            ejemplos_productos = [
-                ("ChambaPhone X", "El smartphone más avanzado de Chamba Store con cámara de 108MP y batería de larga duración.", 999.99, "Caja ecológica", "/static/chambaphone_x.png"),
-                ("ChambaLaptop Pro", "Portátil ultraligero con procesador de última generación y pantalla Retina.", 1299.99, "Estuche protector", "/static/chambalaptop_pro.png"),
-                ("ChambaWatch Series 5", "Smartwatch con monitorización de salud y conectividad total.", 399.99, "Caja premium", "/static/chambawatch_series5.png"),
-                ("ChambaBuds Wireless", "Auriculares inalámbricos con cancelación activa de ruido y sonido envolvente.", 149.99, "Estuche de carga", "/static/chambabuds_wireless.png"),
-                ("ChambaTablet S10", "Tablet versátil para trabajo y entretenimiento con pantalla de alta resolución.", 499.99, "Funda protectora", "/static/chambatablet_s10.png")
-            ]
-            for nombre, descripcion, precio, empaquetado, imagen in ejemplos_productos:
-                self.seccion_catalogo.agregar_producto(nombre, descripcion, precio, empaquetado, imagen)
-
+        # Información social de la tienda
+        self.seccion_info_social.establecer_razon_social("Chamba Store S.L.")
+        self.seccion_info_social.establecer_forma_juridica("Sociedad Limitada (S.L.)")
+        self.seccion_info_social.establecer_cif_nif("B12345678")
+        self.seccion_info_social.establecer_domicilio_social("Rúa de La Habana, 88, Ourense, Galicia")
+        self.seccion_info_social.establecer_capital_social("50.000 €")
+        self.seccion_info_social.establecer_numero_registro("OR-123456")
 
     def render_html(self):
         menu_html = self.menu.render()
@@ -268,8 +308,9 @@ class PaginaPrincipal:
         contacto_html = self.seccion_contacto.render()
         comentarios_html = self.seccion_comentarios.render()
         tendencias_html = self.seccion_tendencias.render()
+        info_social_html = self.seccion_info_social.render()
         
-        return RenderHTML.render_pagina_completa(menu_html, info_html, historia_html, contacto_html, comentarios_html, tendencias_html)
+        return RenderHTML.render_pagina_completa(menu_html, info_html, historia_html, contacto_html, comentarios_html, tendencias_html, info_social_html)
     
     def render_layout(self, contenido_central: str) -> str:
         """

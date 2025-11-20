@@ -54,3 +54,5 @@ class CatalogoProductos:
         html += "</section>"
         # Devolvemos el HTML completo para integrarlo en la página principal
         return html
+
+#PRUEBA PARA QUE LE FUNCIONE A LUCAS
