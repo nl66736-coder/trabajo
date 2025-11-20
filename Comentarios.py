@@ -1,8 +1,14 @@
-from flask import Flask, render_template_string, request, redirect
+from flask import Flask, render_template_string, request, redirect, session
 from pagina_principal import PaginaPrincipal
 from render_html import RenderHTML
+import json 
+
+def cargar_usuarios():
+    with open("usuarios.json", "r") as f:
+        return json.load(f)
 
 app = Flask(__name__)
+app.secret_key = 'ab23252894yrhugioghskjdhg0uewri'
 pagina = PaginaPrincipal(api_key_news="5a7f6908927b43c3fd3f2d9f4a03d271")
 pagina.construir()
 
@@ -76,6 +82,22 @@ def editar(comentario_id):
     pagina.seccion_comentarios.editar_comentario(comentario_id, nuevo_texto, nueva_valoracion)
     return redirect('/')
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        usuario = request.form['usuario']
+        contrasenha = request.form['contrasenha']
+        usuarios = cargar_usuarios()
+
+        if usuario in usuarios and usuarios[usuario] == contrasenha:
+            session['usuario'] = usuario
+            return redirect('/')
+        else:
+            return "Credenciales incorrectas"
+    else:
+        return RenderHTML.render_login()
+if __name__ == '__main__':
+    app.run(debug=True, use_reloader=False)
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False)
