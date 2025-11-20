@@ -28,7 +28,7 @@
         "descripcion": "Auriculares inalámbricos con cancelación activa de ruido y sonido envolvente.",
         "precio": 149.99,
         "empaquetado": "Estuche de carga",
-        "imagen": "/static/chambabuds_wireless.png",
+        "imagen": "/static/ChamBabuds.png",
         "fecha_agregado": "20/11/2025 18:09"
     },
     {
@@ -36,7 +36,7 @@
         "descripcion": "Tablet versátil para trabajo y entretenimiento con pantalla de alta resolución.",
         "precio": 499.99,
         "empaquetado": "Funda protectora",
-        "imagen": "/static/chambatablet_s10.png",
+        "imagen": "/static/ChambaTablet.png",
         "fecha_agregado": "20/11/2025 18:09"
     }
 ]
