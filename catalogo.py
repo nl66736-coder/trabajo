@@ -1,6 +1,6 @@
-import json   # Librería para guardar y leer datos en formato JSON
-import os     # Librería para comprobar si existe el archivo en disco
-from datetime import datetime  # Para registrar la fecha y hora en que se añade un producto
+import json
+import os
+from datetime import datetime
 
 class CatalogoProductos:
     def __init__(self, archivo="catalogo.json"):
@@ -54,5 +54,3 @@ class CatalogoProductos:
         html += "</section>"
         # Devolvemos el HTML completo para integrarlo en la página principal
         return html
-
-#PRUEBA PARA QUE LE FUNCIONE A LUCAS

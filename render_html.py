@@ -122,18 +122,6 @@ class RenderHTML:
         html = '<section id="catalogo">\n'
         html += "<h1>Catálogo de productos</h1>\n"
 
-        # Formulario para añadir productos
-        html += """
-        <form action="/agregar_producto" method="post" style="margin-bottom:20px;">
-            <input type="text" name="nombre" placeholder="Nombre" required>
-            <input type="text" name="descripcion" placeholder="Descripción" required>
-            <input type="number" step="0.01" name="precio" placeholder="Precio" required>
-            <input type="text" name="empaquetado" placeholder="Empaquetado">
-            <input type="text" name="imagen" placeholder="URL de la imagen">
-            <button type="submit">Añadir producto</button>
-        </form>
-        """
-
         # Mostrar productos existentes
         if productos:
             for p in productos:
