@@ -151,3 +151,13 @@ class RenderHTML:
 
         html += "</section>\n"
         return html
+    
+    @staticmethod
+    def render_login():
+        return """
+        <form method="POST" action="/login">
+            Usuario: <input type="text" name="usuario"><br>
+            Contraseña: <input type="password" name="contrasenha"><br>
+            <button type="submit">Iniciar sesión</button>
+        </form>
+        """
