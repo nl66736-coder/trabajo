@@ -11,6 +11,14 @@ def guardar_usuarios(usuarios):
     with open('usuarios.json', 'w') as archivo:
         json.dump(usuarios, archivo)
 
+def cargar_historial():
+    with open("historial.json", "r", encoding="utf-8") as f:
+        return json.load(f)
+    
+def guardar_historial(historial):
+    with open('historial.json', 'w', encoding="utf-8") as archivo:
+        json.dump(historial, archivo, indent=4, ensure_ascii=False)
+
 app = Flask(__name__)
 app.secret_key = 'ab23252894yrhugioghskjdhg0uewri'
 pagina = PaginaPrincipal(api_key_news="5a7f6908927b43c3fd3f2d9f4a03d271")
@@ -164,6 +172,7 @@ def registro():
         usuario = request.form['usuario']
         contrasena = request.form['contrasena']
         usuarios = cargar_usuarios()
+        historial = cargar_historial()
 
         if usuario in usuarios:
             return RenderHTML.render_registro() + "<p style='color:red;'>El usuario ya existe. Intenta con otro nombre o inicie sesión.</p>" + RenderHTML.render_boton_login()
@@ -171,6 +180,8 @@ def registro():
         else:
             usuarios[usuario] = contrasena
             guardar_usuarios(usuarios)
+            historial[usuario] = {"compras": []}
+            guardar_historial(historial)
             return RenderHTML.render_registro() + "<p style='color:red;'>El usuario se ha registrado corectamente. Puede iniciar sesión</p>" +  RenderHTML.render_boton_login()
     else:
         return RenderHTML.render_registro()
