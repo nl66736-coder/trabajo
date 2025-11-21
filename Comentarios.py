@@ -2,6 +2,7 @@ from flask import Flask, render_template_string, request, redirect, session
 from pagina_principal import PaginaPrincipal
 from render_html import RenderHTML
 import json 
+from datetime import datetime
 
 def cargar_usuarios():
     with open("usuarios.json", "r") as f:
@@ -92,6 +93,36 @@ def añadir_carrito(indice):
     cantidad = int(request.form.get("cantidad", 1))  #recogemos la cantidad del formulario
     # Lo añadimos al carrito
     pagina.carrito.añadir_producto(producto)
+
+    usuario = session.get('usuario')
+    if usuario:
+        # Registrar en historial de compras
+        historial = cargar_historial()
+        if usuario in historial:
+            # Buscar si ya existe una compra pendiente
+            compra_pendiente = None
+            for compra in historial[usuario]["compras"]:
+                if compra.get("estado") == "carrito":
+                    compra_pendiente = compra
+                    break
+
+            if not compra_pendiente:
+                compra_pendiente = {
+                    "fecha": datetime.now().strftime("%d/%m/%Y %H:%M"),
+                    "estado": "carrito",
+                    "productos": []
+                }
+                historial[usuario]["compras"].append(compra_pendiente)
+            
+            # Añadir producto a la compra pendiente
+            compra_pendiente["productos"].append({
+                "nombre": producto["nombre"],
+                "precio": producto["precio"],
+                "cantidad": cantidad
+            })
+            
+            guardar_historial(historial)
+        
     # Renderizamos la página con el carrito actualizado
     contenido = pagina.carrito.render()
     html = pagina.render_layout(contenido)
@@ -123,11 +154,56 @@ def ver_carrito():
 @app.route("/vaciar_carrito", methods=["POST"])
 def vaciar_carrito():
     pagina.carrito.vaciar()
+    usuario = session.get('usuario')
+    if usuario:
+        pagina.seccion_notificaciones.agregar_notificacion(
+            usuario,
+            'Has vaciado tu carrito de compras',
+            '/carrito'
+        )
     contenido = pagina.carrito.render()
     html = pagina.render_layout(contenido)
     return render_template_string(html)
 
-
+# REALIZAR COMPRA
+@app.route("/finalizar_compra", methods=["POST"])
+def finalizar_compra():
+    usuario = session.get('usuario')
+    if not usuario:
+        return redirect('/login')
+    
+    if len(pagina.carrito.productos) == 0:
+        return redirect('/carrito')
+    
+    # Actualizar historial con compra finalizada
+    historial = cargar_historial()
+    if usuario in historial:
+        # Cambiar estado de "carrito" a "finalizada"
+        for compra in historial[usuario]["compras"]:
+            if compra.get("estado") == "carrito":
+                compra["estado"] = "finalizada"
+                compra["fecha_compra"] = datetime.now().strftime("%d/%m/%Y %H:%M")
+        
+        guardar_historial(historial)
+        
+        # Vaciar carrito
+        pagina.carrito.vaciar()
+        
+        # Generar nueva recomendación basada en la compra
+        pagina.seccion_notificaciones.generar_notificaciones_recomendaciones(
+            usuario,
+            pagina.seccion_catalogo.catalogo.productos
+        )
+        
+        # Notificación de compra exitosa
+        pagina.seccion_notificaciones.agregar_notificacion(
+            usuario,
+            "¡Compra realizada con éxito! Gracias por tu confianza",
+            "/notificaciones",
+            tipo="info"
+        )
+    
+    return redirect('/notificaciones')
 
 # ---------- ACCIONES SOBRE COMENTARIOS ----------
 
@@ -138,6 +214,7 @@ def comentar():
     valoracion = int(request.form['valoracion'])
 
     pagina.seccion_comentarios.agregar_comentario(autor, texto, valoracion)
+    pagina.seccion_notificaciones.agregar_notificacion(autor, 'Tu comentario ha sido publicado correctamente','/comentarios')
     return redirect('/comentarios')
 
 @app.route('/info-social')
@@ -180,8 +257,19 @@ def registro():
         else:
             usuarios[usuario] = contrasena
             guardar_usuarios(usuarios)
-            historial[usuario] = {"compras": []}
+            historial[usuario] = {
+                "compras": [],
+                "notificaciones": [
+                    {
+                        "texto": "¡Bienvenido a Chamba Store! Gracias por registrarte.",
+                        "link": "/catalogo",
+                        "fecha": datetime.now().strftime("%d/%m/%Y %H:%M"),
+                        "tipo": "info"
+                    }
+                ]
+            }
             guardar_historial(historial)
+            pagina.seccion_notificaciones.generar_notificaciones_recomendaciones(usuario, pagina.seccion_catalogo.catalogo.productos)
             return RenderHTML.render_registro() + "<p style='color:red;'>El usuario se ha registrado corectamente. Puede iniciar sesión</p>" +  RenderHTML.render_boton_login()
     else:
         return RenderHTML.render_registro()
@@ -196,8 +284,44 @@ def notificaciones():
     usuario = session.get('usuario')
     if usuario:
         contenido = RenderHTML.render_apartado_sesion(usuario)
+        analisis = pagina.seccion_notificaciones.analizar_historial_compras(usuario)
+        analisis_comentarios = pagina.seccion_notificaciones.analizar_comentarios_usuario(usuario, pagina.seccion_comentarios.comentarios)
+        contenido += f'''
+        <div>
+            <h2>Tu Perfil de Compras</h2>
+            <p><strong>Total de compras:</strong> {analisis["total_compras"]}</p>
+            <p><strong>Gasto total:</strong> {analisis["gasto_total"]:.2f}€</p>
+            <p><strong>Categorías favoritas:</strong> {", ".join(analisis["categorias_preferidas"]) if analisis["categorias_preferidas"] else "Aún no tienes favoritas"}</p>
+            <p><strong>Comentarios realizados:</strong> {analisis_comentarios["total_comentarios"]}</p>
+            <p><strong>Valoración promedio:</strong> {analisis_comentarios["valoracion_promedio"]:.1f}/5</p>
+            <form action="/generar_recomendaciones" method="post" style="margin-top:15px;">
+                <button type="submit">
+                    Generar nuevas recomendaciones
+                </button>
+            </form>
+        </div>
+        '''
+        contenido += pagina.seccion_notificaciones.render(usuario)
     else:
-        contenido += "<p style='color:gray;'>Inicia sesión para añadir comentarios.</p>"        
+        contenido = RenderHTML.render_apartado_sesion(None)
+        contenido += "<p style='color:gray;'>Inicia sesión para añadir comentarios.</p>"   
+
+    html = pagina.render_layout(contenido)
+    return render_template_string(html)
+
+@app.route('/limpiar_notificaciones', methods=['POST'])
+def limpiar_notificaciones():
+    usuario = session.get('usuario')
+    if usuario:
+        pagina.seccion_notificaciones.limpiar_notificaciones(usuario)
+    return redirect('/notificaciones')
+
+@app.route('/generar_recomendaciones', methods=['POST'])
+def generar_recomendaciones():
+    usuario = session.get('usuario')
+    if usuario:
+        pagina.seccion_notificaciones.generar_notificaciones_recomendaciones(usuario, pagina.seccion_catalogo.catalogo.productos)
+    return redirect('/notificaciones')
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False)

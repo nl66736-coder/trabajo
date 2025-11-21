@@ -3,6 +3,7 @@ from render_html import RenderHTML
 from datetime import datetime
 from catalogo import CatalogoProductos
 from carrito import Carrito
+from collections import Counter
 import requests
 import json
 import os
@@ -230,19 +231,201 @@ class SeccionInfoSocial:
         return html
 
 class SeccionNotificaciones:
-    def __init__(self):
-        self.titulo = None
-        self.lista = None 
+    def __init__(self, archivo="historial.json"):
+        self.titulo = "Notificaciones Personalizadas"
+        self.archivo = archivo
 
     def establecer_titulo(self, titulo):
         self.titulo = titulo
 
-    def establecer_lista(self, lista):
-        self.lista = lista 
+    def cargar_historial(self):
+        if os.path.exists(self.archivo):
+            try:
+                with open(self.archivo, "r", encoding="utf-8") as f:
+                    return json.load(f)
+            except json.JSONDecodeError:
+                return {}
+        return {}
 
-    def render(self):
-        return RenderHTML.render_seccion_notificaciones(self.titulo, self.lista)
+    def guardar_historial(self, historial):
+        with open(self.archivo, "w", encoding="utf-8") as f:
+            json.dump(historial, f, ensure_ascii=False, indent=4)
+    
+    def agregar_notificacion(self, usuario, texto, link="#", tipo="info"):
+        """Agrega una notificación para un usuario específico"""
+        historial = self.cargar_historial()
+        if usuario not in historial:
+            historial[usuario] = {"compras": [], "notificaciones": []}
+        
+        if "notificaciones" not in historial[usuario]:
+            historial[usuario]["notificaciones"] = []
+        
+        notificacion = {
+            "texto": texto,
+            "link": link,
+            "fecha": datetime.now().strftime("%d/%m/%Y %H:%M"),
+            "tipo": tipo
+        }
+        
+        historial[usuario]["notificaciones"].insert(0, notificacion)
+        
+        self.guardar_historial(historial)
 
+    def obtener_notificaciones(self, usuario):
+        historial = self.cargar_historial()
+        if usuario in historial and "notificaciones" in historial[usuario]:
+            return historial[usuario]["notificaciones"]
+        return []
+
+    def limpiar_notificaciones(self, usuario):
+        historial = self.cargar_historial()
+        if usuario in historial:
+            historial[usuario]["notificaciones"] = []
+            self.guardar_historial(historial)
+
+    def analizar_historial_compras(self, usuario):
+        historial = self.cargar_historial()
+            
+        if usuario not in historial or "compras" not in historial[usuario]:
+            return {
+                "total_compras": 0,
+                "productos_comprados": [],
+                "categorias_preferidas": [],
+                "gasto_total": 0
+                }
+        
+        compras = historial[usuario]["compras"]
+        productos_comprados = []
+        categorias = []
+        gasto_total = 0
+
+        for compra in compras:
+            if "productos" in compra:
+                for prod in compra["productos"]:
+                    productos_comprados.append(prod["nombre"])
+                    gasto_total += float(prod.get("precio", 0)) * prod.get("cantidad", 1)
+                    
+                    # Extraer categoría aproximada del nombre del producto
+                    nombre = prod["nombre"].lower()
+                    if "phone" in nombre or "móvil" in nombre:
+                        categorias.append("Smartphones")
+                    elif "laptop" in nombre or "portátil" in nombre or "ordenador" in nombre:
+                        categorias.append("Portátiles")
+                    elif "watch" in nombre or "reloj" in nombre:
+                        categorias.append("Smartwatches")
+                    elif "buds" in nombre or "auricular" in nombre:
+                        categorias.append("Audio")
+                    elif "tablet" in nombre:
+                        categorias.append("Tablets")
+        categorias_contadas = Counter(categorias)
+        categorias_preferidas = [cat for cat, count in categorias_contadas.most_common(3)]
+        return {
+            "total_compras": len(compras),
+            "productos_comprados": productos_comprados,
+            "categorias_preferidas": categorias_preferidas,
+            "gasto_total": gasto_total
+        }
+    
+    def generar_recomendaciones(self, usuario, catalogo_productos):
+        analisis = self.analizar_historial_compras(usuario)
+        
+        if analisis["total_compras"] == 0:
+            return self._recomendar_productos_populares(catalogo_productos)
+        
+        recomendaciones = []
+        productos_ya_comprados = [p.lower() for p in analisis["productos_comprados"]]
+        
+        for producto in catalogo_productos:
+            nombre_lower = producto["nombre"].lower()
+            if nombre_lower in productos_ya_comprados:
+                continue
+
+            for categoria in analisis["categorias_preferidas"]:
+                cat_lower = categoria.lower()
+                if (cat_lower in nombre_lower or (cat_lower == "smartphones" and "phone" in nombre_lower) or (cat_lower == "portátiles" and ("laptop" in nombre_lower or "pro" in nombre_lower)) or (cat_lower == "smartwatches" and "watch" in nombre_lower) or (cat_lower == "audio" and "buds" in nombre_lower) or (cat_lower == "tablets" and "tablet" in nombre_lower)):
+                    recomendaciones.append(producto)
+                    break
+
+        return recomendaciones[:3]
+    
+    def _recomendar_productos_populares(self, catalogo_productos):
+        return catalogo_productos[:3]
+
+    def notificar_nuevo_producto(self, producto, usuarios_registrados=None):
+        historial = self.cargar_historial()
+        
+        if usuarios_registrados is None:
+            usuarios_relevantes = list(historial.keys())
+        
+        for usuario in usuarios_relevantes:
+            texto = f"Nuevo producto disponible: {producto['nombre']} - {producto['precio']}€"
+            self.agregar_notificacion(
+                usuario, 
+                texto, 
+                "/catalogo",
+                tipo="nuevo_producto"
+            )
+    
+    def generar_notificaciones_recomendaciones(self, usuario, catalogo_productos):
+        recomendaciones = self.generar_recomendaciones(usuario, catalogo_productos)
+        
+        if not recomendaciones:
+            return
+        
+        analisis = self.analizar_historial_compras(usuario)
+        
+        if analisis["total_compras"] == 0:
+            texto = f"¡Bienvenido! Te recomendamos: {recomendaciones[0]['nombre']}"
+        else:
+            if analisis["categorias_preferidas"]:
+                cat_principal = analisis["categorias_preferidas"][0]
+                texto = f"Te recomendamos: {recomendaciones[0]['nombre']}"
+            else:
+                texto = f"Creemos que te puede interesar: {recomendaciones[0]['nombre']}"
+        
+        self.agregar_notificacion(
+            usuario,
+            texto,
+            "/catalogo",
+            tipo="recomendacion"
+        )
+
+    def analizar_comentarios_usuario(self, usuario, comentarios):
+        comentarios_usuario = [c for c in comentarios if c[0] == usuario]
+        
+        if not comentarios_usuario:
+            return {
+                "total_comentarios": 0,
+                "valoracion_promedio": 0,
+                "productos_mencionados": []
+            }
+        
+        total = len(comentarios_usuario)
+        suma_valoraciones = sum(c[2] for c in comentarios_usuario)
+        promedio = suma_valoraciones / total if total > 0 else 0
+        productos_mencionados = []
+
+        for texto in comentarios_usuario:
+            texto_lower = texto.lower()
+            if "phone" in texto_lower:
+                productos_mencionados.append("Smartphone")
+            if "laptop" in texto_lower or "portátil" in texto_lower:
+                productos_mencionados.append("Portátil")
+            if "auricular" in texto_lower or "buds" in texto_lower:
+                productos_mencionados.append("Auriculares")
+    
+        return {
+            "total_comentarios": total,
+            "valoracion_promedio": promedio,
+            "productos_mencionados": list(set(productos_mencionados))
+        }
+    
+    def render(self, usuario=None):
+        if not usuario:
+            return "<p style='color:gray;'>Inicia sesión para ver tus notificaciones.</p>"
+        
+        lista = self.obtener_notificaciones(usuario)
+        return RenderHTML.render_seccion_notificaciones(self.titulo, lista)
 
 class PaginaPrincipal:
     def __init__(self, api_key_news=None):

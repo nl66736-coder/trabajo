@@ -1,32 +1,38 @@
 {
     "Marina": {
-        "compras": []
-    },
-    "Laura": {
-        "compras": []
-    },
-    "Lucas": {
-        "compras": []
-    },
-    "Mael": {
-        "compras": []
-    },
-    "Ale": {
-        "compras": []
-    },
-    "Manuel": {
-        "compras": []
-    },
-    "Nico": {
-        "compras": []
-    },
-    "lucas la cabra": {
-        "compras": []
-    },
-    "Mape": {
-        "compras": []
-    },
-    "Messi": {
-        "compras": []
+        "compras": [
+            {
+                "fecha": "21/11/2025 20:19",
+                "estado": "finalizada",
+                "productos": [
+                    {
+                        "nombre": "ChambaPhone X",
+                        "precio": 999.99,
+                        "cantidad": 1
+                    }
+                ],
+                "fecha_compra": "21/11/2025 20:19"
+            },
+            {
+                "fecha": "21/11/2025 20:20",
+                "estado": "finalizada",
+                "productos": [
+                    {
+                        "nombre": "ChambaWatch Series 5",
+                        "precio": 399.99,
+                        "cantidad": 1
+                    }
+                ],
+                "fecha_compra": "21/11/2025 20:20"
+            }
+        ],
+        "notificaciones": [
+            {
+                "texto": "¡Compra realizada con éxito! Gracias por tu confianza",
+                "link": "/notificaciones",
+                "fecha": "21/11/2025 20:20",
+                "tipo": "info"
+            }
+        ]
     }
 }

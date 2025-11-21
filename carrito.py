@@ -51,11 +51,16 @@ class Carrito:
             total = self.calcular_total()
             html += f"<h2>Total: {total:.2f} €</h2>"
 
-            # Botón para vaciar el carrito
+            # Botones para vaciar el carrito o finalizar compra
             html += """
-            <form action='/vaciar_carrito' method='post'>
-                <button type='submit' style='background:red; color:white;'>Vaciar carrito</button>
-            </form>
+            <div>
+                <form action='/finalizar_compra' method='post'>
+                    <button type='submit' style='background:#4caf50; color:white;'>Finalizar Compra</button>
+                </form>
+                <form action='/vaciar_carrito' method='post'>
+                    <button type='submit' style='background:red; color:white;'>Vaciar carrito</button>
+                </form>
+            </div>
             """
 
         html += "</section>"

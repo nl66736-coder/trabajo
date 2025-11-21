@@ -186,13 +186,42 @@ class RenderHTML:
     
     @staticmethod
     def render_seccion_notificaciones(titulo, lista):
-        html = f'<div class="notificaciones"><h3>{titulo}</h3>'
+        html = '<section id="notificaciones">\n'
+        html += f'<h1>{titulo}</h1>\n'
+        
         if lista:
-            html += "<ul>"
-            for n in lista:
-                html += f'<li><a href="{n["link"]}">{n["texto"]}</a></li>'
-            html += "</ul>"
+            nuevos_productos = sum(1 for n in lista if n.get("tipo") == "nuevo_producto")
+            recomendaciones = sum(1 for n in lista if n.get("tipo") == "recomendacion")
+            
+            html += '<div>\n'
+            html += f'<p style="margin:5px 0;"><strong>Resumen:</strong></p>\n'
+            html += f'<p style="margin:5px 0;">{nuevos_productos} nuevos productos</p>\n'
+            html += f'<p style="margin:5px 0;">{recomendaciones} recomendaciones personalizadas</p>\n'
+            html += '</div>\n'
+            for i, n in enumerate(lista):
+                tipo = n.get("tipo", "info")
+            html += f'''
+            <div>
+                <p style="margin:0 0 8px 0;">
+                    <span style="font-size:24px; margin-right:8px;"></span>
+                    <a href="{n["link"]}">{n["texto"]}</a>
+                </p>
+                <small style="color:#666;"> {n["fecha"]}</small>
+            </div>
+            '''
+            html += '</div>\n'
+            html += '''
+            <form action="/limpiar_notificaciones" method="post" style="margin-top:20px;">
+                <button type="submit">Limpiar todas las notificaciones</button>
+            </form>
+            '''
         else:
-            html += "<p>No tienes notificaciones por ahora.</p>"
-        html += "</div>"
+            html += '''
+            <div>
+                <p style="color:#666; font-size:16px;">No tienes notificaciones por ahora.</p>
+                <p style="color:#999; font-size:14px;">Te avisaremos cuando haya nuevos productos o recomendaciones para ti.</p>
+            </div>
+            '''
+        html += "</section>\n"
         return html
+                
