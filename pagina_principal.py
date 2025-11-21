@@ -88,21 +88,7 @@ class SeccionComentarios:
         fecha = datetime.now().strftime("%d/%m/%Y %H:%M")
         self.comentarios.append((autor, texto, valoracion, fecha))
         self.guardar_comentarios()
-
-    def eliminar_comentario(self, comentario_id):
-        """Elimina un comentario por su índice y guarda los cambios."""
-        if 0 <= comentario_id < len(self.comentarios):
-            self.comentarios.pop(comentario_id)
-            self.guardar_comentarios()
-
-    def editar_comentario(self, comentario_id, nuevo_texto, nueva_valoracion):
-        """Edita un comentario por su índice y guarda cambios"""
-        if 0 <= comentario_id < len(self.comentarios):
-            autor, _, _, fecha_original = self.comentarios[comentario_id]
-            fecha = datetime.now().strftime("%d/%m/%Y %H:%M")
-            self.comentarios[comentario_id] = (autor, nuevo_texto, max(1, min(5, nueva_valoracion)), fecha)
-            self.guardar_comentarios()
-
+        
     def guardar_comentarios(self):
         data = [
             {"autor": a, "texto": t, "valoracion": v, "fecha": f}
@@ -143,24 +129,15 @@ class SeccionTendencias:
     def __init__(self, api_key=None):
         self.api_key = api_key
         self.tendencias = []
-
-        # Palabras clave relevantes para productos tecnológicos de la tienda
-        self.palabras_clave = [
-            "smartphone", "laptop", "ordenador", "portátil", "tablet",
-            "auriculares", "gadgets", "smartwatch", "televisión", "cámara"
-        ]
     
     def actualizar_tendencias(self):
-        import requests
 
         if not self.api_key:
             self.tendencias = []
             return
         
-        # Construimos la query para que la API devuelva solo noticias relevantes
-        query = " OR ".join(self.palabras_clave)
-        url = url = (f"https://gnews.io/api/v4/search?"
-        f"q=technology OR smartphone OR laptop OR gadget OR IA"
+        url = (f"https://gnews.io/api/v4/search?"
+        f"q=tecnología OR smartphone OR laptop OR gadgets OR IA"
         f"&lang=es"
         f"&max=5"
         f"&token={self.api_key}"
@@ -173,7 +150,6 @@ class SeccionTendencias:
                 self.tendencias = []
                 return
             
-            # Guardamos solo los 5 primeros resultados, asegurando que título y descripción existan
             self.tendencias = [
                 {
                     "titulo": art.get("title", "Sin título"),
@@ -207,6 +183,51 @@ class SeccionTendencias:
         html += "</section>"
         return html
 
+class SeccionInfoSocial:
+    """
+    Sección que muestra la información legal y administrativa de la empresa.
+    """
+    def __init__(self):
+        self.razon_social = None       # Nombre oficial de la empresa
+        self.forma_juridica = None     # S.L., S.A., S.A.U., etc.
+        self.cif_nif = None            # Código fiscal
+        self.domicilio_social = None   # Dirección legal
+        self.capital_social = None     # Capital registrado
+        self.numero_registro = None    # Registro mercantil o equivalente
+
+    # Métodos para establecer cada dato
+    def establecer_razon_social(self, valor):
+        self.razon_social = valor
+
+    def establecer_forma_juridica(self, valor):
+        self.forma_juridica = valor
+
+    def establecer_cif_nif(self, valor):
+        self.cif_nif = valor
+
+    def establecer_domicilio_social(self, valor):
+        self.domicilio_social = valor
+
+    def establecer_capital_social(self, valor):
+        self.capital_social = valor
+
+    def establecer_numero_registro(self, valor):
+        self.numero_registro = valor
+
+    # Render HTML
+    def render(self):
+        html = "<section id='info-social'>\n"
+        html += "<h2>Información social de la empresa</h2>\n"
+        html += "<ul>\n"
+        if self.razon_social: html += f"<li><strong>Razón social:</strong> {self.razon_social}</li>\n"
+        if self.forma_juridica: html += f"<li><strong>Forma jurídica:</strong> {self.forma_juridica}</li>\n"
+        if self.cif_nif: html += f"<li><strong>CIF/NIF:</strong> {self.cif_nif}</li>\n"
+        if self.domicilio_social: html += f"<li><strong>Domicilio social:</strong> {self.domicilio_social}</li>\n"
+        if self.capital_social: html += f"<li><strong>Capital social:</strong> {self.capital_social}</li>\n"
+        if self.numero_registro: html += f"<li><strong>Número de registro:</strong> {self.numero_registro}</li>\n"
+        html += "</ul>\n</section>"
+        return html
+
 
 class PaginaPrincipal:
     def __init__(self, api_key_news=None):
@@ -217,12 +238,13 @@ class PaginaPrincipal:
         self.seccion_hist_evo = SeccionHistoriaEvolucion()
         self.seccion_tendencias = SeccionTendencias(api_key=api_key_news)
         self.seccion_catalogo = SeccionCatalogo()
+        self.seccion_info_social = SeccionInfoSocial()
         
     
     def construir(self):
         # Información
         self.seccion_info.establecer_nombre("Chamba Store")
-        self.seccion_info.establecer_imagen("/static/dragon (1).png")
+        self.seccion_info.establecer_imagen("/static/dragon.png")
         self.seccion_info.establecer_descripcion("""En nuestra tienda online encontrarás mucho más que tecnología, encontrarás innovación, calidad y confianza.
                                                    Seleccionamos cuidadosamente los mejores productos electrónicos del mercado -desde smartphones y ordenadores hasta accesorios inteligentes- para ofrecerte una experiencia de compra fácil, segura y con garantía total.
                                                    Porque creemos que la tecnología debe mejorar tu vida, no complicarla.""")
@@ -257,6 +279,26 @@ class PaginaPrincipal:
         # Tendencias
         self.seccion_tendencias.actualizar_tendencias()
 
+         # Catálogo
+        if not self.seccion_catalogo.catalogo.productos:
+            ejemplos_productos = [
+                ("ChambaPhone X", "El smartphone más avanzado de Chamba Store con cámara de 108MP y batería de larga duración.", 999.99, "Caja ecológica", "/static/ChambaPhone.png"),
+                ("ChambaLaptop Pro", "Portátil ultraligero con procesador de última generación y pantalla Retina.", 1299.99, "Estuche protector", "/static/ChambaLaptopPro.png"),
+                ("ChambaWatch Series 5", "Smartwatch con monitorización de salud y conectividad total.", 399.99, "Caja premium", "/static/ChambaWatch.png"),
+                ("ChambaBuds Wireless", "Auriculares inalámbricos con cancelación activa de ruido y sonido envolvente.", 149.99, "Estuche de carga", "/static/ChamBabuds.png"),
+                ("ChambaTablet S10", "Tablet versátil para trabajo y entretenimiento con pantalla de alta resolución.", 499.99, "Funda protectora", "/static/ChambaTablet.png")
+            ]
+            for nombre, descripcion, precio, empaquetado, imagen in ejemplos_productos:
+                self.seccion_catalogo.agregar_producto(nombre, descripcion, precio, empaquetado, imagen)
+
+        # Información social de la tienda
+        self.seccion_info_social.establecer_razon_social("Chamba Store S.L.")
+        self.seccion_info_social.establecer_forma_juridica("Sociedad Limitada (S.L.)")
+        self.seccion_info_social.establecer_cif_nif("B12345678")
+        self.seccion_info_social.establecer_domicilio_social("Rúa de La Habana, 88, Ourense, Galicia")
+        self.seccion_info_social.establecer_capital_social("50.000 €")
+        self.seccion_info_social.establecer_numero_registro("OR-123456")
+
     def render_html(self):
         menu_html = self.menu.render()
         info_html = self.seccion_info.render()
@@ -264,8 +306,9 @@ class PaginaPrincipal:
         contacto_html = self.seccion_contacto.render()
         comentarios_html = self.seccion_comentarios.render()
         tendencias_html = self.seccion_tendencias.render()
+        info_social_html = self.seccion_info_social.render()
         
-        return RenderHTML.render_pagina_completa(menu_html, info_html, historia_html, contacto_html, comentarios_html, tendencias_html)
+        return RenderHTML.render_pagina_completa(menu_html, info_html, historia_html, contacto_html, comentarios_html, tendencias_html, info_social_html)
     
     def render_layout(self, contenido_central: str) -> str:
         """

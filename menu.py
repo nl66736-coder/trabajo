@@ -21,9 +21,13 @@ class MenuNavegacion:
         menu.agregar_item("Comentarios", "/comentarios")
         menu.agregar_item("Tendencias", "/tendencias")
         menu.agregar_item("Inicio de sesion", "/login")
+        menu.agregar_item("Catalogo", "/catalogo")
+        menu.agregar_item("Info Social", "/info-social")
+        menu.agregar_item("Crear Cuenta", "/registro")
+        menu.agregar_item("Cerrar Cuenta", "/logout")
         return menu
     
-    #prueba
+
     
 
 

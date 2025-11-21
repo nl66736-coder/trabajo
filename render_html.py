@@ -67,18 +67,6 @@ class RenderHTML:
                 html += f"    <small style='color:gray;'>Publicado el {fecha}</small><br>\n"
                 html += f"    <p>{texto}</p>\n"
                 html += f"    <p>Valoración: {estrellas}</p>\n"
-
-                html += f"    <form action='/eliminar/{i}' method='post' style='display:inline;'>\n"
-                html += f"        <button type='submit' style='background-color:#d9534f; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;'>Eliminar</button>\n"
-                html += f"    </form>\n"
-
-                html += f"""
-                <form action='/editar/{i}' method='post' style='margin-top:5px;'>
-                    <input type='text' name='texto' value="{texto}" required style='width:70%; padding:3px;'>
-                    <input type='number' name='valoracion' min='1' max='5' value="{valoracion}" required style='width:50px;'>
-                    <button type='submit' style='background-color:#0275d8; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;'>Editar</button>
-                </form>
-                """
                 html += f"  </div>\n"
         else:
             html += "<p>No hay comentarios aún. ¡Sé el primero en dejar uno!</p>\n"
@@ -92,7 +80,6 @@ class RenderHTML:
         <section id="nuevo-comentario" style="margin:20px;">
             <h2>Deja tu comentario</h2>
             <form action="/comentar" method="post">
-                <input type="text" name="autor" placeholder="Tu nombre" required><br><br>
                 <textarea name="texto" placeholder="Escribe tu comentario..." required></textarea><br><br>
                 <label>Valoración (1-5):</label>
                 <input type="number" name="valoracion" min="1" max="5" required><br><br>
@@ -102,7 +89,7 @@ class RenderHTML:
         """
     
     @staticmethod
-    def render_pagina_completa(menu_html, info_html, historia_evolucion, contacto_html, comentarios_html, tendencias):
+    def render_pagina_completa(menu_html, info_html, historia_evolucion, contacto_html, comentarios_html, tendencias , info_social_html):
         html = "<!DOCTYPE html>\n<html>\n<head>\n"
         html += "  <meta charset='UTF-8'>\n"
         html += "  <title>Chamba_Store</title>\n"
@@ -113,6 +100,7 @@ class RenderHTML:
         html += contacto_html
         html += comentarios_html
         html += tendencias
+        html += info_social_html
 
         html += "</body>\n</html>"
         return html
@@ -121,18 +109,6 @@ class RenderHTML:
     def render_seccion_catalogo(productos):
         html = '<section id="catalogo">\n'
         html += "<h1>Catálogo de productos</h1>\n"
-
-        # Formulario para añadir productos
-        html += """
-        <form action="/agregar_producto" method="post" style="margin-bottom:20px;">
-            <input type="text" name="nombre" placeholder="Nombre" required>
-            <input type="text" name="descripcion" placeholder="Descripción" required>
-            <input type="number" step="0.01" name="precio" placeholder="Precio" required>
-            <input type="text" name="empaquetado" placeholder="Empaquetado">
-            <input type="text" name="imagen" placeholder="URL de la imagen">
-            <button type="submit">Añadir producto</button>
-        </form>
-        """
 
         # Mostrar productos existentes
         if productos:
@@ -159,5 +135,30 @@ class RenderHTML:
             Usuario: <input type="text" name="usuario"><br>
             Contraseña: <input type="password" name="contrasenha"><br>
             <button type="submit">Iniciar sesión</button>
+        </form>
+        """
+       
+    @staticmethod
+    def render_registro():
+        return """
+        <form method="POST" action="/registro">
+            Nuevo usuario: <input type="text" name="usuario"><br>
+            Nueva contraseña: <input type="password" name="contrasena"><br>
+            <button type="submit">Registrarse</button>
+        </form>
+        """
+    @staticmethod
+    def render_boton_registro():
+        return """
+        <form action="/registro" method="GET">
+             <button type="submit">Registrarse</button>
+        </form>
+        """
+    
+    @staticmethod
+    def render_boton_login():
+        return """
+        <form action="/login" method="GET">
+             <button type="submit">Iniciar Sesion</button>
         </form>
         """
