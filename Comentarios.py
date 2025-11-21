@@ -43,7 +43,9 @@ def contacto():
 @app.route('/comentarios')
 def comentarios():
     # Comentarios + formulario de nuevo comentario
-    contenido = pagina.seccion_comentarios.render()
+    contenido = RenderHTML.render_apartado_sesion(session.get('usuario'))
+    contenido += pagina.seccion_comentarios.render()
+    #contenido = RenderHTML.render_apartado_sesion(session.get('usuario'))
     if 'usuario' in session:
         contenido += RenderHTML.render_formulario_nuevo_comentario()
     else:
@@ -129,6 +131,7 @@ def registro():
     else:
         return RenderHTML.render_registro()
 
+# ---------- cerrar sesión ----------
 @app.route('/logout')
 def logout():
     session.pop('usuario', None)  # elimina la clave de sesión si existe
@@ -136,3 +139,4 @@ def logout():
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False)
+

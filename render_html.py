@@ -162,3 +162,15 @@ class RenderHTML:
              <button type="submit">Iniciar Sesion</button>
         </form>
         """
+    
+    @staticmethod
+    def render_apartado_sesion(usuario=None):
+        if usuario:
+            return f"""
+            <div style="border:1px solid #ccc; padding:10px; margin:10px;">
+                <p>Sesión iniciada como <b>{usuario}</b></p>
+                <a href="/logout"><button>Cerrar sesión</button></a>
+            </div>
+            """
+        else:
+            return RenderHTML.render_boton_login()
