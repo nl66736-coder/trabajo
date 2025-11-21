@@ -105,7 +105,7 @@ class RenderHTML:
         html += "</body>\n</html>"
         return html
     
-   @staticmethod
+    @staticmethod
     def render_seccion_catalogo(productos):
         html = '<section id="catalogo">\n'
         html += "<h1>Catálogo de productos</h1>\n"
