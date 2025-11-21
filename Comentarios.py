@@ -11,6 +11,14 @@ def guardar_usuarios(usuarios):
     with open('usuarios.json', 'w') as archivo:
         json.dump(usuarios, archivo)
 
+def cargar_historial():
+    with open("historial.json", "r", encoding="utf-8") as f:
+        return json.load(f)
+    
+def guardar_historial(historial):
+    with open('historial.json', 'w', encoding="utf-8") as archivo:
+        json.dump(historial, archivo, indent=4, ensure_ascii=False)
+
 app = Flask(__name__)
 app.secret_key = 'ab23252894yrhugioghskjdhg0uewri'
 pagina = PaginaPrincipal(api_key_news="5a7f6908927b43c3fd3f2d9f4a03d271")
@@ -43,7 +51,8 @@ def contacto():
 @app.route('/comentarios')
 def comentarios():
     # Comentarios + formulario de nuevo comentario
-    contenido = pagina.seccion_comentarios.render()
+    contenido = RenderHTML.render_apartado_sesion(session.get('usuario'))
+    contenido += pagina.seccion_comentarios.render()
     if 'usuario' in session:
         contenido += RenderHTML.render_formulario_nuevo_comentario()
     else:
@@ -74,6 +83,51 @@ def catalogo():
     contenido = pagina.seccion_catalogo.render()
     html = pagina.render_layout(contenido)
     return render_template_string(html)
+
+# ---------- AÑADIR CARRITO ----------
+@app.route("/añadir_carrito/<int:indice>", methods=["POST"])
+def añadir_carrito(indice):
+    # Obtenemos el producto del catálogo por índice
+    producto = pagina.seccion_catalogo.catalogo.productos[indice]
+    cantidad = int(request.form.get("cantidad", 1))  #recogemos la cantidad del formulario
+    # Lo añadimos al carrito
+    pagina.carrito.añadir_producto(producto)
+    # Renderizamos la página con el carrito actualizado
+    contenido = pagina.carrito.render()
+    html = pagina.render_layout(contenido)
+    return render_template_string(html)
+
+# ---------- ELIMINAR CARRITO/PRODUCTO ----------
+@app.route("/eliminar_carrito/<int:indice>", methods=["POST"])
+def eliminar_carrito(indice):
+    # Eliminamos el producto del carrito según el índice recibido en la URL
+    pagina.carrito.eliminar_producto(indice)
+    # Volvemos a renderizar el carrito actualizado
+    contenido = pagina.carrito.render()
+    # Integramos el carrito dentro del layout
+    html = pagina.render_layout(contenido)
+    # Devolvemos el HTML actualizado al navegador
+    return render_template_string(html)
+
+# ---------- VER CARRITO ----------
+@app.route("/carrito")
+def ver_carrito():
+    # Renderizamos el contenido del carrito usando el método render()
+    contenido = pagina.carrito.render()
+    # Lo integramos dentro del layout general de la página
+    html = pagina.render_layout(contenido)
+    # Devolvemos el HTML generado al navegador
+    return render_template_string(html)
+
+# ---------- VACIAR CARRITO ----------
+@app.route("/vaciar_carrito", methods=["POST"])
+def vaciar_carrito():
+    pagina.carrito.vaciar()
+    contenido = pagina.carrito.render()
+    html = pagina.render_layout(contenido)
+    return render_template_string(html)
+
+
 
 # ---------- ACCIONES SOBRE COMENTARIOS ----------
 
@@ -118,6 +172,7 @@ def registro():
         usuario = request.form['usuario']
         contrasena = request.form['contrasena']
         usuarios = cargar_usuarios()
+        historial = cargar_historial()
 
         if usuario in usuarios:
             return RenderHTML.render_registro() + "<p style='color:red;'>El usuario ya existe. Intenta con otro nombre o inicie sesión.</p>" + RenderHTML.render_boton_login()
@@ -125,6 +180,8 @@ def registro():
         else:
             usuarios[usuario] = contrasena
             guardar_usuarios(usuarios)
+            historial[usuario] = {"compras": []}
+            guardar_historial(historial)
             return RenderHTML.render_registro() + "<p style='color:red;'>El usuario se ha registrado corectamente. Puede iniciar sesión</p>" +  RenderHTML.render_boton_login()
     else:
         return RenderHTML.render_registro()
@@ -133,6 +190,14 @@ def registro():
 def logout():
     session.pop('usuario', None)  # elimina la clave de sesión si existe
     return redirect('/')
+
+@app.route('/notificaciones')
+def notificaciones():
+    usuario = session.get('usuario')
+    if usuario:
+        contenido = RenderHTML.render_apartado_sesion(usuario)
+    else:
+        contenido += "<p style='color:gray;'>Inicia sesión para añadir comentarios.</p>"        
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False)

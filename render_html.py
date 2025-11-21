@@ -112,14 +112,21 @@ class RenderHTML:
 
         # Mostrar productos existentes
         if productos:
-            for p in productos:
+            for i, p in enumerate(productos):  # 👈 usamos enumerate para tener el índice
                 html += f"""
                 <div style='border:1px solid #ccc; margin:10px; padding:10px; border-radius:8px;'>
                     <h3>{p['nombre']}</h3>
                     <p>{p['descripcion']}</p>
                     <p><strong>Precio:</strong> {p['precio']} €</p>
                     <p><strong>Empaquetado:</strong> {p['empaquetado']}</p>
-                    <img src="{p['imagen']}" alt="{p['nombre']}" style="max-width:200px;">
+                    <img src="{p['imagen']}" alt="{p['nombre']}" style="max-width:200px;"><br>
+            
+                    <!-- Formulario para añadir al carrito con cantidad -->
+                    <form action="/añadir_carrito/{i}" method="post">
+                        <label for="cantidad">Cantidad:</label>
+                        <input type="number" name="cantidad" value="1" min="1">
+                        <button type="submit">Añadir al carrito</button>
+                    </form>
                 </div>
                 """
         else:
@@ -127,6 +134,8 @@ class RenderHTML:
 
         html += "</section>\n"
         return html
+
+
     
     @staticmethod
     def render_login():
@@ -162,3 +171,28 @@ class RenderHTML:
              <button type="submit">Iniciar Sesion</button>
         </form>
         """
+    
+    @staticmethod
+    def render_apartado_sesion(usuario=None):
+        if usuario:
+            return f"""
+            <div style="border:1px solid #ccc; padding:10px; margin:10px;">
+                <p>Sesión iniciada como <b>{usuario}</b></p>
+                <a href="/logout"><button>Cerrar sesión</button></a>
+            </div>
+            """
+        else:
+            return RenderHTML.render_boton_login()
+    
+    @staticmethod
+    def render_seccion_notificaciones(titulo, lista):
+        html = f'<div class="notificaciones"><h3>{titulo}</h3>'
+        if lista:
+            html += "<ul>"
+            for n in lista:
+                html += f'<li><a href="{n["link"]}">{n["texto"]}</a></li>'
+            html += "</ul>"
+        else:
+            html += "<p>No tienes notificaciones por ahora.</p>"
+        html += "</div>"
+        return html
