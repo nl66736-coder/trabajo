@@ -43,7 +43,8 @@ def contacto():
 @app.route('/comentarios')
 def comentarios():
     # Comentarios + formulario de nuevo comentario
-    contenido = pagina.seccion_comentarios.render()
+    contenido = RenderHTML.render_apartado_sesion(session.get('usuario'))
+    contenido += pagina.seccion_comentarios.render()
     if 'usuario' in session:
         contenido += RenderHTML.render_formulario_nuevo_comentario()
     else:
