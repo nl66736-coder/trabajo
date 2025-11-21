@@ -38,5 +38,21 @@
         "empaquetado": "Funda protectora",
         "imagen": "/static/ChambaTablet.png",
         "fecha_agregado": "20/11/2025 18:09"
-    }
+    },
+    {
+    "nombre": "ChambaMouse X-Pro",
+    "descripcion": "Ratón ergonómico de alto rendimiento con sensor óptico de precisión y conectividad dual.",
+    "precio": 59.99,
+    "empaquetado": "Caja rígida",
+    "imagen": "/static/ChambaMouse.png",
+    "fecha_agregado": "20/11/2025 18:09"
+    },
+    {
+    "nombre": "ChambaKeys MK-1",
+    "descripcion": "Teclado mecánico compacto (75%) diseñado para rendimiento y confort. Teclas retroiluminadas RGB, switches táctiles de baja respuesta y reposamuñecas ergonómico extraíble. Ideal para trabajo y gaming, con teclas programables y conexión USB-C de alta velocidad.",
+    "precio": 89.99,
+    "empaquetado": "Caja premium con reposamuñecas",
+    "imagen": "/static/ChambaKeys.png",
+    "fecha_agregado": "20/11/2025 18:09"
+}
 ]
