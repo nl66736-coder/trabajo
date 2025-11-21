@@ -105,21 +105,26 @@ class RenderHTML:
         html += "</body>\n</html>"
         return html
     
-    @staticmethod
+   @staticmethod
     def render_seccion_catalogo(productos):
         html = '<section id="catalogo">\n'
         html += "<h1>Catálogo de productos</h1>\n"
 
         # Mostrar productos existentes
         if productos:
-            for p in productos:
+            for i, p in enumerate(productos):  # 👈 usamos enumerate para tener el índice
                 html += f"""
                 <div style='border:1px solid #ccc; margin:10px; padding:10px; border-radius:8px;'>
                     <h3>{p['nombre']}</h3>
                     <p>{p['descripcion']}</p>
                     <p><strong>Precio:</strong> {p['precio']} €</p>
                     <p><strong>Empaquetado:</strong> {p['empaquetado']}</p>
-                    <img src="{p['imagen']}" alt="{p['nombre']}" style="max-width:200px;">
+                    <img src="{p['imagen']}" alt="{p['nombre']}" style="max-width:200px;"><br>
+                
+                    <!-- Botón para añadir al carrito -->
+                    <form action="/añadir_carrito/{i}" method="post">
+                        <button type="submit">Añadir al carrito</button>
+                    </form>
                 </div>
                 """
         else:
@@ -127,6 +132,7 @@ class RenderHTML:
 
         html += "</section>\n"
         return html
+
     
     @staticmethod
     def render_login():

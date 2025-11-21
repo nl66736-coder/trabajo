@@ -2,6 +2,7 @@ from menu import MenuNavegacion
 from render_html import RenderHTML
 from datetime import datetime
 from catalogo import CatalogoProductos
+from carrito import Carrito
 import requests
 import json
 import os
@@ -239,6 +240,7 @@ class PaginaPrincipal:
         self.seccion_tendencias = SeccionTendencias(api_key=api_key_news)
         self.seccion_catalogo = SeccionCatalogo()
         self.seccion_info_social = SeccionInfoSocial()
+        self.carrito = Carrito()
         
     
     def construir(self):

@@ -75,6 +75,41 @@ def catalogo():
     html = pagina.render_layout(contenido)
     return render_template_string(html)
 
+# ---------- AÑADIR CARRITO ----------
+@app.route("/añadir_carrito/<int:indice>", methods=["POST"])
+def añadir_carrito(indice):
+    # Obtenemos el producto del catálogo por índice
+    producto = pagina.seccion_catalogo.catalogo.productos[indice]
+    # Lo añadimos al carrito
+    pagina.carrito.añadir_producto(producto)
+    # Renderizamos la página con el carrito actualizado
+    contenido = pagina.carrito.render()
+    html = pagina.render_layout(contenido)
+    return render_template_string(html)
+
+# ---------- ELIMINAR CARRITO/PRODUCTO ----------
+@app.route("/eliminar_carrito/<int:indice>", methods=["POST"])
+def eliminar_carrito(indice):
+    # Eliminamos el producto del carrito según el índice recibido en la URL
+    pagina.carrito.eliminar_producto(indice)
+    # Volvemos a renderizar el carrito actualizado
+    contenido = pagina.carrito.render()
+    # Integramos el carrito dentro del layout
+    html = pagina.render_layout(contenido)
+    # Devolvemos el HTML actualizado al navegador
+    return render_template_string(html)
+
+# ---------- VER CARRITO ----------
+@app.route("/carrito")
+def ver_carrito():
+    # Renderizamos el contenido del carrito usando el método render()
+    contenido = pagina.carrito.render()
+    # Lo integramos dentro del layout general de la página
+    html = pagina.render_layout(contenido)
+    # Devolvemos el HTML generado al navegador
+    return render_template_string(html)
+
+
 # ---------- ACCIONES SOBRE COMENTARIOS ----------
 
 @app.route('/comentar', methods=['POST'])

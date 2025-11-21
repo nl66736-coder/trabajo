@@ -40,5 +40,11 @@
         "texto": "Comentario de prueba",
         "valoracion": 4,
         "fecha": "20/11/2025 16:19"
+    },
+    {
+        "autor": "Ale",
+        "texto": "La Champlay me pareció de calidad normal y su precio es muy alto",
+        "valoracion": 3,
+        "fecha": "21/11/2025 12:42"
     }
 ]
