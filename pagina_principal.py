@@ -229,6 +229,20 @@ class SeccionInfoSocial:
         html += "</ul>\n</section>"
         return html
 
+class SeccionNotificaciones:
+    def __init__(self):
+        self.titulo = None
+        self.lista = None 
+
+    def establecer_titulo(self, titulo):
+        self.titulo = titulo
+
+    def establecer_lista(self, lista):
+        self.lista = lista 
+
+    def render(self):
+        return RenderHTML.render_seccion_notificaciones(self.titulo, self.lista)
+
 
 class PaginaPrincipal:
     def __init__(self, api_key_news=None):
@@ -241,6 +255,7 @@ class PaginaPrincipal:
         self.seccion_catalogo = SeccionCatalogo()
         self.seccion_info_social = SeccionInfoSocial()
         self.carrito = Carrito()
+        self.seccion_notificaciones = SeccionNotificaciones()
         
     
     def construir(self):
@@ -281,7 +296,7 @@ class PaginaPrincipal:
         # Tendencias
         self.seccion_tendencias.actualizar_tendencias()
 
-         # Catálogo
+        # Catálogo
         if not self.seccion_catalogo.catalogo.productos:
             ejemplos_productos = [
                 ("ChambaPhone X", "El smartphone más avanzado de Chamba Store con cámara de 108MP y batería de larga duración.", 999.99, "Caja ecológica", "/static/ChambaPhone.png"),
@@ -300,6 +315,10 @@ class PaginaPrincipal:
         self.seccion_info_social.establecer_domicilio_social("Rúa de La Habana, 88, Ourense, Galicia")
         self.seccion_info_social.establecer_capital_social("50.000 €")
         self.seccion_info_social.establecer_numero_registro("OR-123456")
+
+        #Notificaciones
+        self.seccion_notificaciones.establecer_titulo("Notificaciones Personalizadas")
+
 
     def render_html(self):
         menu_html = self.menu.render()
@@ -322,7 +341,7 @@ class PaginaPrincipal:
         html += "<title>Chamba Store</title>\n"
         html += "</head>\n<body>\n"
         html += self.menu.render()      # menú arriba
-        html += contenido_central       # contenido de /inicio, /contacto, etc.
+        html += contenido_central       # contenido de /inicio
         html += "</body>\n</html>"
         return html
     
@@ -331,10 +350,3 @@ class PaginaPrincipal:
         with open(nombre_archivo, 'w', encoding='utf-8') as archivo:
             archivo.write(html_contenido)
         return nombre_archivo
-
-
-if __name__ == "__main__":
-    pagina = PaginaPrincipal()
-    pagina.construir()
-    archivo_generado = pagina.guardar_html("chamba_store.html")
-    print(f"✅ Archivo generado: {archivo_generado}")

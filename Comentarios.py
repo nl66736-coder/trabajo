@@ -191,5 +191,13 @@ def logout():
     session.pop('usuario', None)  # elimina la clave de sesión si existe
     return redirect('/')
 
+@app.route('/notificaciones')
+def notificaciones():
+    usuario = session.get('usuario')
+    if usuario:
+        contenido = RenderHTML.render_apartado_sesion(usuario)
+    else:
+        contenido += "<p style='color:gray;'>Inicia sesión para añadir comentarios.</p>"        
+
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False)

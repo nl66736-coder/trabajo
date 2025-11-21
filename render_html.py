@@ -183,3 +183,16 @@ class RenderHTML:
             """
         else:
             return RenderHTML.render_boton_login()
+    
+    @staticmethod
+    def render_seccion_notificaciones(titulo, lista):
+        html = f'<div class="notificaciones"><h3>{titulo}</h3>'
+        if lista:
+            html += "<ul>"
+            for n in lista:
+                html += f'<li><a href="{n["link"]}">{n["texto"]}</a></li>'
+            html += "</ul>"
+        else:
+            html += "<p>No tienes notificaciones por ahora.</p>"
+        html += "</div>"
+        return html
