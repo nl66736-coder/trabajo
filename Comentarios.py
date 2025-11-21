@@ -80,6 +80,7 @@ def catalogo():
 def añadir_carrito(indice):
     # Obtenemos el producto del catálogo por índice
     producto = pagina.seccion_catalogo.catalogo.productos[indice]
+    cantidad = int(request.form.get("cantidad", 1))  #recogemos la cantidad del formulario
     # Lo añadimos al carrito
     pagina.carrito.añadir_producto(producto)
     # Renderizamos la página con el carrito actualizado
@@ -108,6 +109,15 @@ def ver_carrito():
     html = pagina.render_layout(contenido)
     # Devolvemos el HTML generado al navegador
     return render_template_string(html)
+
+# ---------- VACIAR CARRITO ----------
+@app.route("/vaciar_carrito", methods=["POST"])
+def vaciar_carrito():
+    pagina.carrito.vaciar()
+    contenido = pagina.carrito.render()
+    html = pagina.render_layout(contenido)
+    return render_template_string(html)
+
 
 
 # ---------- ACCIONES SOBRE COMENTARIOS ----------

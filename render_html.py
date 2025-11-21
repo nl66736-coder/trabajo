@@ -120,9 +120,11 @@ class RenderHTML:
                     <p><strong>Precio:</strong> {p['precio']} €</p>
                     <p><strong>Empaquetado:</strong> {p['empaquetado']}</p>
                     <img src="{p['imagen']}" alt="{p['nombre']}" style="max-width:200px;"><br>
-                
-                    <!-- Botón para añadir al carrito -->
+            
+                    <!-- Formulario para añadir al carrito con cantidad -->
                     <form action="/añadir_carrito/{i}" method="post">
+                        <label for="cantidad">Cantidad:</label>
+                        <input type="number" name="cantidad" value="1" min="1">
                         <button type="submit">Añadir al carrito</button>
                     </form>
                 </div>
@@ -132,6 +134,7 @@ class RenderHTML:
 
         html += "</section>\n"
         return html
+
 
     
     @staticmethod
