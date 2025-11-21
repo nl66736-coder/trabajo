@@ -39,4 +39,12 @@
         "imagen": "/static/ChambaTablet.png",
         "fecha_agregado": "20/11/2025 18:09"
     }
+    {
+        "nombre": "Champlay Gaming Console",
+        "descripcion": "Consola de videojuegos de última generación con gráficos 4K y amplio catálogo de juegos.",
+        "precio": 599.99,
+        "empaquetado": "Caja de colección",
+        "imagen": "/static/Champlay.png",
+        "fecha_agregado": "20/11/2025 18:09"
+    }
 ]
