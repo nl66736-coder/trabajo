@@ -44,7 +44,11 @@ def contacto():
 def comentarios():
     # Comentarios + formulario de nuevo comentario
     contenido = pagina.seccion_comentarios.render()
-    contenido += RenderHTML.render_formulario_nuevo_comentario()
+    if 'usuario' in session:
+        contenido += RenderHTML.render_formulario_nuevo_comentario()
+    else:
+        contenido += "<p style='color:gray;'>Inicia sesión para añadir comentarios.</p>"
+    
     html = pagina.render_layout(contenido)
     return render_template_string(html)
 
@@ -75,15 +79,12 @@ def catalogo():
 
 @app.route('/comentar', methods=['POST'])
 def comentar():
-    if 'usuario' not in session:
-        return redirect('/login') + "<p style='color:gray;'>Inicia sesión para añadir comentarios.</p>"
-
     autor = session['usuario']
     texto = request.form['texto']
     valoracion = int(request.form['valoracion'])
 
     pagina.seccion_comentarios.agregar_comentario(autor, texto, valoracion)
-    return redirect('/')
+    return redirect('/comentarios')
 
 @app.route('/info-social')
 def info_social():
