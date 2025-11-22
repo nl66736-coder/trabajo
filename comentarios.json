@@ -46,10 +46,35 @@
         "texto": "La Champlay me pareció de calidad normal y su precio es muy alto",
         "valoracion": 3,
         "fecha": "21/11/2025 12:42"
-    },{
+    },
+    {
         "autor": "lucas la cabra",
         "texto": "Hola que tal",
         "valoracion": 5,
         "fecha": "21/11/2025 12:04"
+    },
+    {
+        "autor": "Marina",
+        "texto": "prueba",
+        "valoracion": 5,
+        "fecha": "22/11/2025 10:24"
+    },
+    {
+        "autor": "Marina",
+        "texto": "movil",
+        "valoracion": 4,
+        "fecha": "22/11/2025 10:31"
+    },
+    {
+        "autor": "prueba",
+        "texto": "prueba de portátil",
+        "valoracion": 3,
+        "fecha": "22/11/2025 10:46"
+    },
+    {
+        "autor": "Marina",
+        "texto": "movil",
+        "valoracion": 5,
+        "fecha": "22/11/2025 10:55"
     }
 ]

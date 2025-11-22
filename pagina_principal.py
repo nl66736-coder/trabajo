@@ -251,9 +251,9 @@ class SeccionNotificaciones:
         with open(self.archivo, "w", encoding="utf-8") as f:
             json.dump(historial, f, ensure_ascii=False, indent=4)
     
-    def agregar_notificacion(self, usuario, texto, link="#", tipo="info"):
-        """Agrega una notificación para un usuario específico"""
+    def agregar_notificacion(self, usuario, texto, link="/", tipo="info"):
         historial = self.cargar_historial()
+
         if usuario not in historial:
             historial[usuario] = {"compras": [], "notificaciones": []}
         
@@ -283,6 +283,21 @@ class SeccionNotificaciones:
             historial[usuario]["notificaciones"] = []
             self.guardar_historial(historial)
 
+    def detectar_categoria_producto(self, nombre_producto):
+        nombre = nombre_producto.lower()
+        if any(palabra in nombre for palabra in ["phone", "móvil", "movil", "teléfono", "telefono", "smartphone"]):
+            return "Smartphones"
+        elif any(palabra in nombre for palabra in ["laptop", "portátil", "portatil", "ordenador", "computer"]):
+            return "Portátiles"
+        elif any(palabra in nombre for palabra in ["watch", "reloj", "smartwatch", "series"]):
+            return "Smartwatches"
+        elif any(palabra in nombre for palabra in ["auricular", "audio", "headphones", "buds"]):
+            return "Audio"
+        elif any(palabra in nombre for palabra in ["tablet"]):
+            return "Tablets"
+        else:
+            return "General"
+    
     def analizar_historial_compras(self, usuario):
         historial = self.cargar_historial()
             
@@ -296,32 +311,33 @@ class SeccionNotificaciones:
         
         compras = historial[usuario]["compras"]
         productos_comprados = []
+        productos_comprados_nombres = []
         categorias = []
         gasto_total = 0
 
         for compra in compras:
-            if "productos" in compra:
+            if compra.get("estado") == "finalizada" and "productos" in compra:
                 for prod in compra["productos"]:
-                    productos_comprados.append(prod["nombre"])
+                    nombre = prod["nombre"]
+                    productos_comprados_nombres.append(nombre)
                     gasto_total += float(prod.get("precio", 0)) * prod.get("cantidad", 1)
                     
-                    # Extraer categoría aproximada del nombre del producto
-                    nombre = prod["nombre"].lower()
-                    if "phone" in nombre or "móvil" in nombre:
-                        categorias.append("Smartphones")
-                    elif "laptop" in nombre or "portátil" in nombre or "ordenador" in nombre:
-                        categorias.append("Portátiles")
-                    elif "watch" in nombre or "reloj" in nombre:
-                        categorias.append("Smartwatches")
-                    elif "buds" in nombre or "auricular" in nombre:
-                        categorias.append("Audio")
-                    elif "tablet" in nombre:
-                        categorias.append("Tablets")
+                    categoria = self.detectar_categoria_producto(nombre)
+                    categorias.append(categoria)
+                    
+                    productos_comprados.append({
+                        "nombre": nombre,
+                        "categoria": categoria
+                    })
+        
         categorias_contadas = Counter(categorias)
         categorias_preferidas = [cat for cat, count in categorias_contadas.most_common(3)]
+        compras_finalizadas = [c for c in compras if c.get("estado") == "finalizada"]
+        
         return {
-            "total_compras": len(compras),
+            "total_compras": len(compras_finalizadas),
             "productos_comprados": productos_comprados,
+            "productos_comprados_nombres": productos_comprados_nombres,
             "categorias_preferidas": categorias_preferidas,
             "gasto_total": gasto_total
         }
@@ -333,23 +349,41 @@ class SeccionNotificaciones:
             return self._recomendar_productos_populares(catalogo_productos)
         
         recomendaciones = []
-        productos_ya_comprados = [p.lower() for p in analisis["productos_comprados"]]
+        productos_ya_comprados_nombres = [p.lower() for p in analisis["productos_comprados_nombres"]]
         
-        for producto in catalogo_productos:
-            nombre_lower = producto["nombre"].lower()
-            if nombre_lower in productos_ya_comprados:
-                continue
+        if analisis["categorias_preferidas"]:
+            for producto in catalogo_productos:
+                nombre_lower = producto["nombre"].lower()
 
-            for categoria in analisis["categorias_preferidas"]:
-                cat_lower = categoria.lower()
-                if (cat_lower in nombre_lower or (cat_lower == "smartphones" and "phone" in nombre_lower) or (cat_lower == "portátiles" and ("laptop" in nombre_lower or "pro" in nombre_lower)) or (cat_lower == "smartwatches" and "watch" in nombre_lower) or (cat_lower == "audio" and "buds" in nombre_lower) or (cat_lower == "tablets" and "tablet" in nombre_lower)):
+                if nombre_lower in productos_ya_comprados_nombres:
+                    continue
+
+                categoria_producto = self.detectar_categoria_producto(producto["nombre"])
+
+                if categoria_producto in analisis["categorias_preferidas"]:
                     recomendaciones.append(producto)
+
+                if len(recomendaciones) >= 3:
                     break
 
+        if len(recomendaciones) < 3:
+            for producto in catalogo_productos:
+                nombre_lower = producto["nombre"].lower()
+                
+                if nombre_lower in productos_ya_comprados_nombres:
+                    continue
+                if producto in recomendaciones:
+                    continue
+                
+                recomendaciones.append(producto)
+                
+                if len(recomendaciones) >= 3:
+                    break
+            
         return recomendaciones[:3]
     
     def _recomendar_productos_populares(self, catalogo_productos):
-        return catalogo_productos[:3]
+        return catalogo_productos[:3] if len(catalogo_productos) >= 3 else catalogo_productos
 
     def notificar_nuevo_producto(self, producto, usuarios_registrados=None):
         historial = self.cargar_historial()
@@ -358,7 +392,7 @@ class SeccionNotificaciones:
             usuarios_relevantes = list(historial.keys())
         
         for usuario in usuarios_relevantes:
-            texto = f"Nuevo producto disponible: {producto['nombre']} - {producto['precio']}€"
+            texto = f"Nuevo producto disponible: {producto['nombre']}"
             self.agregar_notificacion(
                 usuario, 
                 texto, 
@@ -370,25 +404,31 @@ class SeccionNotificaciones:
         recomendaciones = self.generar_recomendaciones(usuario, catalogo_productos)
         
         if not recomendaciones:
+            self.agregar_notificacion(usuario, "Explora nuestro catálogo", "/catalogo", tipo="recomendacion")
             return
         
         analisis = self.analizar_historial_compras(usuario)
         
-        if analisis["total_compras"] == 0:
-            texto = f"¡Bienvenido! Te recomendamos: {recomendaciones[0]['nombre']}"
-        else:
-            if analisis["categorias_preferidas"]:
-                cat_principal = analisis["categorias_preferidas"][0]
-                texto = f"Te recomendamos: {recomendaciones[0]['nombre']}"
+        for i, producto in enumerate(recomendaciones[:3]):
+            if analisis["total_compras"] == 0:
+                texto = f"¡Bienvenido! Te recomendamos: {producto['nombre']}"
+
             else:
-                texto = f"Creemos que te puede interesar: {recomendaciones[0]['nombre']}"
-        
-        self.agregar_notificacion(
-            usuario,
-            texto,
-            "/catalogo",
-            tipo="recomendacion"
-        )
+                if analisis["categorias_preferidas"]:
+                    cat_principal = analisis["categorias_preferidas"][0]
+                    if i == 0:
+                        texto = f"Tu categoría favorita es: {cat_principal}, por ello te recomendamos: {recomendaciones[0]['nombre']}"
+                    else: 
+                        texto = f"Tambien te puede interesar: {producto['nombre']}"
+                else:
+                    texto = f"Creemos que te puede gustar: {recomendaciones[0]['nombre']}"
+            
+            self.agregar_notificacion(
+                usuario,
+                texto,
+                "/catalogo",
+                tipo="recomendacion"
+            )
 
     def analizar_comentarios_usuario(self, usuario, comentarios):
         comentarios_usuario = [c for c in comentarios if c[0] == usuario]
@@ -405,14 +445,21 @@ class SeccionNotificaciones:
         promedio = suma_valoraciones / total if total > 0 else 0
         productos_mencionados = []
 
-        for texto in comentarios_usuario:
+        palabras_categoria = {
+            "Movil": ["movil", "móvil", "telefono", "telefono", "celular", "chambaphone", "phone"],
+            "Portatil": ["portátil", "portatil", "ordenador", "chambalaptop", "laptop"],
+            "Auriculares": ["auricular", "audio", "sonido", "chambabuds", "cascos", "escuchar"],
+            "Smartwatch": ["reloj", "watch", "smartwatch", "chambawatch", "series", "pulsera"],
+            "Tablet": ["tablet", "chambatablet", "ipad"]
+        }
+
+        for comentario in comentarios_usuario:
+            autor, texto, valoracion, fecha = comentario
             texto_lower = texto.lower()
-            if "phone" in texto_lower:
-                productos_mencionados.append("Smartphone")
-            if "laptop" in texto_lower or "portátil" in texto_lower:
-                productos_mencionados.append("Portátil")
-            if "auricular" in texto_lower or "buds" in texto_lower:
-                productos_mencionados.append("Auriculares")
+
+            for categoria, claves in palabras_categoria.items():
+                if any(clave in texto_lower for clave in claves):
+                    productos_mencionados.append(categoria)
     
         return {
             "total_comentarios": total,

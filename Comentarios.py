@@ -92,7 +92,7 @@ def añadir_carrito(indice):
     producto = pagina.seccion_catalogo.catalogo.productos[indice]
     cantidad = int(request.form.get("cantidad", 1))  #recogemos la cantidad del formulario
     # Lo añadimos al carrito
-    pagina.carrito.añadir_producto(producto)
+    pagina.carrito.añadir_producto(producto, cantidad)
 
     usuario = session.get('usuario')
     if usuario:
@@ -294,6 +294,7 @@ def notificaciones():
             <p><strong>Categorías favoritas:</strong> {", ".join(analisis["categorias_preferidas"]) if analisis["categorias_preferidas"] else "Aún no tienes favoritas"}</p>
             <p><strong>Comentarios realizados:</strong> {analisis_comentarios["total_comentarios"]}</p>
             <p><strong>Valoración promedio:</strong> {analisis_comentarios["valoracion_promedio"]:.1f}/5</p>
+            <p><strong>Productos mencionados:</strong> {", ".join(analisis_comentarios["productos_mencionados"]) if analisis_comentarios["productos_mencionados"] else "Ninguno detectado"}</p>
             <form action="/generar_recomendaciones" method="post" style="margin-top:15px;">
                 <button type="submit">
                     Generar nuevas recomendaciones
@@ -304,7 +305,7 @@ def notificaciones():
         contenido += pagina.seccion_notificaciones.render(usuario)
     else:
         contenido = RenderHTML.render_apartado_sesion(None)
-        contenido += "<p style='color:gray;'>Inicia sesión para añadir comentarios.</p>"   
+        contenido += "<p style='color:gray;'>Inicia sesión para recibir y ver tus notificaciones.</p>"   
 
     html = pagina.render_layout(contenido)
     return render_template_string(html)

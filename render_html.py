@@ -200,16 +200,17 @@ class RenderHTML:
             html += '</div>\n'
             for i, n in enumerate(lista):
                 tipo = n.get("tipo", "info")
-            html += f'''
-            <div>
-                <p style="margin:0 0 8px 0;">
-                    <span style="font-size:24px; margin-right:8px;"></span>
-                    <a href="{n["link"]}">{n["texto"]}</a>
-                </p>
-                <small style="color:#666;"> {n["fecha"]}</small>
-            </div>
-            '''
-            html += '</div>\n'
+                html += f'''
+                <div>
+                    <p style="margin:0 0 8px 0;">
+                        <span style="font-size:24px; margin-right:8px;"></span>
+                        <a href="{n["link"]}">{n["texto"]}</a>
+                    </p>
+                    <small style="color:#666;"> {n["fecha"]}</small>
+                </div>
+                '''
+                html += '</div>\n'
+                
             html += '''
             <form action="/limpiar_notificaciones" method="post" style="margin-top:20px;">
                 <button type="submit">Limpiar todas las notificaciones</button>
