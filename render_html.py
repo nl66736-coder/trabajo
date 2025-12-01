@@ -55,24 +55,63 @@ class RenderHTML:
     
     @staticmethod
     def render_seccion_comentarios(titulo, comentarios):
-        html = '<section id="comentarios">\n'
+        html = """
+        <section id="comentarios" style="margin:20px;">
+        """
+
         if titulo:
-            html += f"  <h1>{titulo}</h1>\n"
+            html += f"<h1>{titulo}</h1>"
 
+        # Botón para abrir el modal
+        html += """
+            <button onclick="document.getElementById('modal-comentarios').style.display='block'"
+                    style="padding:10px 20px; margin:10px 0; cursor:pointer;">
+                Ver comentarios
+            </button>
+        """
+
+        # Modal flotante
+        html += """
+        <div id="modal-comentarios" 
+            style="display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+                    background:rgba(0,0,0,0.5); justify-content:center; align-items:center;">
+            
+            <div style="background:white; padding:20px; width:80%; max-width:600px; 
+                        border-radius:10px; max-height:80%; overflow-y:auto; position:relative;">
+
+                <!-- Botón cerrar -->
+                <span onclick="document.getElementById('modal-comentarios').style.display='none'"
+                    style="position:absolute; top:10px; right:15px; cursor:pointer; font-size:22px;">
+                    &times;
+                </span>
+
+                <h2>Comentarios de usuarios</h2>
+        """
+
+        # Contenido del modal
         if comentarios:
-            for i, (autor, texto, valoracion, fecha) in enumerate(comentarios):
+            for autor, texto, valoracion, fecha in comentarios:
                 estrellas = "★" * valoracion + "☆" * (5 - valoracion)
-                html += f"  <div style='border:1px solid #ccc; margin:10px; padding:10px; border-radius:8px;'>\n"
-                html += f"    <h3>{autor}</h3>\n"
-                html += f"    <small style='color:gray;'>Publicado el {fecha}</small><br>\n"
-                html += f"    <p>{texto}</p>\n"
-                html += f"    <p>Valoración: {estrellas}</p>\n"
-                html += f"  </div>\n"
+                html += f"""
+                    <div style='border:1px solid #ccc; margin:10px 0; padding:10px; border-radius:8px;'>
+                        <h3>{autor}</h3>
+                        <small style='color:gray;'>Publicado el {fecha}</small><br>
+                        <p>{texto}</p>
+                        <p>Valoración: {estrellas}</p>
+                    </div>
+                """
         else:
-            html += "<p>No hay comentarios aún. ¡Sé el primero en dejar uno!</p>\n"
+            html += "<p>No hay comentarios aún. ¡Sé el primero!</p>"
 
-        html += "</section>\n"
+        # Cerrar modal + cierre de bloques
+        html += """
+            </div>
+        </div> <!-- FINAL DEL MODAL -->
+        </section>
+        """
+
         return html
+
     
     @staticmethod
     def render_formulario_nuevo_comentario():

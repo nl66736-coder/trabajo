@@ -147,5 +147,46 @@
                 "tipo": "recomendacion"
             }
         ]
+    },
+    "lucas la cabra": {
+        "compras": [
+            {
+                "fecha": "23/11/2025 23:46",
+                "estado": "carrito",
+                "productos": [
+                    {
+                        "nombre": "ChambaPhone X",
+                        "precio": 999.99,
+                        "cantidad": 1
+                    }
+                ]
+            }
+        ],
+        "notificaciones": [
+            {
+                "texto": "¡Bienvenido! Te recomendamos: ChambaWatch Series 5",
+                "link": "/catalogo",
+                "fecha": "23/11/2025 23:46",
+                "tipo": "recomendacion"
+            },
+            {
+                "texto": "¡Bienvenido! Te recomendamos: ChambaLaptop Pro",
+                "link": "/catalogo",
+                "fecha": "23/11/2025 23:46",
+                "tipo": "recomendacion"
+            },
+            {
+                "texto": "¡Bienvenido! Te recomendamos: ChambaPhone X",
+                "link": "/catalogo",
+                "fecha": "23/11/2025 23:46",
+                "tipo": "recomendacion"
+            },
+            {
+                "texto": "¡Bienvenido a Chamba Store! Gracias por registrarte.",
+                "link": "/catalogo",
+                "fecha": "23/11/2025 23:46",
+                "tipo": "info"
+            }
+        ]
     }
 }
