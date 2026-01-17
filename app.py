@@ -1,3 +1,7 @@
+# app.py
+# Punto de entrada de la aplicación.
+# Muestra el menú principal y delega las acciones en los módulos correspondientes.
+
 from flask import Flask, render_template_string, request, redirect, session
 from pagina_principal import PaginaPrincipal
 from render_html import RenderHTML
