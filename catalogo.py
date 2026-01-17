@@ -1,3 +1,6 @@
+# Módulo: catalogo.py
+# Gestiona la carga y consulta del catálogo de productos.
+
 import json
 import os
 from datetime import datetime
