@@ -1,3 +1,7 @@
+# Módulo: pagina_principal.py
+# Gestiona la obtención de noticias, tendencias y notificaciones
+# para construir la información mostrada en la página principal.
+
 from menu import MenuNavegacion
 from render_html import RenderHTML
 from datetime import datetime
@@ -475,6 +479,9 @@ class SeccionNotificaciones:
         return RenderHTML.render_seccion_notificaciones(self.titulo, lista)
 
 class PaginaPrincipal:
+"""Gestiona la información mostrada en la página principal:
+    noticias, tendencias y notificaciones."""
+    
     def __init__(self, api_key_news=None):
         self.menu = MenuNavegacion.crear_menu_estandar()
         self.seccion_info = SeccionInformacion()
@@ -580,3 +587,4 @@ class PaginaPrincipal:
         with open(nombre_archivo, 'w', encoding='utf-8') as archivo:
             archivo.write(html_contenido)
         return nombre_archivo
+
