@@ -1,3 +1,6 @@
+# Módulo: render_html.py
+# Genera fragmentos HTML para mostrar noticias, tendencias y notificaciones.
+
 class RenderHTML:
     """Clase responsable de generar todo el HTML de la aplicación"""
     
