@@ -1,3 +1,7 @@
+from catalogo import CatalogoProductos
+
+catalogo = CatalogoProductos()
+
 class Carrito:
     def __init__(self):
         # Lista que guarda los productos añadidos al carrito
@@ -5,13 +9,29 @@ class Carrito:
         self.productos = []
 
     def añadir_producto(self, producto, cantidad=1):
-        # Si el producto ya está en el carrito, aumentamos la cantidad
+        nombre = producto["nombre"]
+
+        # 1. Comprobar stock disponible
+        stock_disponible = catalogo.obtener_stock(nombre)
+        if stock_disponible < cantidad:
+            print("No queda stock suficiente de este producto.")
+            return False
+
+        # 2. Si el producto ya está en el carrito, aumentar cantidad
         for p in self.productos:
-            if p["producto"]["nombre"] == producto["nombre"]:
+            if p["producto"]["nombre"] == nombre:
                 p["cantidad"] += cantidad
-                return
-        # Si no está, lo añadimos con la cantidad inicial
+                catalogo.reducir_stock(nombre, cantidad)
+                return True
+
+        # 3. Si no está en el carrito, añadirlo
         self.productos.append({"producto": producto, "cantidad": cantidad})
+
+        # 4. Reducir stock en el catálogo
+        catalogo.reducir_stock(nombre, cantidad)
+
+        return True
+
 
     def eliminar_producto(self, indice):
         # Elimina el producto en la posición indicada si el índice es válido
