@@ -5,7 +5,8 @@
         "precio": 999.99,
         "empaquetado": "Caja ecológica",
         "imagen": "/static/ChambaPhone.png",
-        "fecha_agregado": "20/11/2025 18:09"
+        "fecha_agregado": "20/11/2025 18:09",
+        "stock": 20
     },
     {
         "nombre": "ChambaLaptop Pro",
@@ -13,7 +14,8 @@
         "precio": 1299.99,
         "empaquetado": "Estuche protector",
         "imagen": "/static/ChambaLaptopPro.png",
-        "fecha_agregado": "20/11/2025 18:09"
+        "fecha_agregado": "20/11/2025 18:09",
+        "stock": 25
     },
     {
         "nombre": "ChambaWatch Series 5",
@@ -21,7 +23,8 @@
         "precio": 399.99,
         "empaquetado": "Caja premium",
         "imagen": "/static/ChambaWatch.png",
-        "fecha_agregado": "20/11/2025 18:09"
+        "fecha_agregado": "20/11/2025 18:09",
+        "stock": 20
     },
     {
         "nombre": "ChambaBuds Wireless",
@@ -29,7 +32,8 @@
         "precio": 149.99,
         "empaquetado": "Estuche de carga",
         "imagen": "/static/ChamBabuds.png",
-        "fecha_agregado": "20/11/2025 18:09"
+        "fecha_agregado": "20/11/2025 18:09",
+        "stock": 23
     },
     {
         "nombre": "ChambaTablet S10",
@@ -37,7 +41,8 @@
         "precio": 499.99,
         "empaquetado": "Funda protectora",
         "imagen": "/static/ChambaTablet.png",
-        "fecha_agregado": "20/11/2025 18:09"
+        "fecha_agregado": "20/11/2025 18:09",
+        "stock": 20
     },
     {
     "nombre": "ChambaMouse X-Pro",
@@ -45,7 +50,8 @@
     "precio": 59.99,
     "empaquetado": "Caja rígida",
     "imagen": "/static/ChambaMouse.png",
-    "fecha_agregado": "20/11/2025 18:09"
+    "fecha_agregado": "20/11/2025 18:09",
+    "stock": 20
     },
     {
     "nombre": "ChambaKeys MK-1",
@@ -53,6 +59,7 @@
     "precio": 89.99,
     "empaquetado": "Caja premium con reposamuñecas",
     "imagen": "/static/ChambaKeys.png",
-    "fecha_agregado": "20/11/2025 18:09"
+    "fecha_agregado": "20/11/2025 18:09",
+    "stock": 20
 }
 ]
