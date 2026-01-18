@@ -1,8 +1,7 @@
 from catalogo import CatalogoProductos
 
 catalogo = CatalogoProductos()
-html = RenderHTML.render_menu()
-html += "<section id='carrito'><h1>Carrito de Compras</h1>"
+
 
 class Carrito:
     def __init__(self):
