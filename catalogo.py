@@ -28,7 +28,7 @@ class CatalogoProductos:
         self.productos.append(producto)
         # Guardamos la lista actualizada en el archivo JSON
         self.guardar()
-
+    
     def guardar(self):
         # Abre el archivo en modo escritura y guarda la lista de productos en formato JSON
         with open(self.archivo, "w", encoding="utf-8") as f:
@@ -39,6 +39,20 @@ class CatalogoProductos:
         if os.path.exists(self.archivo):
             with open(self.archivo, "r", encoding="utf-8") as f:
                 self.productos = json.load(f)
+    def obtener_stock(self, nombre):
+        #Devuelve el stock disponible de un producto.
+        for producto in self.productos:
+            if producto["nombre"] == nombre:
+                return producto.get("stock", 0)
+        return 0
+    def reducir_stock(self, nombre, cantidad):
+        #Reduce el stock del producto tras una compra.
+        for producto in self.productos:
+            if producto["nombre"] == nombre:
+                producto["stock"] = max(0, producto.get("stock", 0) - cantidad)
+                self.guardar()  # Guardamos el cambio en el JSON
+                return True
+        return False
 
     def render(self):
         # Genera el HTML para mostrar el catálogo en la página web
