@@ -5,18 +5,6 @@ class RenderHTML:
     """Clase responsable de generar todo el HTML de la aplicación"""
     
     @staticmethod
-    def render_menu():
-        return """
-        <nav style='background:#333; padding:10px;'>
-            <a href='/' style='color:white; margin-right:15px;'>Inicio</a>
-            <a href='/catalogo' style='color:white; margin-right:15px;'>Catálogo</a>
-            <a href='/carrito' style='color:white; margin-right:15px;'>Carrito</a>
-            <a href='/perfil' style='color:white; margin-right:15px;'>Perfil</a>
-            <a href='/notificaciones' style='color:white;'>Notificaciones</a>
-        </nav>"""
-
-    
-    @staticmethod
     def render_seccion_informacion(nombre, imagen, descripcion):
         html = '<section id="informacion">\n'
         if nombre:
