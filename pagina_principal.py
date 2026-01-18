@@ -479,8 +479,7 @@ class SeccionNotificaciones:
         return RenderHTML.render_seccion_notificaciones(self.titulo, lista)
 
 class PaginaPrincipal:
-"""Gestiona la información mostrada en la página principal:
-    noticias, tendencias y notificaciones."""
+    """Gestiona la información mostrada en la página principal: noticias, tendencias y notificaciones."""
     
     def __init__(self, api_key_news=None):
         self.menu = MenuNavegacion.crear_menu_estandar()

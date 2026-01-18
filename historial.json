@@ -188,5 +188,51 @@
                 "tipo": "info"
             }
         ]
+    },
+    "test_user": {
+        "compras": [],
+        "notificaciones": [
+            {
+                "texto": "¡Bienvenido! Te recomendamos: ChambaWatch Series 5",
+                "link": "/catalogo",
+                "fecha": "18/01/2026 20:32",
+                "tipo": "recomendacion"
+            },
+            {
+                "texto": "¡Bienvenido! Te recomendamos: ChambaLaptop Pro",
+                "link": "/catalogo",
+                "fecha": "18/01/2026 20:32",
+                "tipo": "recomendacion"
+            },
+            {
+                "texto": "¡Bienvenido! Te recomendamos: ChambaPhone X",
+                "link": "/catalogo",
+                "fecha": "18/01/2026 20:32",
+                "tipo": "recomendacion"
+            }
+        ]
+    },
+    "new_user": {
+        "compras": [],
+        "notificaciones": [
+            {
+                "texto": "¡Bienvenido! Te recomendamos: ChambaWatch Series 5",
+                "link": "/catalogo",
+                "fecha": "18/01/2026 20:32",
+                "tipo": "recomendacion"
+            },
+            {
+                "texto": "¡Bienvenido! Te recomendamos: ChambaLaptop Pro",
+                "link": "/catalogo",
+                "fecha": "18/01/2026 20:32",
+                "tipo": "recomendacion"
+            },
+            {
+                "texto": "¡Bienvenido! Te recomendamos: ChambaPhone X",
+                "link": "/catalogo",
+                "fecha": "18/01/2026 20:32",
+                "tipo": "recomendacion"
+            }
+        ]
     }
 }
