@@ -5,8 +5,6 @@ import json
 import os
 from datetime import datetime
 
-html = RenderHTML.render_menu()
-html += "<section id='catalogo'><h1>Catálogo de productos</h1>"
 
 class CatalogoProductos:
     def __init__(self, archivo="catalogo.json"):
