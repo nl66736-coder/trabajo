@@ -479,7 +479,7 @@ class SeccionNotificaciones:
         return RenderHTML.render_seccion_notificaciones(self.titulo, lista)
 
 class PaginaPrincipal:
-"""Gestiona la información mostrada en la página principal:
+    """Gestiona la información mostrada en la página principal:
     noticias, tendencias y notificaciones."""
     
     def __init__(self, api_key_news=None):
@@ -587,4 +587,5 @@ class PaginaPrincipal:
         with open(nombre_archivo, 'w', encoding='utf-8') as archivo:
             archivo.write(html_contenido)
         return nombre_archivo
+
 
