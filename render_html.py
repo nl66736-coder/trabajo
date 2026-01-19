@@ -146,7 +146,7 @@ class RenderHTML:
 
         # Mostrar productos existentes
         if productos:
-            for i, p in enumerate(productos):  # 👈 usamos enumerate para tener el índice
+            for i, p in enumerate(productos):  # usamos enumerate para tener el índice
                 html += f"""
                 <div style='border:1px solid #ccc; margin:10px; padding:10px; border-radius:8px;'>
                     <h3>{p['nombre']}</h3>
@@ -156,11 +156,13 @@ class RenderHTML:
                     <img src="{p['imagen']}" alt="{p['nombre']}" style="max-width:200px;"><br>
             
                     <!-- Formulario para añadir al carrito con cantidad -->
+                    html += f"""
                     <form action="/añadir_carrito/{i}" method="post">
                         <label for="cantidad">Cantidad:</label>
                         <input type="number" name="cantidad" value="1" min="1">
                         <button type="submit">Añadir al carrito</button>
                     </form>
+                    """
                 </div>
                 """
         else:
