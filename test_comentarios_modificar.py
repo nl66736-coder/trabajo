@@ -1,7 +1,7 @@
 # test_comentarios_crud_independiente.py
 import pytest
 from bs4 import BeautifulSoup
-from Comentarios import app, pagina  # Importa tu Flask app y la página principal
+from app import app, pagina  # Importa tu Flask app y la página principal
 
 @pytest.fixture
 def client():
@@ -10,7 +10,6 @@ def client():
 
 def test_agregar_editar_eliminar_comentario(client):
     """Simula agregar, editar y eliminar un comentario sin tocar archivos originales"""
-
     # -------------------------
     # Agregar un comentario
     # -------------------------
