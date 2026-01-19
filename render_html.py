@@ -138,6 +138,7 @@ class RenderHTML:
 
         html += "</body>\n</html>"
         return html
+
     
     @staticmethod
     def render_seccion_catalogo(productos):
@@ -153,8 +154,9 @@ class RenderHTML:
                     <p>{p['descripcion']}</p>
                     <p><strong>Precio:</strong> {p['precio']} €</p>
                     <p><strong>Empaquetado:</strong> {p['empaquetado']}</p>
+                    <p><strong>Stock disponible:</strong> {p['stock']}</p>
                     <img src="{p['imagen']}" alt="{p['nombre']}" style="max-width:200px;"><br>
-            
+
                     <!-- Formulario para añadir al carrito con cantidad -->
                     <form action="/añadir_carrito/{i}" method="post">
                         <label for="cantidad">Cantidad:</label>
@@ -168,8 +170,7 @@ class RenderHTML:
 
         html += "</section>\n"
         return html
-
-
+    
     
     @staticmethod
     def render_login():
