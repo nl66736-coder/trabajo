@@ -1,3 +1,5 @@
+from pagina_principal import pagina
+
 class Carrito:
     def __init__(self):
         # Lista que guarda los productos añadidos al carrito
@@ -6,6 +8,7 @@ class Carrito:
 
     def añadir_producto(self, producto, cantidad=1):
         nombre = producto["nombre"]
+        catalogo = pagina.seccion_catalogo.catalogo #catalogo real
 
         # 1. Comprobar stock disponible
         stock_disponible = catalogo.obtener_stock(nombre)
