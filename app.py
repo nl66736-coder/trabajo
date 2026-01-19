@@ -92,6 +92,8 @@ def catalogo():
 # ---------- AÑADIR CARRITO ----------
 @app.route("/añadir_carrito/<int:indice>", methods=["POST"])
 def añadir_carrito(indice):
+    # Cargar catálogo actualizado 
+    pagina.seccion_catalogo.catalogo.cargar()
     # Obtenemos el producto del catálogo por índice
     producto = pagina.seccion_catalogo.catalogo.productos[indice]
     cantidad = int(request.form.get("cantidad", 1))  #recogemos la cantidad del formulario

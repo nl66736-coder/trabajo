@@ -189,49 +189,69 @@
             }
         ]
     },
-    "test_user": {
-        "compras": [],
-        "notificaciones": [
+    "ale": {
+        "compras": [
             {
-                "texto": "¡Bienvenido! Te recomendamos: ChambaWatch Series 5",
-                "link": "/catalogo",
-                "fecha": "18/01/2026 20:32",
-                "tipo": "recomendacion"
-            },
-            {
-                "texto": "¡Bienvenido! Te recomendamos: ChambaLaptop Pro",
-                "link": "/catalogo",
-                "fecha": "18/01/2026 20:32",
-                "tipo": "recomendacion"
-            },
-            {
-                "texto": "¡Bienvenido! Te recomendamos: ChambaPhone X",
-                "link": "/catalogo",
-                "fecha": "18/01/2026 20:32",
-                "tipo": "recomendacion"
+                "fecha": "19/01/2026 00:08",
+                "estado": "finalizada",
+                "productos": [
+                    {
+                        "nombre": "ChambaPhone X",
+                        "precio": 999.99,
+                        "cantidad": 1
+                    }
+                ],
+                "fecha_compra": "19/01/2026 00:08"
             }
-        ]
-    },
-    "new_user": {
-        "compras": [],
+        ],
         "notificaciones": [
+            {
+                "texto": "¡Compra realizada con éxito! Gracias por tu confianza",
+                "link": "/notificaciones",
+                "fecha": "19/01/2026 00:08",
+                "tipo": "info"
+            },
+            {
+                "texto": "Tambien te puede interesar: ChambaBuds Wireless",
+                "link": "/catalogo",
+                "fecha": "19/01/2026 00:08",
+                "tipo": "recomendacion"
+            },
+            {
+                "texto": "Tambien te puede interesar: ChambaWatch Series 5",
+                "link": "/catalogo",
+                "fecha": "19/01/2026 00:08",
+                "tipo": "recomendacion"
+            },
+            {
+                "texto": "Tu categoría favorita es: Smartphones, por ello te recomendamos: ChambaLaptop Pro",
+                "link": "/catalogo",
+                "fecha": "19/01/2026 00:08",
+                "tipo": "recomendacion"
+            },
             {
                 "texto": "¡Bienvenido! Te recomendamos: ChambaWatch Series 5",
                 "link": "/catalogo",
-                "fecha": "18/01/2026 20:32",
+                "fecha": "19/01/2026 00:08",
                 "tipo": "recomendacion"
             },
             {
                 "texto": "¡Bienvenido! Te recomendamos: ChambaLaptop Pro",
                 "link": "/catalogo",
-                "fecha": "18/01/2026 20:32",
+                "fecha": "19/01/2026 00:08",
                 "tipo": "recomendacion"
             },
             {
                 "texto": "¡Bienvenido! Te recomendamos: ChambaPhone X",
                 "link": "/catalogo",
-                "fecha": "18/01/2026 20:32",
+                "fecha": "19/01/2026 00:08",
                 "tipo": "recomendacion"
+            },
+            {
+                "texto": "¡Bienvenido a Chamba Store! Gracias por registrarte.",
+                "link": "/catalogo",
+                "fecha": "19/01/2026 00:08",
+                "tipo": "info"
             }
         ]
     }

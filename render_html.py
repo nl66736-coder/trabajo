@@ -5,14 +5,6 @@ class RenderHTML:
     """Clase responsable de generar todo el HTML de la aplicación"""
     
     @staticmethod
-    def render_menu(items):
-        html = "<nav><ul>\n"
-        for nombre, url in items:
-            html += f'  <li><a href="{url}">{nombre}</a></li>\n'
-        html += "</ul></nav>\n"
-        return html
-    
-    @staticmethod
     def render_seccion_informacion(nombre, imagen, descripcion):
         html = '<section id="informacion">\n'
         if nombre:
@@ -154,7 +146,7 @@ class RenderHTML:
 
         # Mostrar productos existentes
         if productos:
-            for i, p in enumerate(productos):  # 👈 usamos enumerate para tener el índice
+            for i, p in enumerate(productos):  # usamos enumerate para tener el índice
                 html += f"""
                 <div style='border:1px solid #ccc; margin:10px; padding:10px; border-radius:8px;'>
                     <h3>{p['nombre']}</h3>
