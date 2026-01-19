@@ -76,5 +76,41 @@
         "texto": "movil",
         "valoracion": 5,
         "fecha": "22/11/2025 10:55"
+    },
+    {
+        "autor": "Test User",
+        "texto": "Comentario de prueba",
+        "valoracion": 4,
+        "fecha": "19/01/2026 20:40"
+    },
+    {
+        "autor": "Test User",
+        "texto": "Comentario de prueba",
+        "valoracion": 4,
+        "fecha": "19/01/2026 20:43"
+    },
+    {
+        "autor": "Test User",
+        "texto": "Comentario de prueba",
+        "valoracion": 4,
+        "fecha": "19/01/2026 20:43"
+    },
+    {
+        "autor": "Test User",
+        "texto": "Comentario de prueba",
+        "valoracion": 4,
+        "fecha": "19/01/2026 20:46"
+    },
+    {
+        "autor": "Test User",
+        "texto": "Comentario de prueba",
+        "valoracion": 4,
+        "fecha": "19/01/2026 20:46"
+    },
+    {
+        "autor": "Test User",
+        "texto": "Comentario de prueba",
+        "valoracion": 4,
+        "fecha": "19/01/2026 20:47"
     }
 ]
