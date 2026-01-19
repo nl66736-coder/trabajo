@@ -15,7 +15,7 @@
         "empaquetado": "Estuche protector",
         "imagen": "/static/ChambaLaptopPro.png",
         "fecha_agregado": "20/11/2025 18:09",
-        "stock": 1
+        "stock": 0
     },
     {
         "nombre": "ChambaWatch Series 5",
@@ -24,7 +24,7 @@
         "empaquetado": "Caja premium",
         "imagen": "/static/ChambaWatch.png",
         "fecha_agregado": "20/11/2025 18:09",
-        "stock": 2
+        "stock": 1
     },
     {
         "nombre": "ChambaBuds Wireless",
