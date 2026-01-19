@@ -491,7 +491,7 @@ class PaginaPrincipal:
         self.seccion_tendencias = SeccionTendencias(api_key=api_key_news)
         self.seccion_catalogo = SeccionCatalogo()
         self.seccion_info_social = SeccionInfoSocial()
-        self.carrito = Carrito()
+        self.carrito = Carrito(self.seccion_catalogo.catalogo)
         self.seccion_notificaciones = SeccionNotificaciones()
         
     
@@ -587,6 +587,7 @@ class PaginaPrincipal:
         with open(nombre_archivo, 'w', encoding='utf-8') as archivo:
             archivo.write(html_contenido)
         return nombre_archivo
+
 
 
 
