@@ -1,8 +1,3 @@
-from catalogo import CatalogoProductos
-
-catalogo = CatalogoProductos()
-
-
 class Carrito:
     def __init__(self):
         # Lista que guarda los productos añadidos al carrito
