@@ -1,0 +1,260 @@
+{
+    "Marina": {
+        "compras": [
+            {
+                "fecha": "21/11/2025 20:19",
+                "estado": "finalizada",
+                "productos": [
+                    {
+                        "nombre": "ChambaPhone X",
+                        "precio": 999.99,
+                        "cantidad": 1
+                    }
+                ],
+                "fecha_compra": "21/11/2025 20:19"
+            },
+            {
+                "fecha": "21/11/2025 20:20",
+                "estado": "finalizada",
+                "productos": [
+                    {
+                        "nombre": "ChambaWatch Series 5",
+                        "precio": 399.99,
+                        "cantidad": 1
+                    }
+                ],
+                "fecha_compra": "21/11/2025 20:20"
+            },
+            {
+                "fecha": "22/11/2025 10:24",
+                "estado": "finalizada",
+                "productos": [
+                    {
+                        "nombre": "ChambaBuds Wireless",
+                        "precio": 149.99,
+                        "cantidad": 3
+                    }
+                ],
+                "fecha_compra": "22/11/2025 10:24"
+            },
+            {
+                "fecha": "22/11/2025 10:55",
+                "estado": "finalizada",
+                "productos": [
+                    {
+                        "nombre": "ChambaLaptop Pro",
+                        "precio": 1299.99,
+                        "cantidad": 1
+                    }
+                ],
+                "fecha_compra": "22/11/2025 10:55"
+            }
+        ],
+        "notificaciones": [
+            {
+                "texto": "tambien te puede interesar: ChambaKeys MK-1",
+                "link": "/catalogo",
+                "fecha": "22/11/2025 11:26",
+                "tipo": "recomendacion"
+            },
+            {
+                "texto": "tambien te puede interesar: ChambaMouse X-Pro",
+                "link": "/catalogo",
+                "fecha": "22/11/2025 11:26",
+                "tipo": "recomendacion"
+            },
+            {
+                "texto": "Tu categoría favorita es: Smartphones, por ello te recomendamos: ChambaTablet S10",
+                "link": "/catalogo",
+                "fecha": "22/11/2025 11:26",
+                "tipo": "recomendacion"
+            }
+        ],
+        "preferencias": {
+            "recibir_notificaciones": true
+        }
+    },
+    "prueba": {
+        "compras": [
+            {
+                "fecha": "22/11/2025 10:44",
+                "estado": "finalizada",
+                "productos": [
+                    {
+                        "nombre": "ChambaWatch Series 5",
+                        "precio": 399.99,
+                        "cantidad": 1
+                    },
+                    {
+                        "nombre": "ChambaBuds Wireless",
+                        "precio": 149.99,
+                        "cantidad": 1
+                    }
+                ],
+                "fecha_compra": "22/11/2025 10:44"
+            }
+        ],
+        "notificaciones": [
+            {
+                "texto": "Explora nuestro catálogo",
+                "link": "/catalogo",
+                "fecha": "22/11/2025 10:46",
+                "tipo": "recomendacion"
+            }
+        ],
+        "preferencias": {
+            "recibir_notificaciones": true
+        }
+    },
+    "prueba2": {
+        "compras": [
+            {
+                "fecha": "22/11/2025 11:29",
+                "estado": "finalizada",
+                "productos": [
+                    {
+                        "nombre": "ChambaMouse X-Pro",
+                        "precio": 59.99,
+                        "cantidad": 1
+                    }
+                ],
+                "fecha_compra": "22/11/2025 11:29"
+            },
+            {
+                "fecha": "22/11/2025 11:29",
+                "estado": "finalizada",
+                "productos": [
+                    {
+                        "nombre": "ChambaWatch Series 5",
+                        "precio": 399.99,
+                        "cantidad": 1
+                    }
+                ],
+                "fecha_compra": "22/11/2025 11:29"
+            }
+        ],
+        "notificaciones": [
+            {
+                "texto": "Tambien te puede interesar: ChambaLaptop Pro",
+                "link": "/catalogo",
+                "fecha": "22/11/2025 11:29",
+                "tipo": "recomendacion"
+            },
+            {
+                "texto": "Tambien te puede interesar: ChambaPhone X",
+                "link": "/catalogo",
+                "fecha": "22/11/2025 11:29",
+                "tipo": "recomendacion"
+            },
+            {
+                "texto": "Tu categoría favorita es: General, por ello te recomendamos: ChambaKeys MK-1",
+                "link": "/catalogo",
+                "fecha": "22/11/2025 11:29",
+                "tipo": "recomendacion"
+            }
+        ],
+        "preferencias": {
+            "recibir_notificaciones": true
+        }
+    },
+    "lucas la cabra": {
+        "compras": [
+            {
+                "fecha": "23/11/2025 23:46",
+                "estado": "carrito",
+                "productos": [
+                    {
+                        "nombre": "ChambaPhone X",
+                        "precio": 999.99,
+                        "cantidad": 1
+                    }
+                ]
+            }
+        ],
+        "notificaciones": [
+            {
+                "texto": "¡Bienvenido! Te recomendamos: ChambaWatch Series 5",
+                "link": "/catalogo",
+                "fecha": "23/11/2025 23:46",
+                "tipo": "recomendacion"
+            }
+        ],
+        "preferencias": {
+            "recibir_notificaciones": true
+        }
+    },
+    "ale": {
+        "compras": [
+            {
+                "fecha": "19/01/2026 00:08",
+                "estado": "finalizada",
+                "productos": [
+                    {
+                        "nombre": "ChambaPhone X",
+                        "precio": 999.99,
+                        "cantidad": 1
+                    }
+                ],
+                "fecha_compra": "19/01/2026 00:08"
+            }
+        ],
+        "notificaciones": [
+            {
+                "texto": "¡Compra realizada con éxito! Gracias por tu confianza",
+                "link": "/notificaciones",
+                "fecha": "19/01/2026 00:08",
+                "tipo": "info"
+            }
+        ],
+        "preferencias": {
+            "recibir_notificaciones": true
+        }
+    },
+    "lucas puto amo": {
+        "compras": [
+            {
+                "fecha": "19/01/2026 17:59",
+                "estado": "carrito",
+                "productos": [
+                    {
+                        "nombre": "ChambaPhone X",
+                        "precio": 999.99,
+                        "cantidad": 1
+                    }
+                ]
+            }
+        ],
+        "notificaciones": [
+            {
+                "texto": "¡Bienvenido a Chamba Store! Gracias por registrarte.",
+                "link": "/catalogo",
+                "fecha": "19/01/2026 17:59",
+                "tipo": "info"
+            }
+        ],
+        "preferencias": {
+            "recibir_notificaciones": true
+        }
+    },
+    "lucia": {
+        "compras": [],
+        "notificaciones": [],
+        "preferencias": {
+            "recibir_notificaciones": false
+        }
+    },
+    "nico": {
+        "compras": [],
+        "notificaciones": [
+            {
+                "texto": "¡Bienvenido a Chamba Store! Gracias por registrarte.",
+                "link": "/catalogo",
+                "fecha": "19/01/2026 19:33",
+                "tipo": "info"
+            }
+        ],
+        "preferencias": {
+            "recibir_notificaciones": true
+        }
+    }
+}
