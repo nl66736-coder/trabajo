@@ -1,7 +1,7 @@
 # Módulo: pagina_principal.py
 # Gestiona la obtención de noticias, tendencias y notificaciones
 # para construir la información mostrada en la página principal.
-
+from flask import session
 from menu import MenuNavegacion
 from render_html import RenderHTML
 from datetime import datetime
@@ -259,21 +259,21 @@ class SeccionNotificaciones:
         historial = self.cargar_historial()
 
         if usuario not in historial:
-            historial[usuario] = {"compras": [], "notificaciones": []}
-        
-        if "notificaciones" not in historial[usuario]:
-            historial[usuario]["notificaciones"] = []
-        
-        notificacion = {
+            return
+
+        # RESPECTAR PREFERENCIAS DO USUARIO
+        preferencias = historial[usuario].get("preferencias", {})
+        if not preferencias.get("recibir_notificaciones", True):
+            return  # ❌ Non quere notificacións
+
+        historial[usuario]["notificaciones"].append({
             "texto": texto,
             "link": link,
             "fecha": datetime.now().strftime("%d/%m/%Y %H:%M"),
             "tipo": tipo
-        }
-        
-        historial[usuario]["notificaciones"].insert(0, notificacion)
-        
+        })
         self.guardar_historial(historial)
+
 
     def obtener_notificaciones(self, usuario):
         historial = self.cargar_historial()
@@ -578,6 +578,13 @@ class PaginaPrincipal:
         html += "<title>Chamba Store</title>\n"
         html += "</head>\n<body>\n"
         html += self.menu.render()      # menú arriba
+        if "mensaje" in session:
+            html += f"""
+            <div style="background:#e6ffe6; border:1px solid #2ecc71;
+                        padding:10px; margin:10px; border-radius:6px;">
+                {session.pop("mensaje")}
+            </div>
+            """
         html += contenido_central       # contenido de /inicio
         html += "</body>\n</html>"
         return html

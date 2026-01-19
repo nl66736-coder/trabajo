@@ -175,22 +175,41 @@ class RenderHTML:
     @staticmethod
     def render_login():
         return """
-        <form method="POST" action="/login">
-            Usuario: <input type="text" name="usuario"><br>
-            Contraseña: <input type="password" name="contrasenha"><br>
-            <button type="submit">Iniciar sesión</button>
-        </form>
+        <section style="margin:20px;">
+            <h2>Iniciar sesión</h2>
+            <form method="POST" action="/login">
+                Usuario: <input type="text" name="usuario" required><br><br>
+                Contraseña: <input type="password" name="contrasenha" required><br><br>
+                <button type="submit">Iniciar sesión</button>
+            </form>
+            <br>
+            <a href="/registro"><button>Registrarse</button></a>
+            <a href="/inicio"><button>Volver al inicio</button></a>
+        </section>
         """
        
     @staticmethod
     def render_registro():
         return """
-        <form method="POST" action="/registro">
-            Nuevo usuario: <input type="text" name="usuario"><br>
-            Nueva contraseña: <input type="password" name="contrasena"><br>
-            <button type="submit">Registrarse</button>
-        </form>
+        <section style="margin:20px;">
+            <h1 style="color:red;">SI VES ESTO, ES EL ARCHIVO CORRECTO</h1>
+
+            <h2>Registro de usuario</h2>
+            <form method="POST" action="/registro">
+                Usuario: <input type="text" name="usuario" required><br><br>
+                Contraseña: <input type="password" name="contrasena" required><br><br>
+
+                <label>
+                    <input type="checkbox" name="recibir_notificaciones" checked>
+                    Quiero recibir notificaciones y recomendaciones
+                </label><br><br>
+
+                <button type="submit">Registrarse</button>
+            </form>
+        </section>
         """
+
+
     @staticmethod
     def render_boton_registro():
         return """

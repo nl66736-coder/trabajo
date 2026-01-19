@@ -69,7 +69,10 @@
                 "fecha": "22/11/2025 11:26",
                 "tipo": "recomendacion"
             }
-        ]
+        ],
+        "preferencias": {
+            "recibir_notificaciones": true
+        }
     },
     "prueba": {
         "compras": [
@@ -98,7 +101,10 @@
                 "fecha": "22/11/2025 10:46",
                 "tipo": "recomendacion"
             }
-        ]
+        ],
+        "preferencias": {
+            "recibir_notificaciones": true
+        }
     },
     "prueba2": {
         "compras": [
@@ -146,7 +152,10 @@
                 "fecha": "22/11/2025 11:29",
                 "tipo": "recomendacion"
             }
-        ]
+        ],
+        "preferencias": {
+            "recibir_notificaciones": true
+        }
     },
     "lucas la cabra": {
         "compras": [
@@ -168,26 +177,11 @@
                 "link": "/catalogo",
                 "fecha": "23/11/2025 23:46",
                 "tipo": "recomendacion"
-            },
-            {
-                "texto": "¡Bienvenido! Te recomendamos: ChambaLaptop Pro",
-                "link": "/catalogo",
-                "fecha": "23/11/2025 23:46",
-                "tipo": "recomendacion"
-            },
-            {
-                "texto": "¡Bienvenido! Te recomendamos: ChambaPhone X",
-                "link": "/catalogo",
-                "fecha": "23/11/2025 23:46",
-                "tipo": "recomendacion"
-            },
-            {
-                "texto": "¡Bienvenido a Chamba Store! Gracias por registrarte.",
-                "link": "/catalogo",
-                "fecha": "23/11/2025 23:46",
-                "tipo": "info"
             }
-        ]
+        ],
+        "preferencias": {
+            "recibir_notificaciones": true
+        }
     },
     "ale": {
         "compras": [
@@ -210,49 +204,43 @@
                 "link": "/notificaciones",
                 "fecha": "19/01/2026 00:08",
                 "tipo": "info"
-            },
+            }
+        ],
+        "preferencias": {
+            "recibir_notificaciones": true
+        }
+    },
+    "lucas puto amo": {
+        "compras": [
             {
-                "texto": "Tambien te puede interesar: ChambaBuds Wireless",
-                "link": "/catalogo",
-                "fecha": "19/01/2026 00:08",
-                "tipo": "recomendacion"
-            },
-            {
-                "texto": "Tambien te puede interesar: ChambaWatch Series 5",
-                "link": "/catalogo",
-                "fecha": "19/01/2026 00:08",
-                "tipo": "recomendacion"
-            },
-            {
-                "texto": "Tu categoría favorita es: Smartphones, por ello te recomendamos: ChambaLaptop Pro",
-                "link": "/catalogo",
-                "fecha": "19/01/2026 00:08",
-                "tipo": "recomendacion"
-            },
-            {
-                "texto": "¡Bienvenido! Te recomendamos: ChambaWatch Series 5",
-                "link": "/catalogo",
-                "fecha": "19/01/2026 00:08",
-                "tipo": "recomendacion"
-            },
-            {
-                "texto": "¡Bienvenido! Te recomendamos: ChambaLaptop Pro",
-                "link": "/catalogo",
-                "fecha": "19/01/2026 00:08",
-                "tipo": "recomendacion"
-            },
-            {
-                "texto": "¡Bienvenido! Te recomendamos: ChambaPhone X",
-                "link": "/catalogo",
-                "fecha": "19/01/2026 00:08",
-                "tipo": "recomendacion"
-            },
+                "fecha": "19/01/2026 17:59",
+                "estado": "carrito",
+                "productos": [
+                    {
+                        "nombre": "ChambaPhone X",
+                        "precio": 999.99,
+                        "cantidad": 1
+                    }
+                ]
+            }
+        ],
+        "notificaciones": [
             {
                 "texto": "¡Bienvenido a Chamba Store! Gracias por registrarte.",
                 "link": "/catalogo",
-                "fecha": "19/01/2026 00:08",
+                "fecha": "19/01/2026 17:59",
                 "tipo": "info"
             }
-        ]
+        ],
+        "preferencias": {
+            "recibir_notificaciones": true
+        }
+    },
+    "lucia": {
+        "compras": [],
+        "notificaciones": [],
+        "preferencias": {
+            "recibir_notificaciones": false
+        }
     }
 }
