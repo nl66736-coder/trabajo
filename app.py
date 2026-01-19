@@ -89,6 +89,16 @@ def catalogo():
     html = pagina.render_layout(contenido)
     return render_template_string(html)
 
+@app.route("/comentar_producto/<int:i>", methods=["POST"])
+def comentar_producto(i):
+    autor = request.form.get("autor", "Anónimo")
+    texto = request.form.get("texto", "")
+
+    # OJO: usamos el MISMO catálogo que está dentro de la sección catálogo
+    pagina.seccion_catalogo.catalogo.agregar_comentario_por_indice(i, autor, texto)
+
+    return redirect("/catalogo")
+
 # ---------- AÑADIR CARRITO ----------
 @app.route("/añadir_carrito/<int:indice>", methods=["POST"])
 def añadir_carrito(indice):

@@ -12,6 +12,11 @@
                 "autor": "Mael",
                 "texto": "Muy buen producto",
                 "fecha": "2026-01-19"
+            },
+            {
+                "autor": "Mael",
+                "texto": "sada",
+                "fecha": "19/01/2026 19:48"
             }
         ]
     },
@@ -54,7 +59,7 @@
         "empaquetado": "Estuche de carga",
         "imagen": "/static/ChamBabuds.png",
         "fecha_agregado": "20/11/2025 18:09",
-        "stock": 5,
+        "stock": 4,
         "comentarios": [
             {
                 "autor": "Mael",

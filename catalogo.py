@@ -15,6 +15,29 @@ class CatalogoProductos:
         # Al iniciar la clase, intentamos cargar productos desde el archivo si existe
         self.cargar()
 
+    def agregar_comentario_por_indice(self, indice, autor, texto):
+        if indice < 0 or indice >= len(self.productos):
+            return False
+
+        texto = (texto or "").strip()
+        autor = (autor or "").strip() or "Anónimo"
+
+        if not texto:
+            return False
+
+        # aseguramos lista de comentarios
+        if "comentarios" not in self.productos[indice] or not isinstance(self.productos[indice]["comentarios"], list):
+            self.productos[indice]["comentarios"] = []
+
+        self.productos[indice]["comentarios"].append({
+            "autor": autor,
+            "texto": texto,
+            "fecha": datetime.now().strftime("%d/%m/%Y %H:%M")
+        })
+
+        self.guardar()
+        return True
+
     def agregar_producto(self, nombre, descripcion, precio, empaquetado, imagen):
         # Creamos un diccionario con todos los datos del producto
         producto = {

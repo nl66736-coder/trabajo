@@ -219,6 +219,16 @@ class RenderHTML:
                 else:
                     html += "<p style='color:gray;'>Sin reseñas todavía.</p>"
 
+                html += f"""
+                <form action="/comentar_producto/{i}" method="post" style="margin-top:12px;">
+                    <input type="text" name="autor" placeholder="Tu nombre (opcional)"
+                        style="width:100%; padding:6px; margin-bottom:6px;">
+                    <textarea name="texto" placeholder="Escribe tu reseña..." required
+                        style="width:100%; height:70px; padding:6px;"></textarea>
+                    <button type="submit" style="margin-top:6px;">Añadir comentario</button>
+                </form>
+                """
+
                 html += """
                     </div>
                 </div>
