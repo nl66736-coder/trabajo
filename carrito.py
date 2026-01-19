@@ -36,30 +36,6 @@ class Carrito:
         if 0 <= indice < len(self.productos):
             del self.productos[indice]
 
-    def agregar_comentario_por_indice(self, indice, autor, texto):
-        if indice < 0 or indice >= len(self.productos):
-            return False
-
-        texto = (texto or "").strip()
-        autor = (autor or "").strip() or "Anónimo"
-
-        if not texto:
-            return False
-
-        # aseguramos lista de comentarios
-        if "comentarios" not in self.productos[indice] or not isinstance(self.productos[indice]["comentarios"], list):
-            self.productos[indice]["comentarios"] = []
-
-        self.productos[indice]["comentarios"].append({
-            "autor": autor,
-            "texto": texto,
-            "fecha": datetime.now().strftime("%d/%m/%Y %H:%M")
-        })
-
-        self.guardar()
-        return True
-
-
     def vaciar(self):
         # Vacía completamente el carrito
         self.productos = []

@@ -41,11 +41,6 @@ def test_cargar_historial_inexistente(seccion):
 # -------------------------------------------------------
 
 def test_agregar_notificacion(seccion):
-    # Inicializa el usuario en el historial
-    historial = {"laura": {"notificaciones": [], "preferencias": {"recibir_notificaciones": True}}}
-    seccion.guardar_historial(historial)
-
-    # Ahora sí se puede agregar la notificación
     seccion.agregar_notificacion("laura", "Hola")
 
     notificaciones = seccion.obtener_notificaciones("laura")
@@ -213,44 +208,3 @@ def test_analizar_comentarios_usuario(seccion):
     assert res["valoracion_promedio"] == 4.5
     assert "Movil" in res["productos_mencionados"]
 
-# -------------------------------------------------------
-# TEST notificaciones solo si activadas
-# -------------------------------------------------------
-
-def test_notificaciones_solo_si_activadas(seccion):
-    historial = {
-        "marta": {
-            "compras": [],
-            "notificaciones": [],
-            "preferencias": {"recibir_notificaciones": False}  # usuario que no quiere notificaciones
-        }
-    }
-    seccion.guardar_historial(historial)
-
-    seccion.agregar_notificacion("marta", "Mensaje importante")
-    notificaciones = seccion.obtener_notificaciones("marta")
-    
-    # Como usuario no quiere notificaciones, debería estar vacío
-    assert notificaciones == []
-
-# -------------------------------------------------------
-# TEST notificación de bienvenida al registrarse
-# -------------------------------------------------------
-
-
-def test_notificacion_bienvenida(seccion):
-    historial = {
-        "ana": {
-            "compras": [],
-            "notificaciones": [],
-            "preferencias": {"recibir_notificaciones": True}
-        }
-    }
-    seccion.guardar_historial(historial)
-
-    # Simula registro
-    seccion.agregar_notificacion("ana", "¡Bienvenido a Chamba Store! Gracias por registrarte.")
-
-    notifs = seccion.obtener_notificaciones("ana")
-    assert len(notifs) == 1
-    assert "Bienvenido" in notifs[0]["texto"]

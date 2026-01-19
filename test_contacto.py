@@ -1,7 +1,7 @@
 import re
 import pytest
 from bs4 import BeautifulSoup
-from app import app
+from Comentarios import app
 
 @pytest.fixture
 def client():
@@ -9,16 +9,14 @@ def client():
         yield client
 
 def test_existe_seccion_contacto(client):
-    resp = client.get("/", follow_redirects=True)
-
+    resp = client.get("/")
     assert resp.status_code == 200
 
     soup = BeautifulSoup(resp.data, "html.parser")
     assert soup.select_one("section#contacto") is not None, "No existe la sección 'contacto'"
 
 def test_datos_contacto(client):
-    resp = client.get("/", follow_redirects=True)
-
+    resp = client.get("/")
     soup = BeautifulSoup(resp.data, "html.parser")
     contacto = soup.select_one("section#contacto")
     assert contacto is not None, "No existe la sección 'contacto'"

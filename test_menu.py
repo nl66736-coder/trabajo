@@ -1,6 +1,6 @@
 import pytest
 from bs4 import BeautifulSoup
-from app import app
+from Comentarios import app
 
 @pytest.fixture
 def client():
@@ -8,17 +8,16 @@ def client():
         yield client
 
 def test_existe_menu_navegacion(client):
-    resp = client.get("/", follow_redirects=True)
+    resp = client.get("/")
     assert resp.status_code == 200
 
     soup = BeautifulSoup(resp.data, "html.parser")
     nav = soup.select_one("nav")
     
-    assert nav is not None, "No existe el menú de navegación <nav>"
-
+    assert nav is not None, "No existe el menú de navegación con id='menu'"
 
 def test_enlaces_menu_navegacion(client):
-    resp = client.get("/", follow_redirects=True)
+    resp = client.get("/")
     assert resp.status_code == 200
 
     soup = BeautifulSoup(resp.data, "html.parser")
@@ -31,6 +30,6 @@ def test_enlaces_menu_navegacion(client):
     assert "contacto" in links, "El menú debe incluir enlace a 'Contacto'"
     assert "comentarios" in links, "El menú debe incluir enlace a 'Comentarios'"
 
-    assert links["inicio"] == "/inicio"
-    assert links["contacto"] == "/contacto"
-    assert links["comentarios"] == "/comentarios"
+    assert links["inicio"] == "#inicio", "El enlace 'Inicio' debe apuntar a #inicio"
+    assert links["contacto"] == "#contacto", "El enlace 'Contacto' debe apuntar a #contacto"
+    assert links["comentarios"] == "#comentarios", "El enlace 'Comentarios' debe apuntar a #comentarios"

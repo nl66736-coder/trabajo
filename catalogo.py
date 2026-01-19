@@ -15,30 +15,7 @@ class CatalogoProductos:
         # Al iniciar la clase, intentamos cargar productos desde el archivo si existe
         self.cargar()
 
-    def agregar_comentario_por_indice(self, indice, autor, texto):
-        if indice < 0 or indice >= len(self.productos):
-            return False
-
-        texto = (texto or "").strip()
-        autor = (autor or "").strip() or "Anónimo"
-
-        if not texto:
-            return False
-
-        # aseguramos lista de comentarios
-        if "comentarios" not in self.productos[indice] or not isinstance(self.productos[indice]["comentarios"], list):
-            self.productos[indice]["comentarios"] = []
-
-        self.productos[indice]["comentarios"].append({
-            "autor": autor,
-            "texto": texto,
-            "fecha": datetime.now().strftime("%d/%m/%Y %H:%M")
-        })
-
-        self.guardar()
-        return True
-
-    def agregar_producto(self, nombre, descripcion, precio, empaquetado, imagen, stock=0):
+    def agregar_producto(self, nombre, descripcion, precio, empaquetado, imagen):
         # Creamos un diccionario con todos los datos del producto
         producto = {
             "nombre": nombre,               # Nombre del producto
@@ -47,8 +24,7 @@ class CatalogoProductos:
             "stock": stock,                 #Stock
             "empaquetado": empaquetado,     # Tipo de empaquetado
             "imagen": imagen,               # Ruta o URL de la imagen
-            "fecha_agregado": datetime.now().strftime("%d/%m/%Y %H:%M"),
-            "comentarios": []               # Lista de comentarios vacía[]
+            "fecha_agregado": datetime.now().strftime("%d/%m/%Y %H:%M")  # Fecha y hora actual
         }
         # Añadimos el producto a la lista en memoria
         self.productos.append(producto)
@@ -79,4 +55,28 @@ class CatalogoProductos:
                 self.guardar()  # Guardamos el cambio en el JSON
                 return True
         return False
+
+    def render(self):
+        html = "<section id='catalogo'><h1>Catálogo de Productos</h1>"
+        for p in self.productos:
+            html += "<div style='border:1px solid #ccc; margin:10px; padding:10px;'>"
+            html += f"<h3>{p['nombre']}</h3>"
+        
+            if p.get("imagen"):
+                html += f"<img src='{p['imagen']}' alt='Imagen de {p['nombre']}' style='max-width:200px;'><br>"
+        
+            html += f"<p>{p['descripcion']}</p>"
+            html += f"<p>Precio: {p['precio']} €</p>"
+
+            # Mostrar stock o AGOTADO
+            stock = p.get("stock", 0)
+            if stock > 0:
+                html += f"<p><strong>Stock:</strong> {stock} unidades</p>"
+            else:
+                html += "<p style='color:red; font-weight:bold;'>AGOTADO</p>"
+
+            html += f"<p>Empaquetado: {p['empaquetado']}</p>"
+            html += "</div>"
+        html += "</section>"
+        return html
 

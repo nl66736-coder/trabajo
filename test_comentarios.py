@@ -2,7 +2,7 @@
 import re
 import pytest
 from bs4 import BeautifulSoup
-from app import app
+from Comentarios import app
 
 @pytest.fixture
 def client():
@@ -11,7 +11,7 @@ def client():
 
 def test_comentarios_listan_nombre_texto_valoracion_y_fecha(client):
     """Comprueba que los comentarios muestran nombre, texto, valoración y fecha/hora"""
-    resp = client.get("/", follow_redirects=True)
+    resp = client.get("/")
     assert resp.status_code == 200
     soup = BeautifulSoup(resp.data, "html.parser")
     comentarios = soup.select("#comentarios div")

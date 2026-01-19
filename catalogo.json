@@ -6,19 +6,7 @@
         "empaquetado": "Caja ecológica",
         "imagen": "/static/ChambaPhone.png",
         "fecha_agregado": "20/11/2025 18:09",
-        "stock": 0,
-        "comentarios": [
-            {
-                "autor": "Mael",
-                "texto": "Muy buen producto",
-                "fecha": "2026-01-19"
-            },
-            {
-                "autor": "Mael",
-                "texto": "sada",
-                "fecha": "19/01/2026 19:48"
-            }
-        ]
+        "stock": 0
     },
     {
         "nombre": "ChambaLaptop Pro",
@@ -27,14 +15,7 @@
         "empaquetado": "Estuche protector",
         "imagen": "/static/ChambaLaptopPro.png",
         "fecha_agregado": "20/11/2025 18:09",
-        "stock": 0,
-        "comentarios": [
-            {
-                "autor": "Mael",
-                "texto": "Muy buen producto",
-                "fecha": "2026-01-19"
-            }
-        ]
+        "stock": 0
     },
     {
         "nombre": "ChambaWatch Series 5",
@@ -43,14 +24,7 @@
         "empaquetado": "Caja premium",
         "imagen": "/static/ChambaWatch.png",
         "fecha_agregado": "20/11/2025 18:09",
-        "stock": 0,
-        "comentarios": [
-            {
-                "autor": "Mael",
-                "texto": "Muy buen producto",
-                "fecha": "2026-01-19"
-            }
-        ]
+        "stock": 0
     },
     {
         "nombre": "ChambaBuds Wireless",
@@ -59,14 +33,7 @@
         "empaquetado": "Estuche de carga",
         "imagen": "/static/ChamBabuds.png",
         "fecha_agregado": "20/11/2025 18:09",
-        "stock": 4,
-        "comentarios": [
-            {
-                "autor": "Mael",
-                "texto": "Muy buen producto",
-                "fecha": "2026-01-19"
-            }
-        ]
+        "stock": 5
     },
     {
         "nombre": "ChambaTablet S10",
@@ -75,14 +42,7 @@
         "empaquetado": "Funda protectora",
         "imagen": "/static/ChambaTablet.png",
         "fecha_agregado": "20/11/2025 18:09",
-        "stock": 1,
-        "comentarios": [
-            {
-                "autor": "Mael",
-                "texto": "Muy buen producto",
-                "fecha": "2026-01-19"
-            }
-        ]
+        "stock": 1
     },
     {
         "nombre": "ChambaMouse X-Pro",
@@ -91,19 +51,7 @@
         "empaquetado": "Caja rígida",
         "imagen": "/static/ChambaMouse.png",
         "fecha_agregado": "20/11/2025 18:09",
-        "stock": 1,
-        "comentarios": [
-            {
-                "autor": "Mael",
-                "texto": "Muy buen producto",
-                "fecha": "2026-01-19"
-            },
-            {
-                "autor": "Lucas Garrido",
-                "texto": "Mima con este ratón ya puedo carrilear a mi amigo mael que es más manco",
-                "fecha": "19/01/2026 19:51"
-            }
-        ]
+        "stock": 2
     },
     {
         "nombre": "ChambaKeys MK-1",
@@ -112,13 +60,6 @@
         "empaquetado": "Caja premium con reposamuñecas",
         "imagen": "/static/ChambaKeys.png",
         "fecha_agregado": "20/11/2025 18:09",
-        "stock": 0,
-        "comentarios": [
-            {
-                "autor": "Mael",
-                "texto": "Muy buen producto",
-                "fecha": "2026-01-19"
-            }
-        ]
+        "stock": 0
     }
 ]

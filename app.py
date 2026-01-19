@@ -39,10 +39,8 @@ def raiz():
 # ---------- INICIO ----------
 @app.route('/inicio')
 def inicio():
+    # Mostramos la sección de información (Chamba Store, imagen, texto...)
     contenido = pagina.seccion_info.render()
-    # Añadir comentarios también en inicio
-    contenido += pagina.seccion_comentarios.render()
-    contenido += pagina.seccion_contacto.render()
     html = pagina.render_layout(contenido)
     return render_template_string(html)
 
@@ -91,16 +89,6 @@ def catalogo():
     contenido = pagina.seccion_catalogo.render()
     html = pagina.render_layout(contenido)
     return render_template_string(html)
-
-@app.route("/comentar_producto/<int:i>", methods=["POST"])
-def comentar_producto(i):
-    autor = request.form.get("autor", "Anónimo")
-    texto = request.form.get("texto", "")
-
-    # OJO: usamos el MISMO catálogo que está dentro de la sección catálogo
-    pagina.seccion_catalogo.catalogo.agregar_comentario_por_indice(i, autor, texto)
-
-    return redirect("/catalogo")
 
 # ---------- AÑADIR CARRITO ----------
 @app.route("/añadir_carrito/<int:indice>", methods=["POST"])
@@ -228,7 +216,7 @@ def finalizar_compra():
 
 @app.route('/comentar', methods=['POST'])
 def comentar():
-    autor = session.get('usuario') or request.form.get("autor", "Anónimo")
+    autor = session['usuario']
     texto = request.form['texto']
     valoracion = int(request.form['valoracion'])
 
@@ -368,25 +356,8 @@ def generar_recomendaciones():
         pagina.seccion_notificaciones.generar_notificaciones_recomendaciones(usuario, pagina.seccion_catalogo.catalogo.productos)
     return redirect('/notificaciones')
 
-<<<<<<< HEAD
 # Nota: Flask sirve automáticamente /static/ gracias a:
 # Flask(__name__, static_folder='static', static_url_path='/static')
-=======
-# ---------- PERFIL ----------
-from perfil import ver_perfil, editar_perfil, actualizar_perfil
-
-@app.route('/perfil')
-def perfil():
-    return ver_perfil()
-
-@app.route('/editar-perfil', methods=['GET'])
-def editar_perfil_route():
-    return editar_perfil()
-
-@app.route('/actualizar-perfil', methods=['POST'])
-def actualizar_perfil_route():
-    return actualizar_perfil()
->>>>>>> afd8f92a7686afd7e48c188dfc06ab2cc985a90f
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False)

@@ -1,13 +1,8 @@
 # Módulo: render_html.py
 # Genera fragmentos HTML para mostrar noticias, tendencias y notificaciones.
 
-from pydoc import html
-
-
 class RenderHTML:
     """Clase responsable de generar todo el HTML de la aplicación"""
-    print("✅ USANDO ESTE render_html.py")
-
     
     @staticmethod
     def render_perfil_dropdown(usuario=None):
@@ -144,15 +139,7 @@ class RenderHTML:
                     </div>
                 """
         else:
-<<<<<<< HEAD
             html += "<p style='text-align:center; color:#999; padding:2rem;'>No hay comentarios aún. ¡Sé el primero!</p>"
-=======
-            html += """
-                <div style="border:1px dashed #ccc; margin:10px 0; padding:10px; border-radius:8px;">
-                    <p>No hay comentarios aún. ¡Sé el primero!</p>
-                </div>
-            """
->>>>>>> afd8f92a7686afd7e48c188dfc06ab2cc985a90f
 
         # Cerrar modal + cierre de bloques
         html += """
@@ -209,8 +196,8 @@ class RenderHTML:
         html = '<section id="catalogo">\n'
         html += "<h1>Catálogo de productos</h1>\n"
 
+        # Mostrar productos existentes
         if productos:
-<<<<<<< HEAD
             for i, p in enumerate(productos):  # usamos enumerate para tener el índice
                 html += f"""
                 <div class="producto-item">
@@ -242,88 +229,6 @@ class RenderHTML:
                             }}
                         }}
                     </script>
-=======
-            for i, p in enumerate(productos):
-                comentarios = p.get("comentarios", [])
-
-                html += f"""
-                <div style="
-                    border:1px solid #ccc;
-                    margin:10px;
-                    padding:10px;
-                    border-radius:8px;
-                    display:flex;
-                    gap:20px;
-                ">
-                    <!-- IZQUIERDA: PRODUCTO -->
-                    <div style="flex:1; min-width:280px;">
-                        <h3>{p['nombre']}</h3>
-                        <p>{p['descripcion']}</p>
-                        <p><strong>Precio:</strong> {p['precio']} €</p>
-                        <p><strong>Empaquetado:</strong> {p['empaquetado']}</p>
-                """
-
-                stock = p.get("stock", 0)
-                if stock > 0:
-                    html += f"<p><strong>Stock disponible:</strong> {stock}</p>"
-                else:
-                    html += "<p><strong>Stock disponible:</strong> <span style='color:red; font-weight:bold;'>AGOTADO</span></p>"
-
-                html += f"""
-                        <img src="{p['imagen']}" alt="{p['nombre']}" style="max-width:200px;"><br><br>
-
-                        <!-- Formulario carrito -->
-                """
-
-                # Si no hay stock, desactivamos el botón (queda muy “profe”)
-                if stock > 0:
-                    html += f"""
-                        <form action="/añadir_carrito/{i}" method="post">
-                            <label>Cantidad:</label>
-                            <input type="number" name="cantidad" value="1" min="1" max="{stock}">
-                            <button type="submit">Añadir al carrito</button>
-                        </form>
-                    """
-                else:
-                    html += """
-                        <p style="color:#888;">No disponible (sin stock).</p>
-                    """
-
-                html += """
-                    </div>
-
-                    <!-- DERECHA: COMENTARIOS -->
-                    <div style="flex:1; border-left:1px dashed #bbb; padding-left:15px;">
-                        <h4>Reseñas</h4>
-                """
-
-                if comentarios:
-                    for c in comentarios[-5:]:
-                        autor = c.get("autor", "Anónimo")
-                        texto = c.get("texto", "")
-                        fecha = c.get("fecha", "")
-                        html += f"""
-                        <div style="border:1px solid #eee; padding:8px; margin-bottom:8px; border-radius:6px;">
-                            <p style="margin:0;"><strong>{autor}</strong> <span style="color:#777; font-size:12px;">{fecha}</span></p>
-                            <p style="margin:6px 0 0 0;">{texto}</p>
-                        </div>
-                        """
-                else:
-                    html += "<p style='color:gray;'>Sin reseñas todavía.</p>"
-
-                html += f"""
-                <form action="/comentar_producto/{i}" method="post" style="margin-top:12px;">
-                    <input type="text" name="autor" placeholder="Tu nombre (opcional)"
-                        style="width:100%; padding:6px; margin-bottom:6px;">
-                    <textarea name="texto" placeholder="Escribe tu reseña..." required
-                        style="width:100%; height:70px; padding:6px;"></textarea>
-                    <button type="submit" style="margin-top:6px;">Añadir comentario</button>
-                </form>
-                """
-
-                html += """
-                    </div>
->>>>>>> afd8f92a7686afd7e48c188dfc06ab2cc985a90f
                 </div>
                 """
         else:
@@ -331,6 +236,7 @@ class RenderHTML:
 
         html += "</section>\n"
         return html
+    
     
     @staticmethod
     def render_login():
