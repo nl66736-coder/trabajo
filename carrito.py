@@ -2,7 +2,7 @@ class Carrito:
     def __init__(self, catalogo):
         # Lista que guarda los productos añadidos al carrito
         # Cada producto será un diccionario con 'producto' y 'cantidad'
-        sel.catalogo = catalogo
+        self.catalogo = catalogo
         self.productos = []
 
     def añadir_producto(self, producto, cantidad=1):
