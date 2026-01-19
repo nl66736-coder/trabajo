@@ -16,6 +16,7 @@ def test_existe_menu_navegacion(client):
     
     assert nav is not None, "No existe el menú de navegación con id='menu'"
 
+
 def test_enlaces_menu_navegacion(client):
     resp = client.get("/")
     assert resp.status_code == 200
