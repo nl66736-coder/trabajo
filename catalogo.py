@@ -38,7 +38,7 @@ class CatalogoProductos:
         self.guardar()
         return True
 
-    def agregar_producto(self, nombre, descripcion, precio, empaquetado, imagen):
+    def agregar_producto(self, nombre, descripcion, precio, empaquetado, imagen, stock=0):
         # Creamos un diccionario con todos los datos del producto
         producto = {
             "nombre": nombre,               # Nombre del producto
@@ -47,7 +47,8 @@ class CatalogoProductos:
             "stock": stock,                 #Stock
             "empaquetado": empaquetado,     # Tipo de empaquetado
             "imagen": imagen,               # Ruta o URL de la imagen
-            "fecha_agregado": datetime.now().strftime("%d/%m/%Y %H:%M")  # Fecha y hora actual
+            "fecha_agregado": datetime.now().strftime("%d/%m/%Y %H:%M"),
+            "comentarios": []               # Lista de comentarios vacía[]
         }
         # Añadimos el producto a la lista en memoria
         self.productos.append(producto)
