@@ -7,6 +7,7 @@ from pagina_principal import PaginaPrincipal
 from render_html import RenderHTML
 import json 
 from datetime import datetime
+import os
 
 def cargar_usuarios():
     with open("usuarios.json", "r") as f:
@@ -24,7 +25,7 @@ def guardar_historial(historial):
     with open('historial.json', 'w', encoding="utf-8") as archivo:
         json.dump(historial, archivo, indent=4, ensure_ascii=False)
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static', static_url_path='/static')
 app.secret_key = 'ab23252894yrhugioghskjdhg0uewri'
 pagina = PaginaPrincipal(api_key_news="5a7f6908927b43c3fd3f2d9f4a03d271")
 pagina.construir()
@@ -244,11 +245,15 @@ def login():
 
         
         elif usuario not in usuarios:
-            return RenderHTML.render_login() + "<p style='color:red;'>El usuario no existe.</p>" + RenderHTML.render_boton_registro()
+            html = RenderHTML.render_pagina_login_completa()
+            html = html.replace("</body>", f"<p style='color:red; margin: 2rem;'>El usuario no existe.</p>\n</body>")
+            return render_template_string(html)
         else:
-            return RenderHTML.render_login() + "<p style='color:red;'>Credenciales incorrectas. Intenta de nuevo.</p>"
+            html = RenderHTML.render_pagina_login_completa()
+            html = html.replace("</body>", f"<p style='color:red; margin: 2rem;'>Credenciales incorrectas. Intenta de nuevo.</p>\n</body>")
+            return render_template_string(html)
     else:
-        return RenderHTML.render_login()
+        return render_template_string(RenderHTML.render_pagina_login_completa())
 
 # ---------- registro ----------
 @app.route("/registro", methods=["GET", "POST"])
@@ -264,7 +269,9 @@ def registro():
 
         # Evitar duplicados
         if usuario in usuarios:
-            return RenderHTML.render_registro() + "<p style='color:red;'>El usuario ya existe.</p>"
+            html = RenderHTML.render_pagina_registro_completa()
+            html = html.replace("</body>", f"<p style='color:red; margin: 2rem;'>El usuario ya existe.</p>\n</body>")
+            return render_template_string(html)
 
         # Guardar usuario y contraseña
         usuarios[usuario] = contrasena
@@ -295,7 +302,7 @@ def registro():
         session["mensaje"] = "✅ Registro completado correctamente. Ya puedes iniciar sesión."
         return redirect("/login")
 
-    return RenderHTML.render_registro()
+    return render_template_string(RenderHTML.render_pagina_registro_completa())
 
 
 
@@ -348,6 +355,9 @@ def generar_recomendaciones():
     if usuario:
         pagina.seccion_notificaciones.generar_notificaciones_recomendaciones(usuario, pagina.seccion_catalogo.catalogo.productos)
     return redirect('/notificaciones')
+
+# Nota: Flask sirve automáticamente /static/ gracias a:
+# Flask(__name__, static_folder='static', static_url_path='/static')
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False)
