@@ -192,8 +192,6 @@ class RenderHTML:
     def render_registro():
         return """
         <section style="margin:20px;">
-            <h1 style="color:red;">SI VES ESTO, ES EL ARCHIVO CORRECTO</h1>
-
             <h2>Registro de usuario</h2>
             <form method="POST" action="/registro">
                 Usuario: <input type="text" name="usuario" required><br><br>
