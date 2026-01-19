@@ -12,14 +12,14 @@ def client():
         yield client
 
 def test_existe_seccion_informacion(client):
-    resp = client.get("/")
+    resp = client.get("/", follow_redirects=True)
     assert resp.status_code == 200
 
     soup = BeautifulSoup(resp.data, "html.parser")
     assert soup.select_one("section#informacion") is not None, "No existe la sección 'informacion'"
 
 def test_datos_informacion(client):
-    resp = client.get("/")
+    resp = client.get("/", follow_redirects=True)
     assert resp.status_code == 200
     soup = BeautifulSoup(resp.data, "html.parser")
     info = soup.select_one("section#informacion")
