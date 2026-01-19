@@ -1,8 +1,13 @@
 # Módulo: render_html.py
 # Genera fragmentos HTML para mostrar noticias, tendencias y notificaciones.
 
+from pydoc import html
+
+
 class RenderHTML:
     """Clase responsable de generar todo el HTML de la aplicación"""
+    print("✅ USANDO ESTE render_html.py")
+
     
     @staticmethod
     def render_seccion_informacion(nombre, imagen, descripcion):
@@ -145,24 +150,77 @@ class RenderHTML:
         html = '<section id="catalogo">\n'
         html += "<h1>Catálogo de productos</h1>\n"
 
-        # Mostrar productos existentes
         if productos:
-            for i, p in enumerate(productos):  # usamos enumerate para tener el índice
-                html += f"""
-                <div style='border:1px solid #ccc; margin:10px; padding:10px; border-radius:8px;'>
-                    <h3>{p['nombre']}</h3>
-                    <p>{p['descripcion']}</p>
-                    <p><strong>Precio:</strong> {p['precio']} €</p>
-                    <p><strong>Empaquetado:</strong> {p['empaquetado']}</p>
-                    <p><strong>Stock disponible:</strong> {p['stock']}</p>
-                    <img src="{p['imagen']}" alt="{p['nombre']}" style="max-width:200px;"><br>
+            for i, p in enumerate(productos):
+                comentarios = p.get("comentarios", [])
 
-                    <!-- Formulario para añadir al carrito con cantidad -->
-                    <form action="/añadir_carrito/{i}" method="post">
-                        <label for="cantidad">Cantidad:</label>
-                        <input type="number" name="cantidad" value="1" min="1">
-                        <button type="submit">Añadir al carrito</button>
-                    </form>
+                html += f"""
+                <div style="
+                    border:1px solid #ccc;
+                    margin:10px;
+                    padding:10px;
+                    border-radius:8px;
+                    display:flex;
+                    gap:20px;
+                ">
+                    <!-- IZQUIERDA: PRODUCTO -->
+                    <div style="flex:1; min-width:280px;">
+                        <h3>{p['nombre']}</h3>
+                        <p>{p['descripcion']}</p>
+                        <p><strong>Precio:</strong> {p['precio']} €</p>
+                        <p><strong>Empaquetado:</strong> {p['empaquetado']}</p>
+                """
+
+                stock = p.get("stock", 0)
+                if stock > 0:
+                    html += f"<p><strong>Stock disponible:</strong> {stock}</p>"
+                else:
+                    html += "<p><strong>Stock disponible:</strong> <span style='color:red; font-weight:bold;'>AGOTADO</span></p>"
+
+                html += f"""
+                        <img src="{p['imagen']}" alt="{p['nombre']}" style="max-width:200px;"><br><br>
+
+                        <!-- Formulario carrito -->
+                """
+
+                # Si no hay stock, desactivamos el botón (queda muy “profe”)
+                if stock > 0:
+                    html += f"""
+                        <form action="/añadir_carrito/{i}" method="post">
+                            <label>Cantidad:</label>
+                            <input type="number" name="cantidad" value="1" min="1" max="{stock}">
+                            <button type="submit">Añadir al carrito</button>
+                        </form>
+                    """
+                else:
+                    html += """
+                        <p style="color:#888;">No disponible (sin stock).</p>
+                    """
+
+                html += """
+                    </div>
+
+                    <!-- DERECHA: COMENTARIOS -->
+                    <div style="flex:1; border-left:1px dashed #bbb; padding-left:15px;">
+                        <h4>Reseñas</h4>
+                """
+
+                if comentarios:
+                    for c in comentarios[-5:]:
+                        autor = c.get("autor", "Anónimo")
+                        texto = c.get("texto", "")
+                        fecha = c.get("fecha", "")
+                        html += f"""
+                        <div style="border:1px solid #eee; padding:8px; margin-bottom:8px; border-radius:6px;">
+                            <p style="margin:0;"><strong>{autor}</strong> <span style="color:#777; font-size:12px;">{fecha}</span></p>
+                            <p style="margin:6px 0 0 0;">{texto}</p>
+                        </div>
+                        """
+                else:
+                    html += "<p style='color:gray;'>Sin reseñas todavía.</p>"
+
+                html += """
+                    </div>
                 </div>
                 """
         else:
@@ -171,26 +229,42 @@ class RenderHTML:
         html += "</section>\n"
         return html
     
-    
     @staticmethod
     def render_login():
         return """
-        <form method="POST" action="/login">
-            Usuario: <input type="text" name="usuario"><br>
-            Contraseña: <input type="password" name="contrasenha"><br>
-            <button type="submit">Iniciar sesión</button>
-        </form>
+        <section style="margin:20px;">
+            <h2>Iniciar sesión</h2>
+            <form method="POST" action="/login">
+                Usuario: <input type="text" name="usuario" required><br><br>
+                Contraseña: <input type="password" name="contrasenha" required><br><br>
+                <button type="submit">Iniciar sesión</button>
+            </form>
+            <br>
+            <a href="/registro"><button>Registrarse</button></a>
+            <a href="/inicio"><button>Volver al inicio</button></a>
+        </section>
         """
        
     @staticmethod
     def render_registro():
         return """
-        <form method="POST" action="/registro">
-            Nuevo usuario: <input type="text" name="usuario"><br>
-            Nueva contraseña: <input type="password" name="contrasena"><br>
-            <button type="submit">Registrarse</button>
-        </form>
+        <section style="margin:20px;">
+            <h2>Registro de usuario</h2>
+            <form method="POST" action="/registro">
+                Usuario: <input type="text" name="usuario" required><br><br>
+                Contraseña: <input type="password" name="contrasena" required><br><br>
+
+                <label>
+                    <input type="checkbox" name="recibir_notificaciones" checked>
+                    Quiero recibir notificaciones y recomendaciones
+                </label><br><br>
+
+                <button type="submit">Registrarse</button>
+            </form>
+        </section>
         """
+
+
     @staticmethod
     def render_boton_registro():
         return """

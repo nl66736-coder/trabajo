@@ -239,7 +239,9 @@ def login():
 
         if usuario in usuarios and usuarios[usuario] == contrasenha:
             session['usuario'] = usuario
-            return redirect('/')
+            session["mensaje"] = f"👋 Bienvenido, {usuario}. Has iniciado sesión correctamente."
+            return redirect('/inicio')
+
         
         elif usuario not in usuarios:
             return RenderHTML.render_login() + "<p style='color:red;'>El usuario no existe.</p>" + RenderHTML.render_boton_registro()
@@ -249,36 +251,53 @@ def login():
         return RenderHTML.render_login()
 
 # ---------- registro ----------
-@app.route('/registro', methods=['GET', 'POST'])
+@app.route("/registro", methods=["GET", "POST"])
 def registro():
-    if request.method == 'POST':
-        usuario = request.form['usuario']
-        contrasena = request.form['contrasena']
+    if request.method == "POST":
+        usuario = request.form["usuario"]
+        contrasena = request.form["contrasena"]
+
+        recibir_notificaciones = "recibir_notificaciones" in request.form
+
+        # Cargar usuarios
         usuarios = cargar_usuarios()
+
+        # Evitar duplicados
+        if usuario in usuarios:
+            return RenderHTML.render_registro() + "<p style='color:red;'>El usuario ya existe.</p>"
+
+        # Guardar usuario y contraseña
+        usuarios[usuario] = contrasena
+        guardar_usuarios(usuarios)
+
+        # Cargar historial
         historial = cargar_historial()
 
-        if usuario in usuarios:
-            return RenderHTML.render_registro() + "<p style='color:red;'>El usuario ya existe. Intenta con otro nombre o inicie sesión.</p>" + RenderHTML.render_boton_login()
-        
-        else:
-            usuarios[usuario] = contrasena
-            guardar_usuarios(usuarios)
-            historial[usuario] = {
-                "compras": [],
-                "notificaciones": [
-                    {
-                        "texto": "¡Bienvenido a Chamba Store! Gracias por registrarte.",
-                        "link": "/catalogo",
-                        "fecha": datetime.now().strftime("%d/%m/%Y %H:%M"),
-                        "tipo": "info"
-                    }
-                ]
+        historial[usuario] = {
+            "compras": [],
+            "notificaciones": [],
+            "preferencias": {
+                "recibir_notificaciones": recibir_notificaciones
             }
-            guardar_historial(historial)
-            pagina.seccion_notificaciones.generar_notificaciones_recomendaciones(usuario, pagina.seccion_catalogo.catalogo.productos)
-            return RenderHTML.render_registro() + "<p style='color:red;'>El usuario se ha registrado corectamente. Puede iniciar sesión</p>" +  RenderHTML.render_boton_login()
-    else:
-        return RenderHTML.render_registro()
+        }
+
+        # Notificación de bienvenida SOLO si acepta
+        if recibir_notificaciones:
+            historial[usuario]["notificaciones"].append({
+                "texto": "¡Bienvenido a Chamba Store! Gracias por registrarte.",
+                "link": "/catalogo",
+                "fecha": datetime.now().strftime("%d/%m/%Y %H:%M"),
+                "tipo": "info"
+            })
+
+        guardar_historial(historial)
+
+        session["mensaje"] = "✅ Registro completado correctamente. Ya puedes iniciar sesión."
+        return redirect("/login")
+
+    return RenderHTML.render_registro()
+
+
 
 @app.route('/logout')
 def logout():
