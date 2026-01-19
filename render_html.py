@@ -156,13 +156,11 @@ class RenderHTML:
                     <img src="{p['imagen']}" alt="{p['nombre']}" style="max-width:200px;"><br>
             
                     <!-- Formulario para añadir al carrito con cantidad -->
-                    html += f"""
                     <form action="/añadir_carrito/{i}" method="post">
                         <label for="cantidad">Cantidad:</label>
                         <input type="number" name="cantidad" value="1" min="1">
                         <button type="submit">Añadir al carrito</button>
                     </form>
-                    """
                 </div>
                 """
         else:
