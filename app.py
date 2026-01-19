@@ -38,8 +38,9 @@ def raiz():
 # ---------- INICIO ----------
 @app.route('/inicio')
 def inicio():
-    # Mostramos la sección de información (Chamba Store, imagen, texto...)
     contenido = pagina.seccion_info.render()
+    # Añadir comentarios también en inicio
+    contenido += pagina.seccion_comentarios.render()
     html = pagina.render_layout(contenido)
     return render_template_string(html)
 
@@ -225,7 +226,7 @@ def finalizar_compra():
 
 @app.route('/comentar', methods=['POST'])
 def comentar():
-    autor = session['usuario']
+    autor = session.get('usuario') or request.form.get("autor", "Anónimo")
     texto = request.form['texto']
     valoracion = int(request.form['valoracion'])
 
