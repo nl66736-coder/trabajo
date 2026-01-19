@@ -1,8 +1,7 @@
 import pytest
 from carrito import Carrito
 
-#   CATÁLOGO MOCK PARA TESTS
-
+# Catálogo simulado para pruebas
 class CatalogoMock:
     def __init__(self):
         self.productos = []
@@ -19,8 +18,7 @@ class CatalogoMock:
         self.stock[nombre] -= cantidad
 
 
-#   PRODUCTOS DE PRUEBA
-
+# Productos de prueba
 producto1 = {
     "nombre": "ChambaPhone X",
     "descripcion": "Smartphone con cámara de 108MP",
@@ -38,8 +36,7 @@ producto2 = {
 }
 
 
-#   FUNCIÓN AUXILIAR
-
+# Crea carrito con catálogo mock
 def crear_carrito_con_catalogo():
     catalogo = CatalogoMock()
     catalogo.agregar_producto(producto1, stock=10)
@@ -47,13 +44,13 @@ def crear_carrito_con_catalogo():
     return Carrito(catalogo), catalogo
 
 
-#   TESTS DEL CARRITO
-
+# Tests del carrito
 def test_añadir_producto():
     carrito, _ = crear_carrito_con_catalogo()
     carrito.añadir_producto(producto1)
     assert len(carrito.productos) == 1
     assert carrito.productos[0]["producto"]["nombre"] == "ChambaPhone X"
+    assert carrito.productos[0]["cantidad"] == 1
 
 
 def test_eliminar_producto():
@@ -81,16 +78,12 @@ def test_vaciar_carrito():
     assert len(carrito.productos) == 0
 
 
-#   TESTS DEL STOCK
-
+# Tests del stock
 def test_no_añadir_sin_stock():
     catalogo = CatalogoMock()
     catalogo.agregar_producto(producto1, stock=0)
     carrito = Carrito(catalogo)
-
-    resultado = carrito.añadir_producto(producto1, 1)
-
-    assert resultado is False
+    assert carrito.añadir_producto(producto1, 1) is False
     assert len(carrito.productos) == 0
 
 
@@ -98,10 +91,7 @@ def test_no_añadir_si_cantidad_supera_stock():
     catalogo = CatalogoMock()
     catalogo.agregar_producto(producto1, stock=2)
     carrito = Carrito(catalogo)
-
-    resultado = carrito.añadir_producto(producto1, 5)
-
-    assert resultado is False
+    assert carrito.añadir_producto(producto1, 5) is False
     assert len(carrito.productos) == 0
 
 
@@ -109,7 +99,5 @@ def test_reducir_stock_al_añadir():
     catalogo = CatalogoMock()
     catalogo.agregar_producto(producto1, stock=5)
     carrito = Carrito(catalogo)
-
     carrito.añadir_producto(producto1, 2)
-
     assert catalogo.obtener_stock("ChambaPhone X") == 3
