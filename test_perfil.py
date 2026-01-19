@@ -4,23 +4,13 @@ import os
 import json
 
 def test_archivo_perfil_existe():
-    """Verifica que perfil.py existe y puede ser importado"""
-    assert os.path.exists("perfil.py"), " perfil.py no existe"
+    assert os.path.exists("perfil.py"), "perfil.py no existe"
     
     try:
-        # Intentar importar las funciones principales
-        from perfil import (
-            cargar_perfiles,
-            guardar_perfiles,
-            ver_perfil,
-            editar_perfil,
-            actualizar_perfil
-        )
-        print(" perfil.py importado correctamente")
-        return True
+        from perfil import cargar_perfiles
+        print("perfil.py importado correctamente")
     except ImportError as e:
-        print(f" Error importando perfil.py: {e}")
-        return False
+        pytest.fail(f"Error importando perfil.py: {e}")
 
 def test_funciones_existen():
     """Verifica que las funciones principales están definidas"""
@@ -36,14 +26,13 @@ def test_funciones_existen():
     ]
     
     for funcion in funciones:
-        assert funcion in contenido, f" Falta función: {funcion}"
+        assert funcion in contenido, f"Falta función: {funcion}"
     
-    print(" Todas las funciones principales existen")
-    return True
+    print("Todas las funciones principales existen")
 
 def test_rutas_en_app():
     """Verifica que las rutas están en app.py"""
-    assert os.path.exists("app.py"), " app.py no existe"
+    assert os.path.exists("app.py"), "app.py no existe"
     
     with open("app.py", "r", encoding="utf-8") as f:
         contenido = f.read()
@@ -55,32 +44,31 @@ def test_rutas_en_app():
     ]
     
     for ruta in rutas:
-        assert ruta in contenido, f" Falta ruta: {ruta}"
+        assert ruta in contenido, f"Falta ruta: {ruta}"
     
-    print(" Todas las rutas están en app.py")
-    return True
+    print("Todas las rutas están en app.py")
 
-def test_menu_tiene_perfil():
+def test_menu_tiene_perfil(): 
     """Verifica que el menú tiene enlace a perfil"""
-    assert os.path.exists("menu.py"), " menu.py no existe"
+    assert os.path.exists("menu.py"), "menu.py no existe"
     
     with open("menu.py", "r", encoding="utf-8") as f:
         contenido = f.read()
     
-    # Buscar el enlace al perfil
+    # Verificar si contiene el enlace exacto
     if '"Mi Perfil"' in contenido and '"/perfil"' in contenido:
-        print(" Menú tiene enlace 'Mi Perfil'")
-        return True
+        print("Menú tiene enlace 'Mi Perfil'")
+    # Si solo hace referencia a 'perfil' de manera general
     elif 'perfil' in contenido.lower():
-        print("  Menú hace referencia a perfil (revisar texto exacto)")
-        return True
+        print("Menú hace referencia a perfil (revisar texto exacto)")
+    # Si no lo encuentra, falla el test con assert
     else:
-        print(" Menú no tiene enlace claro al perfil")
-        return False
+        pytest.fail("Menú no tiene enlace claro al perfil")
+
 
 def test_estructura_perfiles_json():
     """Explica cómo será perfiles.json"""
-    print("\n perfiles.json se creará automáticamente con esta estructura:")
+    print("\nperfiles.json se creará automáticamente con esta estructura:")
     print("""
   {
     "nombre_usuario": {
@@ -94,18 +82,16 @@ def test_estructura_perfiles_json():
   """)
     
     if os.path.exists("perfiles.json"):
-        print(" perfiles.json ya existe")
+        print("perfiles.json ya existe")
         # Verificar que tiene formato JSON válido
-        try:
-            with open("perfiles.json", "r", encoding="utf-8") as f:
+        with open("perfiles.json", "r", encoding="utf-8") as f:
+            try:
                 json.load(f)
-            print(" perfiles.json tiene formato JSON válido")
-        except json.JSONDecodeError:
-            print(" perfiles.json no tiene formato JSON válido")
+                print("perfiles.json tiene formato JSON válido")
+            except json.JSONDecodeError:
+                pytest.fail("perfiles.json no tiene formato JSON válido")
     else:
-        print("  perfiles.json no existe aún (se creará automáticamente)")
-    
-    return True
+        print("perfiles.json no existe aún (se creará automáticamente)")
 
 def run_all_tests():
     """Ejecuta todos los tests"""
@@ -139,7 +125,7 @@ def run_all_tests():
     print("\n" + "=" * 50)
     print(" RESULTADOS:")
     
-    exitos = sum(1 for resultado in resultados if resultado[0] == "✅")
+    exitos = sum(1 for resultado in resultados if resultado[0] == "Correcto")
     total = len(resultados)
     
     for simbolo, nombre in resultados:
