@@ -41,6 +41,7 @@ def inicio():
     contenido = pagina.seccion_info.render()
     # Añadir comentarios también en inicio
     contenido += pagina.seccion_comentarios.render()
+    contenido += pagina.seccion_contacto.render()
     html = pagina.render_layout(contenido)
     return render_template_string(html)
 
