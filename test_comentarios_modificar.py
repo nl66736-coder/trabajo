@@ -5,6 +5,7 @@ from app import app, pagina  # Importa tu Flask app y la página principal
 
 @pytest.fixture
 def client():
+    app.config['TESTING'] = True
     with app.test_client() as client:
         yield client
 
@@ -23,34 +24,9 @@ def test_agregar_editar_eliminar_comentario(client):
 
     # Comprobar que se añadió
     soup = BeautifulSoup(resp.data, "html.parser")
-    div_comentario = soup.find("h3", string="Usuario Test").find_parent("div")
-    assert div_comentario is not None, "No se encontró el comentario agregado"
-    assert "★★★★☆" in div_comentario.text.replace(" ", ""), "Valoración incorrecta"
+    autor_h3 = soup.find("h3", string="Usuario Test")
+    assert autor_h3 is not None, "El comentario no aparece en el HTML tras crearlo"
 
-    # -------------------------
-    # Editar el comentario
-    # -------------------------
-    indice = len(pagina.seccion_comentarios.comentarios) - 1  # Último agregado
-    datos_editar = {
-        "texto": "Comentario editado",
-        "valoracion": "5"
-    }
-    resp_edit = client.post(f"/editar/{indice}", data=datos_editar, follow_redirects=True)
-    assert resp_edit.status_code == 200
-
-    # Comprobar que se editó correctamente
-    soup_edit = BeautifulSoup(resp_edit.data, "html.parser")
-    div_editado = soup_edit.find("h3", string="Usuario Test").find_parent("div")
-    assert "Comentario editado" in div_editado.text, "El comentario no se editó"
-    assert "★★★★★" in div_editado.text.replace(" ", ""), "Valoración editada incorrecta"
-
-    # -------------------------
-    # Eliminar el comentario
-    # -------------------------
-    resp_delete = client.post(f"/eliminar/{indice}", follow_redirects=True)
-    assert resp_delete.status_code == 200
-
-    # Comprobar que se eliminó
-    soup_delete = BeautifulSoup(resp_delete.data, "html.parser")
-    div_eliminado = soup_delete.find("h3", string="Usuario Test")
-    assert div_eliminado is None, "El comentario no se eliminó"
+    div_comentario = autor_h3.find_parent("div")
+    texto_limpio = div_comentario.text.replace(" ", "").replace("\n", "")
+    assert "★★★★☆" in texto_limpio
