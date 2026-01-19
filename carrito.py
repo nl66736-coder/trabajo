@@ -49,34 +49,39 @@ class Carrito:
         html = "<section id='carrito'><h1>Carrito de Compras</h1>"
 
         if not self.productos:
-            html += "<p>Tu carrito está vacío.</p>"
+            html += "<p class='carrito-vacio'>Tu carrito está vacío.</p>"
         else:
             for i, p in enumerate(self.productos):
                 producto = p["producto"]
                 cantidad = p["cantidad"]
+                subtotal = float(producto['precio']) * cantidad
                 html += f"""
-                <div style='border:1px solid #ccc; margin:10px; padding:10px;'>
-                    <h3>{producto['nombre']}</h3>
-                    <p>{producto['descripcion']}</p>
-                    <p><strong>Precio:</strong> {producto['precio']} €</p>
-                    <p><strong>Cantidad:</strong> {cantidad}</p>
-                    <form action='/eliminar_carrito/{i}' method='post'>
-                        <button type='submit'>Eliminar</button>
-                    </form>
+                <div class="producto-carrito">
+                    <div class="producto-info">
+                        <h3>{producto['nombre']}</h3>
+                        <p>{producto['descripcion']}</p>
+                        <p><strong>Precio unitario:</strong> {producto['precio']} €</p>
+                        <p><strong>Cantidad:</strong> {cantidad}</p>
+                        <form action='/eliminar_carrito/{i}' method='post' style='display:inline;'>
+                            <button type='submit' class='btn-eliminar'>Eliminar</button>
+                        </form>
+                    </div>
+                    <div class="producto-precio">{subtotal:.2f} €</div>
                 </div>
                 """
             # Mostrar el total acumulado
             total = self.calcular_total()
-            html += f"<h2>Total: {total:.2f} €</h2>"
-
-            # Botones para vaciar el carrito o finalizar compra
-            html += """
-            <div>
-                <form action='/finalizar_compra' method='post'>
-                    <button type='submit' style='background:#4caf50; color:white;'>Finalizar Compra</button>
+            html += f"""
+            <div class="total-section">
+                <h2>Total: {total:.2f} €</h2>
+            </div>
+            
+            <div style='text-align: center; margin-top: 2rem;'>
+                <form action='/finalizar_compra' method='post' style='display: inline;'>
+                    <button type='submit' class='btn-comprar'>Finalizar Compra</button>
                 </form>
-                <form action='/vaciar_carrito' method='post'>
-                    <button type='submit' style='background:red; color:white;'>Vaciar carrito</button>
+                <form action='/vaciar_carrito' method='post' style='display: inline;'>
+                    <button type='submit' class='btn-vaciar'>Vaciar carrito</button>
                 </form>
             </div>
             """
