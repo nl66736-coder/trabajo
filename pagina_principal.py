@@ -575,9 +575,15 @@ class PaginaPrincipal:
         """
         html = "<!DOCTYPE html>\n<html>\n<head>\n"
         html += "<meta charset='UTF-8'>\n"
+        html += "<meta name='viewport' content='width=device-width, initial-scale=1.0'>\n"
         html += "<title>Chamba Store</title>\n"
+        html += "<link rel='stylesheet' href='/static/style.css'>\n"
         html += "</head>\n<body>\n"
-        html += self.menu.render()      # menú arriba
+        
+        # Menú con dropdown de perfil integrado
+        usuario = session.get('usuario')
+        html += self._render_navbar_con_perfil(usuario)
+        
         if "mensaje" in session:
             html += f"""
             <div style="background:#e6ffe6; border:1px solid #2ecc71;
@@ -587,6 +593,22 @@ class PaginaPrincipal:
             """
         html += contenido_central       # contenido de /inicio
         html += "</body>\n</html>"
+        return html
+    
+    def _render_navbar_con_perfil(self, usuario=None):
+        """Renderiza la navegación con el dropdown de perfil integrado"""
+        html = '<nav class="navbar-con-perfil">\n'
+        html += '<ul class="navbar-items">\n'
+        
+        # Items de navegación
+        for nombre, url in self.menu.items:
+            html += f'  <li><a href="{url}">{nombre}</a></li>\n'
+        
+        html += '</ul>\n'
+        # Agregar dropdown de perfil al final
+        html += RenderHTML.render_perfil_dropdown(usuario)
+        html += '</nav>\n'
+        
         return html
     
     def guardar_html(self, nombre_archivo="tienda.html"):
