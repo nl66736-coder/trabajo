@@ -1,9 +1,7 @@
 import pytest
 from carrito import Carrito
 
-# ============================
 #   CATÁLOGO MOCK PARA TESTS
-# ============================
 
 class CatalogoMock:
     def __init__(self):
@@ -21,9 +19,7 @@ class CatalogoMock:
         self.stock[nombre] -= cantidad
 
 
-# ============================
 #   PRODUCTOS DE PRUEBA
-# ============================
 
 producto1 = {
     "nombre": "ChambaPhone X",
@@ -42,9 +38,7 @@ producto2 = {
 }
 
 
-# ============================
 #   FUNCIÓN AUXILIAR
-# ============================
 
 def crear_carrito_con_catalogo():
     catalogo = CatalogoMock()
@@ -53,9 +47,7 @@ def crear_carrito_con_catalogo():
     return Carrito(catalogo), catalogo
 
 
-# ============================
 #   TESTS DEL CARRITO
-# ============================
 
 def test_añadir_producto():
     carrito, _ = crear_carrito_con_catalogo()
@@ -89,9 +81,7 @@ def test_vaciar_carrito():
     assert len(carrito.productos) == 0
 
 
-# ============================
 #   TESTS DEL STOCK
-# ============================
 
 def test_no_añadir_sin_stock():
     catalogo = CatalogoMock()
