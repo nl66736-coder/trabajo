@@ -242,5 +242,19 @@
         "preferencias": {
             "recibir_notificaciones": false
         }
+    },
+    "mael": {
+        "compras": [],
+        "notificaciones": [
+            {
+                "texto": "¡Bienvenido a Chamba Store! Gracias por registrarte.",
+                "link": "/catalogo",
+                "fecha": "19/01/2026 19:01",
+                "tipo": "info"
+            }
+        ],
+        "preferencias": {
+            "recibir_notificaciones": true
+        }
     }
 }
