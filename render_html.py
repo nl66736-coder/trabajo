@@ -1,51 +1,33 @@
 # Módulo: render_html.py
 # Genera fragmentos HTML para mostrar noticias, tendencias y notificaciones.
 
+from pydoc import html
+
+
 class RenderHTML:
     """Clase responsable de generar todo el HTML de la aplicación"""
-    
+    print("✅ USANDO ESTE render_html.py")
+
     @staticmethod
-    def render_perfil_dropdown(usuario=None):
-        """Renderiza un dropdown de perfil en la navegación"""
-        html = '<div id="perfil-dropdown" class="perfil-dropdown">\n'
-        html += '<button id="perfil-btn" class="perfil-btn">👤 Perfil</button>\n'
-        html += '<div id="perfil-menu" class="perfil-menu" style="display: none;">\n'
+    def render_header(usuario=None):
+        html = '<header id="header">\n'
+        html += '  <div class="header-container">\n'
+        html += '    <div class="header-title">\n'
+        html += '      <h1>Chamba Store</h1>\n'
+        html += '    </div>\n'
+        html += '    <div class="header-cuenta">\n'
         
         if usuario:
-            # Usuario logueado: mostrar nombre y opciones
-            html += f'<div class="perfil-usuario">\n'
-            html += f'<p class="perfil-nombre">{usuario}</p>\n'
-            html += f'</div>\n'
-            html += f'<hr style="border: none; border-top: 1px solid #d4e4f7; margin: 0.5rem 0;">\n'
-            html += f'<a href="/notificaciones" class="perfil-item">📬 Notificaciones</a>\n'
-            html += f'<a href="/logout" class="perfil-item logout">🚪 Cerrar sesión</a>\n'
+            html += f'      <span class="usuario-nombre">{usuario}</span>\n'
+            html += '      <a href="/perfil"><button class="btn-header">Mi Perfil</button></a>\n'
+            html += '      <a href="/logout"><button class="btn-header btn-logout">Cerrar Sesión</button></a>\n'
         else:
-            # Usuario no logueado: mostrar botones login/registro
-            html += f'<a href="/login" class="perfil-item">🔑 Iniciar sesión</a>\n'
-            html += f'<a href="/registro" class="perfil-item">📝 Crear cuenta</a>\n'
+            html += '      <a href="/login"><button class="btn-header">Iniciar Sesión</button></a>\n'
+            html += '      <a href="/registro"><button class="btn-header btn-registro">Registrarse</button></a>\n'
         
-        html += '</div>\n'
-        html += '</div>\n'
-        
-        # Agregar JavaScript para el dropdown
-        html += '''
-        <script>
-            document.getElementById("perfil-btn").addEventListener("click", function() {
-                var menu = document.getElementById("perfil-menu");
-                menu.style.display = menu.style.display === "none" ? "block" : "none";
-            });
-            
-            // Cerrar el dropdown cuando hagas clic fuera
-            document.addEventListener("click", function(event) {
-                var dropdown = document.getElementById("perfil-dropdown");
-                var btn = document.getElementById("perfil-btn");
-                if (!dropdown.contains(event.target)) {
-                    document.getElementById("perfil-menu").style.display = "none";
-                }
-            });
-        </script>
-        '''
-        
+        html += '    </div>\n'
+        html += '  </div>\n'
+        html += '</header>\n'
         return html
     
     @staticmethod
@@ -95,7 +77,7 @@ class RenderHTML:
     @staticmethod
     def render_seccion_comentarios(titulo, comentarios):
         html = """
-        <section id="comentarios">
+        <section id="comentarios" style="margin:20px;">
         """
 
         if titulo:
@@ -103,7 +85,8 @@ class RenderHTML:
 
         # Botón para abrir el modal
         html += """
-            <button onclick="document.getElementById('modal-comentarios').style.display='flex'">
+            <button onclick="document.getElementById('modal-comentarios').style.display='block'"
+                    style="padding:10px 20px; margin:10px 0; cursor:pointer;">
                 Ver comentarios
             </button>
         """
@@ -112,18 +95,18 @@ class RenderHTML:
         html += """
         <div id="modal-comentarios" 
             style="display:none; position:fixed; top:0; left:0; width:100%; height:100%;
-                    background:rgba(0,0,0,0.5); justify-content:center; align-items:center; z-index:999;">
+                    background:rgba(0,0,0,0.5); justify-content:center; align-items:center;">
             
-            <div style="background:linear-gradient(to bottom, rgba(255, 255, 255, 0.98), rgba(212, 228, 247, 0.2)); padding:20px; width:85%; max-width:700px; 
-                        border-radius:12px; max-height:80%; overflow-y:auto; position:relative; box-shadow:0 4px 20px rgba(0,0,0,0.3);">
+            <div style="background:white; padding:20px; width:80%; max-width:600px; 
+                        border-radius:10px; max-height:80%; overflow-y:auto; position:relative;">
 
                 <!-- Botón cerrar -->
                 <span onclick="document.getElementById('modal-comentarios').style.display='none'"
-                    style="position:absolute; top:15px; right:20px; cursor:pointer; font-size:28px; color:#7a9fc8; font-weight:bold;">
+                    style="position:absolute; top:10px; right:15px; cursor:pointer; font-size:22px;">
                     &times;
                 </span>
 
-                <h2 style="color:#5a7fa6; border-bottom:3px solid #d4e4f7; padding-bottom:1rem;">Comentarios de usuarios</h2>
+                <h2>Comentarios de usuarios</h2>
         """
 
         # Contenido del modal
@@ -131,15 +114,19 @@ class RenderHTML:
             for autor, texto, valoracion, fecha in comentarios:
                 estrellas = "★" * valoracion + "☆" * (5 - valoracion)
                 html += f"""
-                    <div class="comentario">
+                    <div style='border:1px solid #ccc; margin:10px 0; padding:10px; border-radius:8px;'>
                         <h3>{autor}</h3>
-                        <small>Publicado el {fecha}</small><br>
+                        <small style='color:gray;'>Publicado el {fecha}</small><br>
                         <p>{texto}</p>
-                        <p class="valoracion">Valoración: {estrellas}</p>
+                        <p>Valoración: {estrellas}</p>
                     </div>
                 """
         else:
-            html += "<p style='text-align:center; color:#999; padding:2rem;'>No hay comentarios aún. ¡Sé el primero!</p>"
+            html += """
+                <div style="border:1px dashed #ccc; margin:10px 0; padding:10px; border-radius:8px;">
+                    <p>No hay comentarios aún. ¡Sé el primero!</p>
+                </div>
+            """
 
         # Cerrar modal + cierre de bloques
         html += """
@@ -154,19 +141,13 @@ class RenderHTML:
     @staticmethod
     def render_formulario_nuevo_comentario():
         return """
-        <section id="nuevo-comentario">
+        <section id="nuevo-comentario" style="margin:20px;">
             <h2>Deja tu comentario</h2>
             <form action="/comentar" method="post">
-                <label>Tu nombre:</label>
-                <input type="text" name="autor" placeholder="Escribe tu nombre..." required><br>
-                
-                <label>Tu comentario:</label>
-                <textarea name="texto" placeholder="Escribe tu comentario..." required></textarea><br>
-                
-                <label>Valoración (1-5 estrellas):</label>
-                <input type="number" name="valoracion" min="1" max="5" value="5" required><br>
-                
-                <button type="submit" class="btn-comprar">Enviar comentario</button>
+                <textarea name="texto" placeholder="Escribe tu comentario..." required></textarea><br><br>
+                <label>Valoración (1-5):</label>
+                <input type="number" name="valoracion" min="1" max="5" required><br><br>
+                <button type="submit">Enviar</button>
             </form>
         </section>
         """
@@ -196,80 +177,155 @@ class RenderHTML:
         html = '<section id="catalogo">\n'
         html += "<h1>Catálogo de productos</h1>\n"
 
-        # Mostrar productos existentes
         if productos:
-            for i, p in enumerate(productos):  # usamos enumerate para tener el índice
-                html += f"""
-                <div class="producto-item">
-                    <h3>{p['nombre']}</h3>
-                    <p>{p['descripcion']}</p>
-                    <img src="{p['imagen']}" alt="{p['nombre']}"><br>
-                    <p class="producto-precio-catalogo"><strong>Precio:</strong> {p['precio']} €</p>
-                    <p><strong>Empaquetado:</strong> {p['empaquetado']}</p>
-                    <p><strong>Stock disponible:</strong> <span class="producto-stock">{p['stock']} unidades</span></p>
+            for i, p in enumerate(productos):
+                comentarios = p.get("comentarios", [])
 
-                    <!-- Formulario para añadir al carrito con cantidad -->
-                    <form action="/añadir_carrito/{i}" method="post" class="form-cantidad">
-                        <div class="cantidad-controls">
-                            <button type="button" class="btn-menos" onclick="decrementar(this)">−</button>
-                            <input type="number" name="cantidad" value="1" min="1" class="cantidad-input" readonly>
-                            <button type="button" class="btn-mas" onclick="incrementar(this)">+</button>
+                html += f"""
+                <div style="
+                    border:1px solid #ccc;
+                    margin:10px;
+                    padding:10px;
+                    border-radius:8px;
+                    display:flex;
+                    gap:20px;
+                ">
+                    <!-- IZQUIERDA: PRODUCTO -->
+                    <div style="flex:1; min-width:280px;">
+                        <h3>{p['nombre']}</h3>
+                        <p>{p['descripcion']}</p>
+                        <p><strong>Precio:</strong> {p['precio']} €</p>
+                        <p><strong>Empaquetado:</strong> {p['empaquetado']}</p>
+                """
+
+                stock = p.get("stock", 0)
+                if stock > 0:
+                    html += f"<p><strong>Stock disponible:</strong> {stock}</p>"
+                else:
+                    html += "<p><strong>Stock disponible:</strong> <span style='color:red; font-weight:bold;'>AGOTADO</span></p>"
+
+                html += f"""
+                        <img src="{p['imagen']}" alt="{p['nombre']}" style="max-width:200px;"><br><br>
+
+                        <!-- Formulario carrito -->
+                """
+
+                # Si no hay stock, desactivamos el botón (queda muy “profe”)
+                if stock > 0:
+                    html += f"""
+                        <form action="/añadir_carrito/{i}" method="post">
+                            <label>Cantidad:</label>
+                            <input type="number" name="cantidad" value="1" min="1" max="{stock}">
+                            <button type="submit">Añadir al carrito</button>
+                        </form>
+                    """
+                else:
+                    html += """
+                        <p style="color:#888;">No disponible (sin stock).</p>
+                    """
+
+                html += """
+                    </div>
+
+                    <!-- DERECHA: COMENTARIOS -->
+                    <div style="flex:1; border-left:1px dashed #bbb; padding-left:15px;">
+                        <h4>Reseñas</h4>
+                """
+
+                if comentarios:
+                    for c in comentarios[-5:]:
+                        autor = c.get("autor", "Anónimo")
+                        texto = c.get("texto", "")
+                        fecha = c.get("fecha", "")
+                        html += f"""
+                        <div style="border:1px solid #eee; padding:8px; margin-bottom:8px; border-radius:6px;">
+                            <p style="margin:0;"><strong>{autor}</strong> <span style="color:#777; font-size:12px;">{fecha}</span></p>
+                            <p style="margin:6px 0 0 0;">{texto}</p>
                         </div>
-                        <button type="submit" class="btn-comprar">Añadir al carrito</button>
-                    </form>
-                    <script>
-                        function incrementar(btn) {{
-                            var input = btn.parentElement.querySelector('input[name="cantidad"]');
-                            input.value = parseInt(input.value) + 1;
-                        }}
-                        function decrementar(btn) {{
-                            var input = btn.parentElement.querySelector('input[name="cantidad"]');
-                            if (parseInt(input.value) > 1) {{
-                                input.value = parseInt(input.value) - 1;
-                            }}
-                        }}
-                    </script>
+                        """
+                else:
+                    html += "<p style='color:gray;'>Sin reseñas todavía.</p>"
+
+                html += f"""
+                <form action="/comentar_producto/{i}" method="post" style="margin-top:12px;">
+                    <input type="text" name="autor" placeholder="Tu nombre (opcional)"
+                        style="width:100%; padding:6px; margin-bottom:6px;">
+                    <textarea name="texto" placeholder="Escribe tu reseña..." required
+                        style="width:100%; height:70px; padding:6px;"></textarea>
+                    <button type="submit" style="margin-top:6px;">Añadir comentario</button>
+                </form>
+                """
+
+                html += """
+                    </div>
                 </div>
                 """
         else:
-            html += "<p class='carrito-vacio'>No hay productos en el catálogo aún.</p>\n"
+            html += "<p>No hay productos en el catálogo aún.</p>\n"
 
         html += "</section>\n"
         return html
     
-    
     @staticmethod
-    def render_login():
-        return """
-        <section style="margin:20px;">
-            <h2>Iniciar sesión</h2>
-            <form method="POST" action="/login">
-                Usuario: <input type="text" name="usuario" required><br><br>
-                Contraseña: <input type="password" name="contrasenha" required><br><br>
-                <button type="submit">Iniciar sesión</button>
+    def render_login(error=None):
+        html = """
+        <section id="login">
+            <h1>Iniciar sesión</h1>
+        """
+        if error:
+            html += f'        <div class="error-message">{error}</div>\n'
+        
+        html += """            <form method="POST" action="/login" class="form-login">
+                <div class="form-group">
+                    <label for="usuario">Usuario:</label>
+                    <input type="text" id="usuario" name="usuario" placeholder="Ingresa tu usuario" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="contrasenha">Contraseña:</label>
+                    <input type="password" id="contrasenha" name="contrasenha" placeholder="Ingresa tu contraseña" required>
+                </div>
+                
+                <button type="submit" class="btn-login">Iniciar sesión</button>
             </form>
-            <br>
-            <a href="/registro"><button>Registrarse</button></a>
-            <a href="/inicio"><button>Volver al inicio</button></a>
+            <div class="login-footer">
+                <p>¿No tienes cuenta?</p>
+                <a href="/registro"><button class="btn-link btn-registro">Registrarse</button></a>
+                <a href="/inicio"><button class="btn-link">Volver al inicio</button></a>
+            </div>
         </section>
         """
+        return html
        
     @staticmethod
     def render_registro():
         return """
-        <section style="margin:20px;">
-            <h2>Registro de usuario</h2>
-            <form method="POST" action="/registro">
-                Usuario: <input type="text" name="usuario" required><br><br>
-                Contraseña: <input type="password" name="contrasena" required><br><br>
+        <section id="registro">
+            <h1>Registro de usuario</h1>
+            <form method="POST" action="/registro" class="form-registro">
+                <div class="form-group">
+                    <label for="usuario">Usuario:</label>
+                    <input type="text" id="usuario" name="usuario" placeholder="Elige un nombre de usuario" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="contrasena">Contraseña:</label>
+                    <input type="password" id="contrasena" name="contrasena" placeholder="Crea una contraseña segura" required>
+                </div>
 
-                <label>
-                    <input type="checkbox" name="recibir_notificaciones" checked>
-                    Quiero recibir notificaciones y recomendaciones
-                </label><br><br>
+                <div class="checkbox-group">
+                    <label style="display: flex; align-items: center; cursor: pointer; margin: 0;">
+                        <input type="checkbox" name="recibir_notificaciones" checked>
+                        <span>Quiero recibir notificaciones y recomendaciones</span>
+                    </label>
+                </div>
 
-                <button type="submit">Registrarse</button>
+                <button type="submit" class="btn-registro-submit">Registrarse</button>
             </form>
+            <div class="registro-footer">
+                <p>¿Ya tienes cuenta?</p>
+                <a href="/login"><button class="btn-link">Iniciar sesión</button></a>
+            </div>
         </section>
         """
 
@@ -277,26 +333,30 @@ class RenderHTML:
     @staticmethod
     def render_boton_registro():
         return """
-        <form action="/registro" method="GET">
-             <button type="submit">Registrarse</button>
-        </form>
+        <div style="text-align: center; margin: 1rem;">
+            <form action="/registro" method="GET" style="display: inline;">
+                <button type="submit" class="btn-exito">Registrarse</button>
+            </form>
+        </div>
         """
     
     @staticmethod
     def render_boton_login():
         return """
-        <form action="/login" method="GET">
-             <button type="submit">Iniciar Sesion</button>
-        </form>
+        <div style="text-align: center; margin: 1rem;">
+            <form action="/login" method="GET" style="display: inline;">
+                <button type="submit">Iniciar Sesión</button>
+            </form>
+        </div>
         """
     
     @staticmethod
     def render_apartado_sesion(usuario=None):
         if usuario:
             return f"""
-            <div style="border:1px solid #ccc; padding:10px; margin:10px;">
-                <p>Sesión iniciada como <b>{usuario}</b></p>
-                <a href="/logout"><button>Cerrar sesión</button></a>
+            <div style="background-color: #242424; border-left: 4px solid #81c784; padding: 1.5rem; margin: 1rem auto; max-width: 1200px; border-radius: 6px;">
+                <p style="color: #e0e0e0; margin: 0.5rem 0;">Sesión iniciada como <span style="color: #81c784; font-weight: bold;">{usuario}</span></p>
+                <a href="/logout" style="display: inline-block; margin-top: 0.5rem;"><button class="btn-danger">Cerrar sesión</button></a>
             </div>
             """
         else:
@@ -342,31 +402,5 @@ class RenderHTML:
             </div>
             '''
         html += "</section>\n"
-        return html
-    
-    @staticmethod
-    def render_pagina_login_completa():
-        """Devuelve página completa de login con CSS incluido"""
-        html = "<!DOCTYPE html>\n<html>\n<head>\n"
-        html += "  <meta charset='UTF-8'>\n"
-        html += "  <meta name='viewport' content='width=device-width, initial-scale=1.0'>\n"
-        html += "  <title>Login - Chamba Store</title>\n"
-        html += "  <link rel='stylesheet' href='/static/style.css'>\n"
-        html += "</head>\n<body>\n"
-        html += RenderHTML.render_login()
-        html += "</body>\n</html>"
-        return html
-    
-    @staticmethod
-    def render_pagina_registro_completa():
-        """Devuelve página completa de registro con CSS incluido"""
-        html = "<!DOCTYPE html>\n<html>\n<head>\n"
-        html += "  <meta charset='UTF-8'>\n"
-        html += "  <meta name='viewport' content='width=device-width, initial-scale=1.0'>\n"
-        html += "  <title>Registro - Chamba Store</title>\n"
-        html += "  <link rel='stylesheet' href='/static/style.css'>\n"
-        html += "</head>\n<body>\n"
-        html += RenderHTML.render_registro()
-        html += "</body>\n</html>"
         return html
                 

@@ -7,7 +7,6 @@ from pagina_principal import PaginaPrincipal
 from render_html import RenderHTML
 import json 
 from datetime import datetime
-import os
 
 def cargar_usuarios():
     with open("usuarios.json", "r") as f:
@@ -25,7 +24,7 @@ def guardar_historial(historial):
     with open('historial.json', 'w', encoding="utf-8") as archivo:
         json.dump(historial, archivo, indent=4, ensure_ascii=False)
 
-app = Flask(__name__, static_folder='static', static_url_path='/static')
+app = Flask(__name__)
 app.secret_key = 'ab23252894yrhugioghskjdhg0uewri'
 pagina = PaginaPrincipal(api_key_news="5a7f6908927b43c3fd3f2d9f4a03d271")
 pagina.construir()
@@ -39,18 +38,18 @@ def raiz():
 # ---------- INICIO ----------
 @app.route('/inicio')
 def inicio():
-    # Mostramos la sección de información (Chamba Store, imagen, texto...)
     contenido = pagina.seccion_info.render()
-    html = pagina.render_layout(contenido)
-    return render_template_string(html)
+    # Añadir comentarios también en inicio
+    contenido += pagina.seccion_comentarios.render()
+    return pagina.render_layout(contenido)
+
 
 
 # ---------- CONTACTO ----------
 @app.route('/contacto')
 def contacto():
     contenido = pagina.seccion_contacto.render()
-    html = pagina.render_layout(contenido)
-    return render_template_string(html)
+    return pagina.render_layout(contenido)
 
 
 # ---------- COMENTARIOS ----------
@@ -64,8 +63,8 @@ def comentarios():
     else:
         contenido += "<p style='color:gray;'>Inicia sesión para añadir comentarios.</p>"
     
-    html = pagina.render_layout(contenido)
-    return render_template_string(html)
+    return pagina.render_layout(contenido)
+
 
 
 # ---------- HISTORIA ----------
@@ -73,22 +72,31 @@ def comentarios():
 def historia():
     # Usamos directamente la sección de historia y evolución que has construido
     contenido = pagina.seccion_hist_evo.render()
-    html = pagina.render_layout(contenido)
-    return render_template_string(html)
+    return pagina.render_layout(contenido)
+
 
 # ---------- TENDENCIAS ----------
 @app.route('/tendencias')
 def tendencias():
     contenido = pagina.seccion_tendencias.render()
-    html = pagina.render_layout(contenido)
-    return render_template_string(html)
+    return pagina.render_layout(contenido)
 
 # ---------- CATALOGO ----------
 @app.route('/catalogo')
 def catalogo():
     contenido = pagina.seccion_catalogo.render()
-    html = pagina.render_layout(contenido)
-    return render_template_string(html)
+    return pagina.render_layout(contenido)
+
+
+@app.route("/comentar_producto/<int:i>", methods=["POST"])
+def comentar_producto(i):
+    autor = request.form.get("autor", "Anónimo")
+    texto = request.form.get("texto", "")
+
+    # OJO: usamos el MISMO catálogo que está dentro de la sección catálogo
+    pagina.seccion_catalogo.catalogo.agregar_comentario_por_indice(i, autor, texto)
+
+    return redirect("/catalogo")
 
 # ---------- AÑADIR CARRITO ----------
 @app.route("/añadir_carrito/<int:indice>", methods=["POST"])
@@ -132,8 +140,8 @@ def añadir_carrito(indice):
         
     # Renderizamos la página con el carrito actualizado
     contenido = pagina.carrito.render()
-    html = pagina.render_layout(contenido)
-    return render_template_string(html)
+    return pagina.render_layout(contenido)
+
 
 # ---------- ELIMINAR CARRITO/PRODUCTO ----------
 @app.route("/eliminar_carrito/<int:indice>", methods=["POST"])
@@ -143,9 +151,7 @@ def eliminar_carrito(indice):
     # Volvemos a renderizar el carrito actualizado
     contenido = pagina.carrito.render()
     # Integramos el carrito dentro del layout
-    html = pagina.render_layout(contenido)
-    # Devolvemos el HTML actualizado al navegador
-    return render_template_string(html)
+    return pagina.render_layout(contenido)
 
 # ---------- VER CARRITO ----------
 @app.route("/carrito")
@@ -153,9 +159,8 @@ def ver_carrito():
     # Renderizamos el contenido del carrito usando el método render()
     contenido = pagina.carrito.render()
     # Lo integramos dentro del layout general de la página
-    html = pagina.render_layout(contenido)
-    # Devolvemos el HTML generado al navegador
-    return render_template_string(html)
+    return pagina.render_layout(contenido)
+
 
 # ---------- VACIAR CARRITO ----------
 @app.route("/vaciar_carrito", methods=["POST"])
@@ -169,8 +174,8 @@ def vaciar_carrito():
             '/carrito'
         )
     contenido = pagina.carrito.render()
-    html = pagina.render_layout(contenido)
-    return render_template_string(html)
+    return pagina.render_layout(contenido)
+
 
 # REALIZAR COMPRA
 @app.route("/finalizar_compra", methods=["POST"])
@@ -216,7 +221,7 @@ def finalizar_compra():
 
 @app.route('/comentar', methods=['POST'])
 def comentar():
-    autor = session['usuario']
+    autor = session.get('usuario') or request.form.get("autor", "Anónimo")
     texto = request.form['texto']
     valoracion = int(request.form['valoracion'])
 
@@ -227,8 +232,8 @@ def comentar():
 @app.route('/info-social')
 def info_social():
     contenido = pagina.seccion_info_social.render()
-    html = pagina.render_layout(contenido)
-    return render_template_string(html)
+    return pagina.render_layout(contenido)
+
 
 # ---------- Login ----------
 @app.route('/login', methods=['GET', 'POST'])
@@ -245,15 +250,16 @@ def login():
 
         
         elif usuario not in usuarios:
-            html = RenderHTML.render_pagina_login_completa()
-            html = html.replace("</body>", f"<p style='color:red; margin: 2rem;'>El usuario no existe.</p>\n</body>")
-            return render_template_string(html)
+            contenido = RenderHTML.render_login("El usuario no existe.")
+            contenido += RenderHTML.render_boton_registro()
+            return pagina.render_layout(contenido)
+
         else:
-            html = RenderHTML.render_pagina_login_completa()
-            html = html.replace("</body>", f"<p style='color:red; margin: 2rem;'>Credenciales incorrectas. Intenta de nuevo.</p>\n</body>")
-            return render_template_string(html)
+            contenido = RenderHTML.render_login("Credenciales incorrectas. Intenta de nuevo.")
+            return pagina.render_layout(contenido)
     else:
-        return render_template_string(RenderHTML.render_pagina_login_completa())
+        contenido = RenderHTML.render_login()
+        return pagina.render_layout(contenido)
 
 # ---------- registro ----------
 @app.route("/registro", methods=["GET", "POST"])
@@ -269,10 +275,9 @@ def registro():
 
         # Evitar duplicados
         if usuario in usuarios:
-            html = RenderHTML.render_pagina_registro_completa()
-            html = html.replace("</body>", f"<p style='color:red; margin: 2rem;'>El usuario ya existe.</p>\n</body>")
-            return render_template_string(html)
-
+            contenido = RenderHTML.render_registro()
+            contenido += "<p style='color:red;'>El usuario ya existe.</p>"
+            return pagina.render_layout(contenido)
         # Guardar usuario y contraseña
         usuarios[usuario] = contrasena
         guardar_usuarios(usuarios)
@@ -302,7 +307,9 @@ def registro():
         session["mensaje"] = "✅ Registro completado correctamente. Ya puedes iniciar sesión."
         return redirect("/login")
 
-    return render_template_string(RenderHTML.render_pagina_registro_completa())
+    else:
+        contenido = RenderHTML.render_registro()
+        return pagina.render_layout(contenido)
 
 
 
@@ -339,8 +346,8 @@ def notificaciones():
         contenido = RenderHTML.render_apartado_sesion(None)
         contenido += "<p style='color:gray;'>Inicia sesión para recibir y ver tus notificaciones.</p>"   
 
-    html = pagina.render_layout(contenido)
-    return render_template_string(html)
+    return pagina.render_layout(contenido)
+
 
 @app.route('/limpiar_notificaciones', methods=['POST'])
 def limpiar_notificaciones():
@@ -356,8 +363,20 @@ def generar_recomendaciones():
         pagina.seccion_notificaciones.generar_notificaciones_recomendaciones(usuario, pagina.seccion_catalogo.catalogo.productos)
     return redirect('/notificaciones')
 
-# Nota: Flask sirve automáticamente /static/ gracias a:
-# Flask(__name__, static_folder='static', static_url_path='/static')
+# ---------- PERFIL ----------
+from perfil import ver_perfil, editar_perfil, actualizar_perfil
+
+@app.route('/perfil')
+def perfil():
+    return ver_perfil()
+
+@app.route('/editar-perfil', methods=['GET'])
+def editar_perfil_route():
+    return editar_perfil()
+
+@app.route('/actualizar-perfil', methods=['POST'])
+def actualizar_perfil_route():
+    return actualizar_perfil()
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False)

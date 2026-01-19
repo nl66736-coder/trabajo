@@ -36,6 +36,30 @@ class Carrito:
         if 0 <= indice < len(self.productos):
             del self.productos[indice]
 
+    def agregar_comentario_por_indice(self, indice, autor, texto):
+        if indice < 0 or indice >= len(self.productos):
+            return False
+
+        texto = (texto or "").strip()
+        autor = (autor or "").strip() or "Anónimo"
+
+        if not texto:
+            return False
+
+        # aseguramos lista de comentarios
+        if "comentarios" not in self.productos[indice] or not isinstance(self.productos[indice]["comentarios"], list):
+            self.productos[indice]["comentarios"] = []
+
+        self.productos[indice]["comentarios"].append({
+            "autor": autor,
+            "texto": texto,
+            "fecha": datetime.now().strftime("%d/%m/%Y %H:%M")
+        })
+
+        self.guardar()
+        return True
+
+
     def vaciar(self):
         # Vacía completamente el carrito
         self.productos = []
@@ -49,39 +73,34 @@ class Carrito:
         html = "<section id='carrito'><h1>Carrito de Compras</h1>"
 
         if not self.productos:
-            html += "<p class='carrito-vacio'>Tu carrito está vacío.</p>"
+            html += "<p>Tu carrito está vacío.</p>"
         else:
             for i, p in enumerate(self.productos):
                 producto = p["producto"]
                 cantidad = p["cantidad"]
-                subtotal = float(producto['precio']) * cantidad
                 html += f"""
-                <div class="producto-carrito">
-                    <div class="producto-info">
-                        <h3>{producto['nombre']}</h3>
-                        <p>{producto['descripcion']}</p>
-                        <p><strong>Precio unitario:</strong> {producto['precio']} €</p>
-                        <p><strong>Cantidad:</strong> {cantidad}</p>
-                        <form action='/eliminar_carrito/{i}' method='post' style='display:inline;'>
-                            <button type='submit' class='btn-eliminar'>Eliminar</button>
-                        </form>
-                    </div>
-                    <div class="producto-precio">{subtotal:.2f} €</div>
+                <div style='border:1px solid #ccc; margin:10px; padding:10px;'>
+                    <h3>{producto['nombre']}</h3>
+                    <p>{producto['descripcion']}</p>
+                    <p><strong>Precio:</strong> {producto['precio']} €</p>
+                    <p><strong>Cantidad:</strong> {cantidad}</p>
+                    <form action='/eliminar_carrito/{i}' method='post'>
+                        <button type='submit'>Eliminar</button>
+                    </form>
                 </div>
                 """
             # Mostrar el total acumulado
             total = self.calcular_total()
-            html += f"""
-            <div class="total-section">
-                <h2>Total: {total:.2f} €</h2>
-            </div>
-            
-            <div style='text-align: center; margin-top: 2rem;'>
-                <form action='/finalizar_compra' method='post' style='display: inline;'>
-                    <button type='submit' class='btn-comprar'>Finalizar Compra</button>
+            html += f"<h2>Total: {total:.2f} €</h2>"
+
+            # Botones para vaciar el carrito o finalizar compra
+            html += """
+            <div>
+                <form action='/finalizar_compra' method='post'>
+                    <button type='submit' style='background:#4caf50; color:white;'>Finalizar Compra</button>
                 </form>
-                <form action='/vaciar_carrito' method='post' style='display: inline;'>
-                    <button type='submit' class='btn-vaciar'>Vaciar carrito</button>
+                <form action='/vaciar_carrito' method='post'>
+                    <button type='submit' style='background:red; color:white;'>Vaciar carrito</button>
                 </form>
             </div>
             """

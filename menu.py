@@ -16,12 +16,14 @@ class MenuNavegacion:
     def crear_menu_estandar():
         menu = MenuNavegacion()
         menu.agregar_item("Inicio", "/inicio")
-        menu.agregar_item("Catálogo", "/catalogo")
-        menu.agregar_item("Carrito", "/carrito")
-        menu.agregar_item("Comentarios", "/comentarios")
         menu.agregar_item("Contacto", "/contacto")
-        menu.agregar_item("Historia", "/historia")
+        menu.agregar_item("Historia y Evolución", "/historia")
+        menu.agregar_item("Comentarios", "/comentarios")
         menu.agregar_item("Tendencias", "/tendencias")
+        menu.agregar_item("Catalogo", "/catalogo")
+        menu.agregar_item("Carrito", "/carrito")
+        menu.agregar_item("Notificaciones", "/notificaciones")
+        menu.agregar_item("Mi Perfil", "/perfil") 
         menu.agregar_item("Info Social", "/info-social")
         return menu
     
