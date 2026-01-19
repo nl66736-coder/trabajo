@@ -21,6 +21,7 @@ class CatalogoProductos:
             "nombre": nombre,               # Nombre del producto
             "descripcion": descripcion,     # Descripción detallada
             "precio": precio,               # Precio en euros
+            "stock": stock,                 #Stock
             "empaquetado": empaquetado,     # Tipo de empaquetado
             "imagen": imagen,               # Ruta o URL de la imagen
             "fecha_agregado": datetime.now().strftime("%d/%m/%Y %H:%M")  # Fecha y hora actual
