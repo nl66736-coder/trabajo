@@ -536,14 +536,14 @@ class PaginaPrincipal:
         # Catálogo
         if not self.seccion_catalogo.catalogo.productos:
             ejemplos_productos = [
-                ("ChambaPhone X", "El smartphone más avanzado de Chamba Store con cámara de 108MP y batería de larga duración.", 999.99, "Caja ecológica", "/static/ChambaPhone.png"),
-                ("ChambaLaptop Pro", "Portátil ultraligero con procesador de última generación y pantalla Retina.", 1299.99, "Estuche protector", "/static/ChambaLaptopPro.png"),
-                ("ChambaWatch Series 5", "Smartwatch con monitorización de salud y conectividad total.", 399.99, "Caja premium", "/static/ChambaWatch.png"),
-                ("ChambaBuds Wireless", "Auriculares inalámbricos con cancelación activa de ruido y sonido envolvente.", 149.99, "Estuche de carga", "/static/ChamBabuds.png"),
-                ("ChambaTablet S10", "Tablet versátil para trabajo y entretenimiento con pantalla de alta resolución.", 499.99, "Funda protectora", "/static/ChambaTablet.png")
+                ("ChambaPhone X", "El smartphone más avanzado de Chamba Store con cámara de 108MP y batería de larga duración.", 999.99, "Caja ecológica", "/static/ChambaPhone.png",2),
+                ("ChambaLaptop Pro", "Portátil ultraligero con procesador de última generación y pantalla Retina.", 1299.99, "Estuche protector", "/static/ChambaLaptopPro.png",3),
+                ("ChambaWatch Series 5", "Smartwatch con monitorización de salud y conectividad total.", 399.99, "Caja premium", "/static/ChambaWatch.png",0),
+                ("ChambaBuds Wireless", "Auriculares inalámbricos con cancelación activa de ruido y sonido envolvente.", 149.99, "Estuche de carga", "/static/ChamBabuds.png",12),
+                ("ChambaTablet S10", "Tablet versátil para trabajo y entretenimiento con pantalla de alta resolución.", 499.99, "Funda protectora", "/static/ChambaTablet.png",1)
             ]
-            for nombre, descripcion, precio, empaquetado, imagen in ejemplos_productos:
-                self.seccion_catalogo.agregar_producto(nombre, descripcion, precio, empaquetado, imagen)
+            for nombre, descripcion, precio, empaquetado, imagen,stock in ejemplos_productos:
+                self.seccion_catalogo.agregar_producto(nombre, descripcion, precio, empaquetado, imagen,stock)
 
         # Información social de la tienda
         self.seccion_info_social.establecer_razon_social("Chamba Store S.L.")
@@ -587,5 +587,6 @@ class PaginaPrincipal:
         with open(nombre_archivo, 'w', encoding='utf-8') as archivo:
             archivo.write(html_contenido)
         return nombre_archivo
+
 
 
