@@ -101,7 +101,11 @@ class RenderHTML:
                     </div>
                 """
         else:
-            html += "<p>No hay comentarios aún. ¡Sé el primero!</p>"
+            html += """
+                <div style="border:1px dashed #ccc; margin:10px 0; padding:10px; border-radius:8px;">
+                    <p>No hay comentarios aún. ¡Sé el primero!</p>
+                </div>
+            """
 
         # Cerrar modal + cierre de bloques
         html += """
