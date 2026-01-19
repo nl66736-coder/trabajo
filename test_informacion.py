@@ -4,7 +4,7 @@
 #24/12/2025
 import pytest
 from bs4 import BeautifulSoup
-from Comentarios import app
+from app import app
 
 @pytest.fixture
 def client():
@@ -12,14 +12,14 @@ def client():
         yield client
 
 def test_existe_seccion_informacion(client):
-    resp = client.get("/")
+    resp = client.get("/", follow_redirects=True)
     assert resp.status_code == 200
 
     soup = BeautifulSoup(resp.data, "html.parser")
     assert soup.select_one("section#informacion") is not None, "No existe la sección 'informacion'"
 
 def test_datos_informacion(client):
-    resp = client.get("/")
+    resp = client.get("/", follow_redirects=True)
     assert resp.status_code == 200
     soup = BeautifulSoup(resp.data, "html.parser")
     info = soup.select_one("section#informacion")
