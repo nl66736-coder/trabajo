@@ -330,5 +330,20 @@ def generar_recomendaciones():
         pagina.seccion_notificaciones.generar_notificaciones_recomendaciones(usuario, pagina.seccion_catalogo.catalogo.productos)
     return redirect('/notificaciones')
 
+# ---------- PERFIL ----------
+from perfil import ver_perfil, editar_perfil, actualizar_perfil
+
+@app.route('/perfil')
+def perfil():
+    return ver_perfil()
+
+@app.route('/editar-perfil', methods=['GET'])
+def editar_perfil_route():
+    return editar_perfil()
+
+@app.route('/actualizar-perfil', methods=['POST'])
+def actualizar_perfil_route():
+    return actualizar_perfil()
+
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False)
