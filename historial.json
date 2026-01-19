@@ -204,6 +204,24 @@
                 "link": "/notificaciones",
                 "fecha": "19/01/2026 00:08",
                 "tipo": "info"
+            },
+            {
+                "texto": "Tu categoría favorita es: Smartphones, por ello te recomendamos: ChambaLaptop Pro",
+                "link": "/catalogo",
+                "fecha": "19/01/2026 20:04",
+                "tipo": "recomendacion"
+            },
+            {
+                "texto": "Tambien te puede interesar: ChambaWatch Series 5",
+                "link": "/catalogo",
+                "fecha": "19/01/2026 20:04",
+                "tipo": "recomendacion"
+            },
+            {
+                "texto": "Tambien te puede interesar: ChambaBuds Wireless",
+                "link": "/catalogo",
+                "fecha": "19/01/2026 20:04",
+                "tipo": "recomendacion"
             }
         ],
         "preferencias": {

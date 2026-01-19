@@ -2,7 +2,7 @@
 import re
 import pytest
 from bs4 import BeautifulSoup
-from Comentarios import app
+from app import app
 
 @pytest.fixture
 def client():
