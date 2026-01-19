@@ -2,7 +2,7 @@ import pytest
 import json
 import os
 from unittest.mock import patch, mock_open
-from Comentarios import app, cargar_usuarios, guardar_usuarios, cargar_historial, guardar_historial
+from app import app, cargar_usuarios, guardar_usuarios, cargar_historial, guardar_historial
 
 @pytest.fixture
 def client():
@@ -54,7 +54,7 @@ class TestLogin:
         assert response.status_code == 200
         assert b'usuario' in response.data or b'login' in response.data.lower()
     
-    @patch('Comentarios.cargar_usuarios')
+    @patch('app.cargar_usuarios')
     def test_login_successful(self, mock_load, client, mock_usuarios):
         """Prueba un login exitoso"""
         mock_load.return_value = mock_usuarios
@@ -68,7 +68,7 @@ class TestLogin:
         with client.session_transaction() as sess:
             assert sess.get('usuario') == 'test_user'
     
-    @patch('Comentarios.cargar_usuarios')
+    @patch('app.cargar_usuarios')
     def test_login_wrong_password(self, mock_load, client, mock_usuarios):
         """Prueba login con contraseña incorrecta"""
         mock_load.return_value = mock_usuarios
@@ -81,7 +81,7 @@ class TestLogin:
         assert response.status_code == 200
         assert b'Credenciales incorrectas' in response.data or b'incorrectas' in response.data
     
-    @patch('Comentarios.cargar_usuarios')
+    @patch('app.cargar_usuarios')
     def test_login_nonexistent_user(self, mock_load, client, mock_usuarios):
         """Prueba login con usuario inexistente"""
         mock_load.return_value = mock_usuarios
@@ -103,10 +103,10 @@ class TestRegistro:
         response = client.get('/registro')
         assert response.status_code == 200
     
-    @patch('Comentarios.guardar_historial')
-    @patch('Comentarios.guardar_usuarios')
-    @patch('Comentarios.cargar_historial')
-    @patch('Comentarios.cargar_usuarios')
+    @patch('app.guardar_historial')
+    @patch('app.guardar_usuarios')
+    @patch('app.cargar_historial')
+    @patch('app.cargar_usuarios')
     def test_registro_successful(self, mock_load_users, mock_load_hist, 
                                 mock_save_users, mock_save_hist, 
                                 client, mock_usuarios, mock_historial):
@@ -124,7 +124,7 @@ class TestRegistro:
         assert mock_save_hist.called
         assert b'registrado' in response.data or b'correctamente' in response.data
     
-    @patch('Comentarios.cargar_usuarios')
+    @patch('app.cargar_usuarios')
     def test_registro_existing_user(self, mock_load, client, mock_usuarios):
         """Prueba registro con usuario existente"""
         mock_load.return_value = mock_usuarios
@@ -162,7 +162,7 @@ class TestNotificaciones_registro:
         assert response.status_code == 200
         assert b'Inicia' in response.data or b'sesi' in response.data
     
-    @patch('Comentarios.cargar_historial')
+    @patch('app.cargar_historial')
     def test_notificaciones_logged_in(self, mock_load_hist, client, mock_historial):
         """Verifica la página de notificaciones con login"""
         mock_load_hist.return_value = mock_historial.copy()
